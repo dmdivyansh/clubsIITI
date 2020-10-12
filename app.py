@@ -1,11 +1,25 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, redirect
 
 app = Flask(__name__)
 
 @app.route("/")
-def index():
-    return render_template('index.html')
+def cultural():
+    return render_template('culturals.html')
 
+
+@app.route("/technicals")
+def technical():
+    return render_template('technicals.html')
+
+
+@app.route("/others")
+def others():
+    return render_template('others.html')
+
+@app.errorhandler(404)
+def page_not_found(e):
+    print("Redirecting to /")
+    return redirect('/')
 
 if __name__ == "__main__":
     app.run(debug=True)

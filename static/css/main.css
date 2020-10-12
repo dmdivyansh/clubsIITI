@@ -1,3 +1,5 @@
-body{
-    background-color: green;
+.img-fluid{
+    margin: auto;
+    height: 50%;
+    width: 50%;
 }
