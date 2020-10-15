@@ -20,9 +20,6 @@ def others():
 def club(clubName):
     return render_template('clubs/'+ clubName + '/' + clubName + '.html')
 
-@app.route("/test/<variable>")
-def testing(variable):
-    return variable
 
 
 @app.errorhandler(404)
