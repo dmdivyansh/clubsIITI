@@ -16,6 +16,15 @@ def technical():
 def others():
     return render_template('others.html')
 
+@app.route("/clubs/<clubName>")
+def club(clubName):
+    return render_template('clubs/'+ clubName + '/' + clubName + '.html')
+
+@app.route("/test/<variable>")
+def testing(variable):
+    return variable
+
+
 @app.errorhandler(404)
 def page_not_found(e):
     print("Redirecting to /")
