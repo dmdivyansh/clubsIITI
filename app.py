@@ -18,11 +18,15 @@ def others():
 
 @app.route("/clubs/<clubName>")
 def club(clubName):
+    print('clubs/'+ clubName + '/' + clubName + '.html')
     return render_template('clubs/'+ clubName + '/' + clubName + '.html')
 
-@app.route("/test/<variable>")
-def testing(variable):
-    return variable
+    
+    
+
+
+
+
 
 
 @app.errorhandler(404)
