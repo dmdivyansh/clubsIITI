@@ -13,6 +13,8 @@ app.config['MYSQL_USER'] = db['mysql_user']
 app.config['MYSQL_PASSWORD'] = db['mysql_password']
 app.config['MYSQL_DB'] = db['mysql_db']
 
+mysql = MySQL(app)
+
 
 
 @app.route("/")
@@ -51,8 +53,16 @@ def student():
             print(Github_Profile, Branch, LinkedIn, Full_Name, Mail_Id, Roll_No, Phone_No, Semester)
             print(type(Github_Profile), type(Branch), type(LinkedIn), type(Full_Name), type(Mail_Id), type(Roll_No), type(Phone_No), type(Semester))
 
+
+            cur = mysql.connection.cursor()
+            cur.execute("INSERT INTO students VALUES (%s, %s, %s, %s, %s, %s, %s, %s)", (Github_Profile, Branch, LinkedIn, Full_Name, Mail_Id, Roll_No, Phone_No, Semester))
+
+            mysql.connection.commit()
+            cur.close()
+
+
         except:
-            print("FAILED")    
+            return "Something went wrong"
         return "DONE"
 
     else:
