@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect
+from flask import Flask, render_template, redirect, request
 from flask_mysqldb import MySQL
 import yaml
 
@@ -34,7 +34,33 @@ def club(clubName):
     print('clubs/'+ clubName + '/' + clubName + '.html')
     return render_template('clubs/'+ clubName + '/' + clubName + '.html')
 
-    
+@app.route("/new/student", methods=['GET', 'POST'])
+def student():
+    if request.method == 'POST':
+        # Get DATA from the form
+        student = request.form
+        try:
+            Github_Profile = student['github_profile']
+            Branch = student['branch']
+            LinkedIn = student['linkedin']
+            Full_Name = student['full_name']
+            Mail_Id = student['mail_id']
+            Roll_No = int(student['roll_no']) 
+            Phone_No = int(student['phone_no'])
+            Semester = int(student['semester']) 
+            print(Github_Profile, Branch, LinkedIn, Full_Name, Mail_Id, Roll_No, Phone_No, Semester)
+            print(type(Github_Profile), type(Branch), type(LinkedIn), type(Full_Name), type(Mail_Id), type(Roll_No), type(Phone_No), type(Semester))
+
+        except:
+            print("FAILED")    
+        return "DONE"
+
+    else:
+        return render_template('newStudent.html')
+
+
+    return "DONE"
+
     
 @app.errorhandler(404)
 def page_not_found(e):

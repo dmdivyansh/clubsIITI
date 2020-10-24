@@ -5,9 +5,7 @@
     width: 50%;
 }
 
-[type=radio] {
-    display: none;
-}
+
 
 #slider {
     height: 800px;
