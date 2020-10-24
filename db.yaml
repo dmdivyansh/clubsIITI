@@ -1,4 +1,4 @@
 mysql_host: 'localhost'
 mysql_user: 'root'
-mysql_password: 'password' # Change to your own password
+mysql_password: 'tanishq@mysql'
 mysql_db: 'clubsiiti'
