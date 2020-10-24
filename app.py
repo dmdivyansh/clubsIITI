@@ -1,5 +1,6 @@
 from flask import Flask, render_template, redirect, request
 from flask_mysqldb import MySQL
+import MySQLdb
 import yaml
 
 app = Flask(__name__)
@@ -60,9 +61,9 @@ def student():
             mysql.connection.commit()
             cur.close()
 
+        except (MySQLdb.Error, MySQLdb.Warning) as e:
+            return str(e)
 
-        except:
-            return "Something went wrong"
         return "DONE"
 
     else:
