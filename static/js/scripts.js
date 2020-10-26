@@ -1,9 +1,9 @@
 /*!
-    * Start Bootstrap - Freelancer v6.0.4 (https://startbootstrap.com/themes/freelancer)
+    * Start Bootstrap - Freelancer v6.0.0 (https://startbootstrap.com/themes/freelancer)
     * Copyright 2013-2020 Start Bootstrap
-    * Licensed under MIT (https://github.com/StartBootstrap/startbootstrap-freelancer/blob/master/LICENSE)
+    * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap-freelancer/blob/master/LICENSE)
     */
-    (function($) {
+   (function($) {
     "use strict"; // Start of use strict
   
     // Smooth scrolling using jQuery easing
