@@ -1,0 +1,269 @@
+{% extends 'base.html' %} {% block title %}
+<title>HOME PAGE</title>
+{% endblock title %}
+
+<body id="page-top">
+
+
+    {% block link %} href="#page-top" {% endblock link %} {% block navElements %}
+
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#cultural" style="color:white;">CULTURALS</a>
+            </li>
+            <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#technical" style="color:white;">TECHNICALS</a>
+            </li>
+            <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#about" style="color:white;">ABOUT</a>
+            </li>
+            <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#contact" style="color:white;">CONTACT</a>
+            </li>
+
+        </ul>
+
+    </div>
+
+    {% endblock navElements %} {% block body %}
+
+    <!-- Masthead-->
+    <header class="masthead bg-primary text-white text-center" id="page-top">
+        <div class="container d-flex align-items-center flex-column">
+            <!-- Masthead Avatar Image--><img class="masthead-avatar mb-5" src="{{ url_for('static', filename='logo.png')  }}" alt="">
+            <!-- Masthead Heading-->
+            <h1 class="masthead-heading mb-0">IIT INDORE</h1>
+            <!-- Icon Divider-->
+            <div class="divider-custom divider-light">
+                <div class="divider-custom-line"></div>
+                <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+                <div class="divider-custom-line"></div>
+            </div>
+            <!-- Masthead Subheading-->
+            <p class="pre-wrap masthead-subheading font-weight-light mb-0"></p>
+        </div>
+    </header>
+    <!-- Portfolio Section-->
+    <section class="page-section portfolio" id="cultural">
+        <div class="container">
+            <!-- Portfolio Section Heading-->
+            <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Cultural Clubs</h2>
+            <!-- Icon Divider-->
+            <div class="divider-custom">
+                <div class="divider-custom-line"></div>
+                <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+                <div class="divider-custom-line"></div>
+            </div>
+            <!-- Portfolio Grid Items-->
+            <div class="row">
+                <!-- Portfolio Item 1-->
+                <div class="col-md-6 col-lg-4 mb-5">
+                    <a href="/clubs/literary">
+                        <div class="portfolio-item mx-auto">
+                            <img class="img-fluid" src="{{ url_for('static', filename='literary.jpg')  }}" alt="">
+                            <h2 class="text-center">Literary Club</h2>
+
+                        </div>
+                    </a>
+                </div>
+                <!-- Portfolio Item 1-->
+                <div class="col-md-6 col-lg-4 mb-5">
+                    <a href="/clubs/cinephiles">
+                        <div class="portfolio-item mx-auto">
+                            <img class="img-fluid" src="{{ url_for('static', filename='cinephiles.jpg')  }}" alt="">
+                            <h2 class="text-center">Cinephiles</h2>
+                        </div>
+                    </a>
+                </div>
+                <!-- Portfolio Item 1-->
+                <div class="col-md-6 col-lg-4 mb-5">
+                    <a href="/clubs/kalakriti">
+                        <div class="portfolio-item mx-auto">
+                            <img class="img-fluid" src="{{ url_for('static', filename='kalakriti.jpg')  }}" alt="">
+                            <h2 class="text-center">Kalakriti</h2>
+                        </div>
+                    </a>
+                </div>
+                <!-- Portfolio Item 1-->
+                <div class="col-md-6 col-lg-4 mb-5">
+                    <a href="/clubs/dance">
+                        <div class="portfolio-item mx-auto">
+                            <img class="img-fluid" src="{{ url_for('static', filename='dance.jpg')  }}" alt="">
+                            <h2 class="text-center">Dance</h2>
+                        </div>
+                    </a>
+                </div>
+                <!-- Portfolio Item 1-->
+                <div class="col-md-6 col-lg-4 mb-5">
+                    <a href="/clubs/dramatics">
+                        <div class="portfolio-item mx-auto">
+                            <img class="img-fluid" src="{{ url_for('static', filename='dramatics.jpg')  }}" alt="">
+                            <h2 class="text-center">Dramatics Club</h2>
+                        </div>
+                    </a>
+                </div>
+                <!-- Portfolio Item 1-->
+                <div class="col-md-6 col-lg-4 mb-5">
+                    <a href="/clubs/musicClub">
+                        <div class="portfolio-item mx-auto">
+                            <img class="img-fluid" src="{{ url_for('static', filename='music.jpg')  }}" alt="">
+                            <h2 class="text-center">Music Club</h2>
+                        </div>
+                    </a>
+                </div>
+                <!-- Portfolio Item 1-->
+                <div class="col-md-6 col-lg-4 mb-5">
+                    <a href="/clubs/mystic_hues">
+                        <div class="portfolio-item mx-auto">
+                            <img class="img-fluid" src="{{ url_for('static', filename='mystic_hues.jpg')  }}" alt="">
+                            <h2 class="text-center">Mystic Hues</h2>
+                        </div>
+                    </a>
+                </div>
+                <!-- Portfolio Item 1-->
+                <div class="col-md-6 col-lg-4 mb-5">
+                    <a href="/clubs/quizClub">
+                        <div class="portfolio-item mx-auto">
+                            <img class="img-fluid" src="{{ url_for('static', filename='quiz.jpg')  }}" alt="">
+                            <h2 class="text-center">Quiz Club</h2>
+                        </div>
+                    </a>
+                </div>
+                <!-- Portfolio Item 1-->
+                <div class="col-md-6 col-lg-4 mb-5">
+                    <a href="/clubs/debsoc">
+                        <div class="portfolio-item mx-auto">
+                            <img class="img-fluid" src="{{ url_for('static', filename='debsoc.jpg')  }}" alt="">
+                            <h2 class="text-center">Debsoc</h2>
+                        </div>
+                    </a>
+                </div>
+                <!-- Portfolio Item 1-->
+                <div class="col-md-6 col-lg-4 mb-5">
+                    <a href="/clubs/avana">
+                        <div class="portfolio-item mx-auto">
+                            <img class="img-fluid" src="{{ url_for('static', filename='avana.jpg')  }}" alt="">
+                            <h2 class="text-center">Avana</h2>
+                        </div>
+                    </a>
+                </div>
+                <!-- Portfolio Item 1-->
+                <div class="col-md-6 col-lg-4 mb-5">
+                    <a href="/clubs/srijanClub">
+                        <div class="portfolio-item mx-auto">
+                            <img class="img-fluid" src="{{ url_for('static', filename='srijan.jpg')  }}" alt="">
+                            <h2 class="text-center">Srijan</h2>
+                        </div>
+                    </a>
+                </div>
+
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Section-->
+    <section class="page-section portfolio" id="technical">
+
+        <div class="container">
+            <!-- Portfolio Section Heading-->
+            <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Technical Clubs</h2>
+            <!-- Icon Divider-->
+            <div class="divider-custom">
+                <div class="divider-custom-line"></div>
+                <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+                <div class="divider-custom-line"></div>
+            </div>
+            <!-- Portfolio Grid Items-->
+            <div class="row">
+                <!-- Portfolio Item 1-->
+                <div class="col-md-6 col-lg-4 mb-5">
+                    <div class="portfolio-item mx-auto">
+
+                        <a href="/clubs/progClub"><img class="img-fluid" src="{{ url_for('static', filename='progClub.jpg')  }}" alt="">
+                            <h2 class="text-center">Prog Club</h2>
+                        </a>
+                    </div>
+                </div>
+                <!-- Portfolio Item 2-->
+                <div class="col-md-6 col-lg-4 mb-5">
+                    <div class="portfolio-item mx-auto">
+                        <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
+                            <div class="portfolio-item-caption-content text-center text-white"><i class="fas fa-plus fa-3x"></i></div>
+                        </div>
+                        <img class="img-fluid" src="{{ url_for('static', filename='robotics.jpg')  }}" alt="">
+                        <h2 class="text-center">Robotics</h2>
+
+                    </div>
+                </div>
+                <!-- Portfolio Item 3-->
+                <div class="col-md-6 col-lg-4 mb-5">
+                    <div class="portfolio-item mx-auto">
+                        <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
+                            <div class="portfolio-item-caption-content text-center text-white"><i class="fas fa-plus fa-3x"></i></div>
+                        </div>
+                        <img class="img-fluid" src="{{ url_for('static', filename='concreate.jpg')  }}" alt="">
+                        <h2 class="text-center">Concreate</h2>
+
+                    </div>
+                </div>
+                <!-- Portfolio Item 4-->
+                <div class="col-md-6 col-lg-4 mb-5 mb-lg-0">
+                    <div class="portfolio-item mx-auto">
+                        <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
+                            <div class="portfolio-item-caption-content text-center text-white"><i class="fas fa-plus fa-3x"></i></div>
+                        </div>
+                        <img class="img-fluid" src="{{ url_for('static', filename='cae.jpg')  }}" alt="">
+                        <h2 class="text-center">CAE</h2>
+
+                    </div>
+                </div>
+                <!-- Portfolio Item 5-->
+                <div class="col-md-6 col-lg-4 mb-5 mb-md-0">
+                    <div class="portfolio-item mx-auto">
+                        <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
+                            <div class="portfolio-item-caption-content text-center text-white"><i class="fas fa-plus fa-3x"></i></div>
+                        </div>
+                        <img class="img-fluid" src="{{ url_for('static', filename='astronomy.jpg')  }}" alt="">
+                        <h2 class="text-center">Astronomy</h2>
+
+                    </div>
+                </div>
+                <!-- Portfolio Item 6-->
+                <div class="col-md-6 col-lg-4">
+                    <div class="portfolio-item mx-auto">
+                        <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
+                            <div class="portfolio-item-caption-content text-center text-white"><i class="fas fa-plus fa-3x"></i></div>
+                        </div>
+                        <img class="img-fluid" src="{{ url_for('static', filename='electronics.jpg')  }}" alt="">
+                        <h2 class="text-center">Electronics Club</h2>
+
+                    </div>
+                </div>
+                <!-- Portfolio Item 7-->
+                <div class="col-md-6 col-lg-4">
+                    <div class="portfolio-item mx-auto">
+                        <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
+                            <div class="portfolio-item-caption-content text-center text-white"><i class="fas fa-plus fa-3x"></i></div>
+                        </div>
+                        <img class="img-fluid" src="{{ url_for('static', filename='aeromodelling.jpg')  }}" alt="">
+                        <h2 class="text-center">Aeromodelling Club</h2>
+
+                    </div>
+                </div>
+                <!-- Portfolio Item 8-->
+                <div class="col-md-6 col-lg-4">
+                    <div class="portfolio-item mx-auto">
+                        <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
+                            <div class="portfolio-item-caption-content text-center text-white"><i class="fas fa-plus fa-3x"></i></div>
+                        </div>
+                        <img class="img-fluid" src="{{ url_for('static', filename='dsc.jpg')  }}" alt="">
+                        <h2 class="text-center">DSC</h2>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    {% endblock body %}
+</body>
+
+</html>

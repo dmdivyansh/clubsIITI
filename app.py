@@ -20,7 +20,7 @@ mysql = MySQL(app)
 
 @app.route("/")
 def cultural():
-    return render_template('culturals.html')
+    return render_template('home.html')
 
 
 @app.route("/technicals")
