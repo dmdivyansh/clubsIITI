@@ -20,17 +20,8 @@ mysql = MySQL(app)
 
 @app.route("/")
 def cultural():
-    return render_template('culturals.html')
+    return render_template('home.html')
 
-
-@app.route("/technicals")
-def technical():
-    return render_template('technicals.html')
-
-
-@app.route("/others")
-def others():
-    return render_template('others.html')
 
 @app.route("/clubs/<clubName>")
 def club(clubName):
@@ -64,7 +55,7 @@ def student():
         except (MySQLdb.Error, MySQLdb.Warning) as e:
             return str(e)
 
-        return "DONE"
+        return render_template("success.html")
 
     else:
         return render_template('newStudent.html')

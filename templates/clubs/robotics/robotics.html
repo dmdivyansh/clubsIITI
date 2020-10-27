@@ -1,80 +1,25 @@
-{% extends 'base.html' %} {% block head %}
+{% extends 'base.html' %} {% block title %}
+<title>Prog Club</title>
+{% endblock title %}
 
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-<meta name="description" content="" />
-<meta name="author" content="" />
-<title>RoboticsClub</title>
-<!-- Favicon-->
-<link rel="icon" type="image/x-icon" href="assets/img/favicon.ico" />
-<!-- Font Awesome icons (free version)-->
-<script src="https://use.fontawesome.com/releases/v5.13.0/js/all.js" crossorigin="anonymous"></script>
-<!-- Google fonts-->
-<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
-<link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
-<!-- Core theme CSS (includes Bootstrap)-->
-<link rel="stylesheet" href="{{url_for('static', filename='css/styles.css')}}"> {% endblock %} {% block body %}
-<div id="page-top">
-    <!-- Navigation-->
-    <nav class="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top" id="mainNav">
-        <div class="container">
-            <a class="navbar-brand js-scroll-trigger" href="#page-top">Robotics-Club</a>
-            <button class="navbar-toggler navbar-toggler-right text-uppercase font-weight-bold bg-primary text-white rounded" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-                    Menu
-                    <i class="fas fa-bars"></i>
-                </button>
-            <div class="collapse navbar-collapse" id="navbarResponsive">
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#Description">Description</a></li>
-                    <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#achievements">Achievements</a></li>
-                    <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#events">Events</a></li>
-                    <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#teams">Teams</a></li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-    <!-- Masthead-->
-    <header class="masthead bg-primary text-white text-center">
-        <div class="container d-flex align-items-center flex-column">
-            <!-- Masthead Avatar Image-->
+<div id="page-top"></div>
+{% block link %} href="/" {% endblock link %} {% block navElements %}
 
-            <img class="masthead-avatar mb-5" src="{{ url_for('static', filename='robotics.jpg')  }}" alt="" />
+<div class="collapse navbar-collapse" id="navbarResponsive">
 
-            <!-- Masthead Heading-->
-            <h1 class="masthead-heading text-uppercase mb-0">Robotics Club</h1>
-            <!-- Icon Divider-->
-            <div class="divider-custom divider-light">
-                <div class="divider-custom-line"></div>
-                <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
-                <div class="divider-custom-line"></div>
-            </div>
-            <!-- Masthead Subheading-->
-            <!-- <p class="masthead-subheading font-weight-light mb-0">Graphic Artist - Web Designer - Illustrator</p> -->
-        </div>
-    </header>
+    <ul class="navbar-nav ml-auto">
+        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#Description" style="color:white;">Description</a>
+        </li>
+        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#achievements" style="color:white;">achievementsS</a>
+        </li>
+        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#events" style="color:white;">events</a>
+        </li>
+        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#about" style="color:white;">ABOUT</a>
+        </li>
+        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#contact" style="color:white;">CONTACT</a>
+        </li>
 
-    <!-- Description Section-->
-    <section class="page-section portfolio" id="Description">
-        <div class="container">
-            <!-- Portfolio Section Heading-->
-            <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Description</h2>
-            <!-- Icon Divider-->
-            <div class="divider-custom">
-                <div class="divider-custom-line"></div>
-                <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
-                <div class="divider-custom-line"></div>
-            </div>
-            <!-- Portfolio Grid Items-->
-            <div class="row">
-                <!-- Portfolio Item 1-->
-                <div class="col-md-12 col-lg-12 mb-5">
-                    <div class="portfolio-item mx-auto">
-                        <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
-                            <div class="portfolio-item-caption-content text-center text-white"><i class="fas fa-plus fa-3x"></i></div>
-                        </div>
-                        For all those who want to implement their visionary ideas and dare to dream to inculcate them in Robots.
-                         This site will update them about all the robotics events and contests taking place in IITI. Feel free to post any of your doubts or queries... " 
-                         Lets all Think Out of the Box to make the Box move..."
+    </ul>
 
                     </div>
                 </div>
@@ -103,6 +48,7 @@
                         <img class="img-fluid" src="{{ url_for('static', filename='literary.jpg')  }}" alt="">
                         <h2 class="text-center">Literary Club</h2>
 
+<<<<<<< HEAD
                     </div>
                 </div>
             </div>
@@ -137,11 +83,118 @@
 
 
 
+=======
+{% endblock navElements %} {% block body %}
+
+
+
+<!-- Masthead-->
+<header class="masthead bg-primary text-white text-center">
+    <div class="container d-flex align-items-center flex-column">
+        <!-- Masthead Avatar Image-->
+
+        <img class="masthead-avatar mb-5" src="{{ url_for('static', filename='robotics.jpg')  }}" alt="" />
+
+        <!-- Masthead Heading-->
+        <h1 class="masthead-heading text-uppercase mb-0">Robotics Club</h1>
+        <!-- Icon Divider-->
+        <div class="divider-custom divider-light">
+            <div class="divider-custom-line"></div>
+            <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+            <div class="divider-custom-line"></div>
+        </div>
+        <!-- Masthead Subheading-->
+        <!-- <p class="masthead-subheading font-weight-light mb-0">Graphic Artist - Web Designer - Illustrator</p> -->
+    </div>
+</header>
+
+<!-- Description Section-->
+<section class="page-section portfolio" id="Description">
+    <div class="container">
+        <!-- Portfolio Section Heading-->
+        <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Description</h2>
+        <!-- Icon Divider-->
+        <div class="divider-custom">
+            <div class="divider-custom-line"></div>
+            <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+            <div class="divider-custom-line"></div>
+        </div>
+        <!-- Portfolio Grid Items-->
+        <div class="row">
+            <!-- Portfolio Item 1-->
+            <div class="col-md-12 col-lg-12 mb-5">
+                <div class="portfolio-item mx-auto">
+                    <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
+                        <div class="portfolio-item-caption-content text-center text-white"><i class="fas fa-plus fa-3x"></i></div>
+                    </div>
+                    For all those who want to implement their visionary ideas and dare to dream to inculcate them in Robots. This site will update them about all the robotics events and contests taking place in IITI. Feel free to post any of your doubts or queries... " Lets all Think Out of the Box to make the Box move..."
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Achievements Section-->
+<section class="page-section portfolio" id="achievements">
+    <div class="container">
+        <!-- Portfolio Section Heading-->
+        <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Achievements</h2>
+        <!-- Icon Divider-->
+        <div class="divider-custom">
+            <div class="divider-custom-line"></div>
+            <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+            <div class="divider-custom-line"></div>
+        </div>
+        <!-- Portfolio Grid Items-->
+        <div class="row">
+            <!-- Portfolio Item 1-->
+            <div class="col-md-6 col-lg-4 mb-5">
+                <div class="portfolio-item mx-auto">
+                    <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
+                        <div class="portfolio-item-caption-content text-center text-white"><i class="fas fa-plus fa-3x"></i></div>
+                    </div>
+                    <img class="img-fluid" src="{{ url_for('static', filename='literary.jpg')  }}" alt="">
+                    <h2 class="text-center">Literary Club</h2>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Event Section-->
+<section class="page-section portfolio" id="events">
+    <div class="container">
+        <!-- Event Section Heading-->
+        <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Events</h2>
+        <!-- Icon Divider-->
+        <div class="divider-custom">
+            <div class="divider-custom-line"></div>
+            <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+            <div class="divider-custom-line"></div>
+        </div>
+        <!-- Event Grid Items-->
+        <div class="row">
+            <!-- Event Item 1-->
+            <div class="col-md-6 col-lg-4 mb-5">
+                <div class="portfolio-item mx-auto">
+                    <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
+                        <div class="portfolio-item-caption-content text-center text-white"><i class="fas fa-plus fa-3x"></i></div>
+                    </div>
+                    <img class="img-fluid" src="{{ url_for('static', filename='progClub.jpg')  }}" alt="">
+                    <h2 class="text-center">Prog Club</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+>>>>>>> master
 
 
 
 
 
+<<<<<<< HEAD
     <!-- Contact Section-->
     <section class="page-section" id="contact">
         <div class="container">
@@ -241,6 +294,10 @@
                 <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true"><i class="fas fa-times"></i></span>
                     </button>
+=======
+
+
+>>>>>>> master
 
             </div>
         </div>

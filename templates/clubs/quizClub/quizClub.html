@@ -1,52 +1,142 @@
-{% extends 'base.html' %} {% block head %} {% endblock %} {% block body %}
+{% extends 'base.html' %} {% block title %}
+<title>Prog Club</title>
+{% endblock title %}
 
+<div id="page-top"></div>
+{% block link %} href="/" {% endblock link %} {% block navElements %}
 
-<div class="jumbotron text-center">
-    <h1>Quiz CLUB</h1>
+<div class="collapse navbar-collapse" id="navbarResponsive">
 
-    <span><a href="#events" class="btn btn-primary ">EVENTS</a></span>
-    <span><a href="#teams" class="btn btn-primary">TEAMS</a></span>
-    <span><a href="#achievements" class="btn btn-primary">ACHIEVEMENTS</a></span>
+    <ul class="navbar-nav ml-auto">
+        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#Description" style="color:white;">Description</a>
+        </li>
+        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#achievements" style="color:white;">achievementsS</a>
+        </li>
+        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#events" style="color:white;">events</a>
+        </li>
+        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#about" style="color:white;">ABOUT</a>
+        </li>
+        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#contact" style="color:white;">CONTACT</a>
+        </li>
 
-
-</div>
-
-
-<div class="container">
-    <h3>
-        The traditional notion of a quizzer is a person without a social life who mugs up fact books day in and out. IITI’s Quizzing Club is here to dispel this crude ideology and make quizzing a social hobby. The wide variety of questions will ensure that your knowledge, howsoever outlandish, is respected. You will learn how to think laterally, and when everything fails, a guess might turn out to be good enough cause of agony for your competitors. This year, the Quizzing Club is going all out, not only to promote your passion, but also inculcate the same in case you are a newbie. For the rest of the time, teams will fight it out for the ultimate glory and history has been a frequent witness to quizzes going down the wire. Happy Quizzing!
-    </h3>
-</div>
-
-<div id="events" class="container">
-    <h1>EVENTS</h1>
-    <h2> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eaque similique unde dolore aliquid ex, distinctio excepturi aspernatur eos veniam doloribus iure optio impedit beatae tempora, ipsa error temporibus officia? Assumenda!</h2>
-    <h2>Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur accusantium consequatur earum laboriosam, itaque nostrum illum consequuntur ea saepe dignissimos. Quaerat tenetur veritatis ex facilis velit possimus voluptates magnam maxime.</h2>
-    <h2> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eaque similique unde dolore aliquid ex, distinctio excepturi aspernatur eos veniam doloribus iure optio impedit beatae tempora, ipsa error temporibus officia? Assumenda!</h2>
-    <h2> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eaque similique unde dolore aliquid ex, distinctio excepturi aspernatur eos veniam doloribus iure optio impedit beatae tempora, ipsa error temporibus officia? Assumenda!</h2>
+    </ul>
 
 </div>
 
+{% endblock navElements %} {% block body %}
 
 
-<div id="teams" class="container">
-    <h1>TEAMS</h1>
-    <h2> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eaque similique unde dolore aliquid ex, distinctio excepturi aspernatur eos veniam doloribus iure optio impedit beatae tempora, ipsa error temporibus officia? Assumenda!</h2>
-    <h2> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eaque similique unde dolore aliquid ex, distinctio excepturi aspernatur eos veniam doloribus iure optio impedit beatae tempora, ipsa error temporibus officia? Assumenda!</h2>
-    <h2> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eaque similique unde dolore aliquid ex, distinctio excepturi aspernatur eos veniam doloribus iure optio impedit beatae tempora, ipsa error temporibus officia? Assumenda!</h2>
-    <h2> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eaque similique unde dolore aliquid ex, distinctio excepturi aspernatur eos veniam doloribus iure optio impedit beatae tempora, ipsa error temporibus officia? Assumenda!</h2>
+
+<!-- Masthead-->
+<header class="masthead bg-primary text-white text-center">
+    <div class="container d-flex align-items-center flex-column">
+        <!-- Masthead Avatar Image-->
+
+        <img class="masthead-avatar mb-5" src="{{ url_for('static', filename='quiz.jpg')  }}" alt="" />
+
+        <!-- Masthead Heading-->
+        <h1 class="masthead-heading text-uppercase mb-0">Quiz Club</h1>
+        <!-- Icon Divider-->
+        <div class="divider-custom divider-light">
+            <div class="divider-custom-line"></div>
+            <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+            <div class="divider-custom-line"></div>
+        </div>
+        <!-- Masthead Subheading-->
+        <!-- <p class="masthead-subheading font-weight-light mb-0">Graphic Artist - Web Designer - Illustrator</p> -->
+    </div>
+</header>
+
+<!-- Description Section-->
+<section class="page-section portfolio" id="Description">
+    <div class="container">
+        <!-- Portfolio Section Heading-->
+        <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Description</h2>
+        <!-- Icon Divider-->
+        <div class="divider-custom">
+            <div class="divider-custom-line"></div>
+            <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+            <div class="divider-custom-line"></div>
+        </div>
+        <!-- Portfolio Grid Items-->
+        <div class="row">
+            <!-- Portfolio Item 1-->
+            <div class="col-md-12 col-lg-12 mb-5">
+                <div class="portfolio-item mx-auto">
+                    <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
+                        <div class="portfolio-item-caption-content text-center text-white"><i class="fas fa-plus fa-3x"></i></div>
+                    </div>
+                    Programming Club, IIT Indore is for those minds who have sheer interest in programming. For those who have zest for programming and believe in the miracles of coding, this is the right place. The Club encourages active participation in various programming
+                    competitions, seminars, lectures and workshops etc. This club also envelopes all the news releases,updates of softwares, web services and other relevant technologies in the computer science and the tech world. Recently, team Paradigm
+                    Shift ( Archit Karandikar, Piyush Lahoti and Sanjeev Sheenoy ) of IIT Indore participated in ACM ICPC - World Finals 2013 and secured 3rd position from India. This makes IIT Indore the first new IIT to participate in such a mega contest
+                    that brought IITI to the world maps for coding. And more recently, team Paradigm Shift ( Archit Karandikar, Piyush Lahoti and Gaurav Agarwal ) have qualified for ACM ICPC World Finals 2014. What next?? Join us and start coding.....
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Achievements Section-->
+<section class="page-section portfolio" id="achievements">
+    <div class="container">
+        <!-- Portfolio Section Heading-->
+        <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Achievements</h2>
+        <!-- Icon Divider-->
+        <div class="divider-custom">
+            <div class="divider-custom-line"></div>
+            <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+            <div class="divider-custom-line"></div>
+        </div>
+        <!-- Portfolio Grid Items-->
+        <div class="row">
+            <!-- Portfolio Item 1-->
+            <div class="col-md-6 col-lg-4 mb-5">
+                <div class="portfolio-item mx-auto">
+                    <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
+                        <div class="portfolio-item-caption-content text-center text-white"><i class="fas fa-plus fa-3x"></i></div>
+                    </div>
+                    <img class="img-fluid" src="{{ url_for('static', filename='literary.jpg')  }}" alt="">
+                    <h2 class="text-center">Literary Club</h2>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Event Section-->
+<section class="page-section portfolio" id="events">
+    <div class="container">
+        <!-- Event Section Heading-->
+        <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Events</h2>
+        <!-- Icon Divider-->
+        <div class="divider-custom">
+            <div class="divider-custom-line"></div>
+            <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+            <div class="divider-custom-line"></div>
+        </div>
+        <!-- Event Grid Items-->
+        <div class="row">
+            <!-- Event Item 1-->
+            <div class="col-md-6 col-lg-4 mb-5">
+                <div class="portfolio-item mx-auto">
+                    <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
+                        <div class="portfolio-item-caption-content text-center text-white"><i class="fas fa-plus fa-3x"></i></div>
+                    </div>
+                    <img class="img-fluid" src="{{ url_for('static', filename='progClub.jpg')  }}" alt="">
+                    <h2 class="text-center">Prog Club</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+
+
+
 
 
 </div>
-
-
-<div id="achievements" class="container">
-    <h1>ACHIEVEMENTS</h1>
-    <h2> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eaque similique unde dolore aliquid ex, distinctio excepturi aspernatur eos veniam doloribus iure optio impedit beatae tempora, ipsa error temporibus officia? Assumenda!</h2>
-    <h2> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eaque similique unde dolore aliquid ex, distinctio excepturi aspernatur eos veniam doloribus iure optio impedit beatae tempora, ipsa error temporibus officia? Assumenda!</h2>
-    <h2> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eaque similique unde dolore aliquid ex, distinctio excepturi aspernatur eos veniam doloribus iure optio impedit beatae tempora, ipsa error temporibus officia? Assumenda!</h2>
-    <h2> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eaque similique unde dolore aliquid ex, distinctio excepturi aspernatur eos veniam doloribus iure optio impedit beatae tempora, ipsa error temporibus officia? Assumenda!</h2>
-
-</div>
-
 {% endblock %}
