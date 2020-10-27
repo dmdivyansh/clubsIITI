@@ -5,7 +5,6 @@ import yaml
 
 app = Flask(__name__)
 
-
 # COnfigure db
 db = yaml.load(open('db.yaml'), Loader=yaml.FullLoader)
 
@@ -17,7 +16,6 @@ app.config['MYSQL_DB'] = db['mysql_db']
 mysql = MySQL(app)
 
 
-
 @app.route("/")
 def cultural():
     return render_template('home.html')
@@ -25,8 +23,27 @@ def cultural():
 
 @app.route("/clubs/<clubName>")
 def club(clubName):
-    print('clubs/'+ clubName + '/' + clubName + '.html')
-    return render_template('clubs/'+ clubName + '/' + clubName + '.html')
+
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT * FROM " + clubName)
+    user = cur.fetchone()
+
+    print(user)
+
+    title = user[0]
+    info = user[1]
+    achievements = user[2]
+    imageUrl = clubName + ".jpg"
+
+    for i in range(3):
+        print(user[i])
+    return render_template("clubtemplate.html",
+                           title=title,
+                           info=info,
+                           achievements=achievements,
+                           clubName=clubName,
+                           imageUrl=imageUrl)
+
 
 @app.route("/new/student", methods=['GET', 'POST'])
 def student():
@@ -39,15 +56,20 @@ def student():
             LinkedIn = student['linkedin']
             Full_Name = student['full_name']
             Mail_Id = student['mail_id']
-            Roll_No = int(student['roll_no']) 
+            Roll_No = int(student['roll_no'])
             Phone_No = int(student['phone_no'])
-            Semester = int(student['semester']) 
-            print(Github_Profile, Branch, LinkedIn, Full_Name, Mail_Id, Roll_No, Phone_No, Semester)
-            print(type(Github_Profile), type(Branch), type(LinkedIn), type(Full_Name), type(Mail_Id), type(Roll_No), type(Phone_No), type(Semester))
-
+            Semester = int(student['semester'])
+            print(Github_Profile, Branch, LinkedIn, Full_Name, Mail_Id,
+                  Roll_No, Phone_No, Semester)
+            print(type(Github_Profile), type(Branch), type(LinkedIn),
+                  type(Full_Name), type(Mail_Id), type(Roll_No),
+                  type(Phone_No), type(Semester))
 
             cur = mysql.connection.cursor()
-            cur.execute("INSERT INTO students VALUES (%s, %s, %s, %s, %s, %s, %s, %s)", (Github_Profile, Branch, LinkedIn, Full_Name, Mail_Id, Roll_No, Phone_No, Semester))
+            cur.execute(
+                "INSERT INTO students VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
+                (Github_Profile, Branch, LinkedIn, Full_Name, Mail_Id, Roll_No,
+                 Phone_No, Semester))
 
             mysql.connection.commit()
             cur.close()
@@ -60,14 +82,14 @@ def student():
     else:
         return render_template('newStudent.html')
 
-
     return "DONE"
 
-    
+
 @app.errorhandler(404)
 def page_not_found(e):
     print("Redirecting to /")
     return redirect('/')
+
 
 if __name__ == "__main__":
     app.run(debug=True)
