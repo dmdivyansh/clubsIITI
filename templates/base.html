@@ -18,6 +18,7 @@
     <!-- Core theme CSS (includes Bootstrap)-->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css')  }}">
 
+
 </head>
 
 <body>
@@ -128,8 +129,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
     <!-- Core theme JS-->
     <script src="{{ url_for('static', filename='js/scripts.js')  }}"></script>
-
-
+    {% block extraScripts %} {% endblock extraScripts %}
 </body>
 
 </html>

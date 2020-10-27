@@ -1,4 +1,7 @@
-{% extends 'base.html' %} {% block head %} {% endblock head %} {% block body %}
+{% extends 'base.html' %} {% block title %}
+<title>Register</title>
+
+{% block link %} href="/" {% endblock link %} {% endblock title %} {% block body %}
 <div class="container mt-5 pt-5">
     <form action="/new/student" method="POST">
 
@@ -95,4 +98,7 @@
     </form>
 </div>
 
-{% endblock body %}
+{% endblock body %} {% block extraScripts %}
+<script src="{{ url_for('static', filename='js/studentForm.js')  }}"></script>
+
+{% endblock extraScripts %}
