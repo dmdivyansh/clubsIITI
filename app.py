@@ -55,7 +55,7 @@ def student():
         except (MySQLdb.Error, MySQLdb.Warning) as e:
             return str(e)
 
-        return "DONE"
+        return render_template("success.html")
 
     else:
         return render_template('newStudent.html')

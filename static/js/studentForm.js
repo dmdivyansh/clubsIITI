@@ -17,9 +17,26 @@ $(document).ready(function () {
 
 
     // VALIDATING ROLL NO FIELD AND PUTTING THE EXPECTED VALUES
+
+    $("#phone_no").focusout(function () {
+        if (this.value.length != 10) {
+            alert("Invalid Phone No.")
+            $("#phone_no").val("");
+            $("#phone_no").focus();
+        }
+
+    })
+
+
     $("#roll_no").focusout(function () {
 
         var branch = this.value.toString()[5];
+
+        if (this.value.length != 9) {
+            alert("Invalid Roll No.")
+            $("#roll_no").val("");
+            $("#roll_no").focus();
+        }
 
         if (branch == 1) {
             $("#branch").val("CSE");
