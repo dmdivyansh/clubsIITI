@@ -86,7 +86,7 @@ def edit(clubName):
             information = cur.fetchone()
             print(information[0])
             print(information[1])
-            return render_template("", info=information[0], achievements=information[1])
+            return render_template("editor.html", info=information[0], achievements=information[1])
 
 
     except:
