@@ -25,18 +25,19 @@ def cultural():
 def club(clubName):
 
     cur = mysql.connection.cursor()
-    cur.execute("SELECT * FROM " + clubName)
-    user = cur.fetchone()
+    cur.execute("select * from clubs WHERE Title=\'{}\'".format(clubName))
+    club = cur.fetchone()
 
-    print(user)
+    print(club)
+    try:
+        title = club[1]
+        info = club[2]
+        achievements = club[3]
+    except:
+        return "404 Club Not FOUND"  # ADD NOT FOUND PAGE
 
-    title = user[0]
-    info = user[1]
-    achievements = user[2]
     imageUrl = clubName + ".jpg"
 
-    for i in range(3):
-        print(user[i])
     return render_template("clubtemplate.html",
                            title=title,
                            info=info,
