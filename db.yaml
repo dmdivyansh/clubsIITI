@@ -1,4 +1,7 @@
-mysql_host: 'localhost'
-mysql_user: 'root'
-mysql_password: 'password'
-mysql_db: 'clubsiiti'
+mysql_host: "localhost"
+mysql_user: "root"
+mysql_password: "password"
+mysql_db: "clubsiiti"
+secret_key: "someStrongSecretKey"
+client_id: "951651294027-4v27ni26hhpsi9vfpnoi6nu0irl9jbac.apps.googleusercontent.com"
+client_secret: "SGlL0ZlYmAitD_ro6_SjVCCh"
