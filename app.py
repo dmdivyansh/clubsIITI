@@ -112,11 +112,17 @@ def authorize():
     user_info = resp.json()
     # do something with the token and profile
     session["email"] = user_info["email"]
+    email = session["email"] 
     session["name"] = user_info["given_name"]
+    if email[:3]==("cse"):
+        return redirect("/")
+    elif email[:2]==("ee" or "me" or "ce"):
+        return redirect("/")
+    elif email[:4]==("mems"):
+        return redirect("/")
+    else:
+        return redirect("/logout")
 
-    
-    print(user_info)
-    return redirect("/")
 
 
 @app.route("/logout")
