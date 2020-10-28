@@ -1,0 +1,127 @@
+{% extends 'base.html' %} {% block title %}
+<title>{{title}}</title>
+{% endblock title %}
+
+<div id="page-top"></div>
+{% block link %} href="/" {% endblock link %} {% block navElements %}
+
+<div class="collapse navbar-collapse" id="navbarResponsive">
+
+    <ul class="navbar-nav ml-auto">
+        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#Description" style="color:white;">Description</a>
+        </li>
+        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#achievements" style="color:white;">achievementsS</a>
+        </li>
+        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#events" style="color:white;">events</a>
+        </li>
+        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#about" style="color:white;">ABOUT</a>
+        </li>
+        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#contact" style="color:white;">CONTACT</a>
+        </li>
+
+    </ul>
+
+</div>
+
+{% endblock navElements %} {% block body %}
+
+
+
+<!-- Masthead-->
+<header class="masthead bg-primary text-white text-center">
+    <div class="container d-flex align-items-center flex-column">
+        <!-- Masthead Avatar Image-->
+
+        <img class="masthead-avatar mb-5" src="{{ url_for('static', filename=imageUrl) }}" alt="" />
+
+        <!-- Masthead Heading-->
+        <h1 class="masthead-heading text-uppercase mb-0">{{title}}</h1>
+        <!-- Icon Divider-->
+        <div class="divider-custom divider-light">
+            <div class="divider-custom-line"></div>
+            <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+            <div class="divider-custom-line"></div>
+        </div>
+        <!-- Masthead Subheading-->
+        <!-- <p class="masthead-subheading font-weight-light mb-0">Graphic Artist - Web Designer - Illustrator</p> -->
+    </div>
+</header>
+
+<!-- Description Section-->
+<section class="page-section portfolio" id="Description">
+    <div class="container">
+        <!-- Portfolio Section Heading-->
+        <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Description</h2>
+        <!-- Icon Divider-->
+        <div class="divider-custom">
+            <div class="divider-custom-line"></div>
+            <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+            <div class="divider-custom-line"></div>
+        </div>
+        <!-- Portfolio Grid Items-->
+        <div class="row">
+            <!-- Portfolio Item 1-->
+            <div class="col-md-12 col-lg-12 mb-5">
+                <div class="portfolio-item mx-auto">
+                    {{info}}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Achievements Section-->
+<section class="page-section portfolio" id="achievements">
+    <div class="container">
+        <!-- Portfolio Section Heading-->
+        <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Achievements</h2>
+        <!-- Icon Divider-->
+        <div class="divider-custom">
+            <div class="divider-custom-line"></div>
+            <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+            <div class="divider-custom-line"></div>
+        </div>
+        <!-- Portfolio Grid Items-->
+        <div class="row">
+            <!-- Portfolio Item 1-->
+            <div class="col-md-12 col-lg-12 mb-5">
+                <div class="portfolio-item mx-auto">
+                    {{achievements}}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Event Section-->
+<section class="page-section portfolio" id="events">
+    <div class="container">
+        <!-- Event Section Heading-->
+        <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Events</h2>
+        <!-- Icon Divider-->
+        <div class="divider-custom">
+            <div class="divider-custom-line"></div>
+            <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+            <div class="divider-custom-line"></div>
+        </div>
+        <!-- Event Grid Items-->
+        <!-- <div class="row">
+            Event Item 1
+            <div class="col-md-12 col-lg-12 mb-5">
+                <div class="portfolio-item mx-auto">
+
+                    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Expedita magnam necessitatibus optio minima quos, non dolorum eius nulla, temporibus saepe voluptas dolore soluta architecto ratione impedit, quo veritatis maxime iste.
+                </div>
+            </div>
+        </div> -->
+    </div>
+</section>
+
+
+
+
+
+
+
+
+
+</div>
+{% endblock %}
