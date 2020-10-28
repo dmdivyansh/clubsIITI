@@ -41,32 +41,6 @@ def cultural():
     return render_template('home.html', name=name)
 
 
-@app.route("/login")
-def login():
-    google = oauth.create_client("google")
-    redirect_uri = url_for("authorize", _external=True)
-    return google.authorize_redirect(redirect_uri)
-
-
-@app.route("/authorize")
-def authorize():
-    google = oauth.create_client("google")
-    token = google.authorize_access_token()
-    resp = google.get("userinfo", token=token)
-    user_info = resp.json()
-    # do something with the token and profile
-    session["email"] = user_info["email"]
-    session["name"] = user_info["given_name"]
-    print(user_info)
-    return redirect("/")
-
-
-@app.route("/logout")
-def logout():
-    for key in list(session.keys()):
-        session.pop(key)
-    return redirect("/")
-
 
 @app.route("/clubs/<clubName>")
 def club(clubName):
@@ -91,6 +65,63 @@ def club(clubName):
                            achievements=achievements,
                            clubName=clubName,
                            imageUrl=imageUrl)
+
+
+@app.route("/clubs/<clubName>/edit")
+def edit(clubName):
+    cur = mysql.connection.cursor()
+
+    email = dict(session).get("email", None)
+
+    if(email == None):
+        return "Please sign in"
+    
+    try:
+        cur.execute("SELECT Club_Title FROM clubheads WHERE Club_Head_Mail_Id = '{}'".format(email))
+        club = cur.fetchone()
+        print(club[0])
+
+        if(club[0] == clubName ):
+            return "You are clubhead you can edit"
+            
+    except:
+        return "You are not allowed to do so"
+
+
+
+
+# _______________________ AUTH ROUTES ___________________________________________
+
+@app.route("/login")
+def login():
+    google = oauth.create_client("google")
+    redirect_uri = url_for("authorize", _external=True)
+    return google.authorize_redirect(redirect_uri)
+
+
+@app.route("/authorize")
+def authorize():
+    google = oauth.create_client("google")
+    token = google.authorize_access_token()
+    resp = google.get("userinfo", token=token)
+    user_info = resp.json()
+    # do something with the token and profile
+    session["email"] = user_info["email"]
+    session["name"] = user_info["given_name"]
+
+    
+    print(user_info)
+    return redirect("/")
+
+
+@app.route("/logout")
+def logout():
+    for key in list(session.keys()):
+        session.pop(key)
+    return redirect("/")
+
+#___________________________________________________________________________________
+
 
 
 @app.route("/new/student", methods=['GET', 'POST'])
