@@ -36,9 +36,9 @@ google = oauth.register(
 
 @app.route("/")
 def cultural():
-    email = dict(session).get("email", None)
-    print("current user:", email)
-    return render_template('home.html')
+    name = dict(session).get("name", None)
+    print("current user:", name)
+    return render_template('home.html', name=name)
 
 
 @app.route("/login")
@@ -56,6 +56,7 @@ def authorize():
     user_info = resp.json()
     # do something with the token and profile
     session["email"] = user_info["email"]
+    session["name"] = user_info["given_name"]
     print(user_info)
     return redirect("/")
 
