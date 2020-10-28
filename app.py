@@ -41,6 +41,62 @@ def cultural():
     return render_template('home.html', name=name)
 
 
+
+@app.route("/clubs/<clubName>")
+def club(clubName):
+
+    cur = mysql.connection.cursor()
+    cur.execute("select * from clubs WHERE Title=\'{}\'".format(clubName))
+    club = cur.fetchone()
+
+    print(club)
+    try:
+        title = club[1]
+        info = club[2]
+        achievements = club[3]
+    except:
+        return "404 Club Not FOUND"  # ADD NOT FOUND PAGE
+
+    imageUrl = clubName + ".jpg"
+
+    return render_template("clubtemplate.html",
+                           title=title,
+                           info=info,
+                           achievements=achievements,
+                           clubName=clubName,
+                           imageUrl=imageUrl)
+
+
+@app.route("/clubs/<clubName>/edit")
+def edit(clubName):
+    cur = mysql.connection.cursor()
+
+    email = dict(session).get("email", None)
+
+    if(email == None):
+        return "Please sign in"
+    
+    try:
+        cur.execute("SELECT Club_Title FROM clubheads WHERE Club_Head_Mail_Id = '{}'".format(email))
+        club = cur.fetchone()
+        print(club[0])
+
+        if(club[0] == clubName ):
+            cur.execute("select Info, Achievements FROM clubs")
+            information = cur.fetchone()
+            print(information[0])
+            print(information[1])
+            return render_template("editor.html", info=information[0], achievements=information[1])
+
+
+    except:
+        return "You are not allowed to do so"
+
+
+
+
+# _______________________ AUTH ROUTES ___________________________________________
+
 @app.route("/login")
 def login():
     google = oauth.create_client("google")
@@ -68,36 +124,15 @@ def authorize():
         return redirect("/logout")
 
 
+
 @app.route("/logout")
 def logout():
     for key in list(session.keys()):
         session.pop(key)
     return redirect("/")
 
+#___________________________________________________________________________________
 
-@app.route("/clubs/<clubName>")
-def club(clubName):
-
-    cur = mysql.connection.cursor()
-    cur.execute("select * from clubs WHERE Title=\'{}\'".format(clubName))
-    club = cur.fetchone()
-
-    print(club)
-    try:
-        title = club[1]
-        info = club[2]
-        achievements = club[3]
-    except:
-        return "404 Club Not FOUND"  # ADD NOT FOUND PAGE
-
-    imageUrl = clubName + ".jpg"
-
-    return render_template("clubtemplate.html",
-                           title=title,
-                           info=info,
-                           achievements=achievements,
-                           clubName=clubName,
-                           imageUrl=imageUrl)
 
 
 @app.route("/new/student", methods=['GET', 'POST'])
@@ -138,6 +173,16 @@ def student():
         return render_template('newStudent.html')
 
     return "DONE"
+
+@app.route("/clubs/<clubName>/edit")
+def edit(clubName):
+    cur = mysql.connection.cursor()
+
+    cur.execute("SELECT info FROM clubs")
+    info=cur.fetchall()
+    print(info[0])
+    cur.close()
+    return render_template("editor.html",info=info[0])
 
 
 @app.errorhandler(404)
