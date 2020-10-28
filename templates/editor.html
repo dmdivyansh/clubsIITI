@@ -1,0 +1,31 @@
+{% extends 'base.html' %} {% block title %}
+<title>Register</title>
+
+{% block link %} href="/" {% endblock link %} {% endblock title %} {% block body %}
+<div class="container mt-5 pt-5">
+    <form action="/new/student" method="POST">
+
+        <div class="form-group">
+            <label for="intro">New Description</label>
+            <input type="text" class="form-control" id="intro" name="intro" value={{info}}>
+        </div>
+
+        <div class="form-group">
+            <label for="events">Add an upcoming Event</label>
+            <input type="number" class="form-control" id="events" name="events">
+        </div>
+
+       
+            <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
+        </div>
+        <div class="container mt-5 pt-5">
+            <button type="submit" class="btn btn-primary ">Submit</button>
+        </div>
+        
+    </form>
+</div>
+
+{% endblock body %} {% block extraScripts %}
+<script src="{{ url_for('static', filename='js/studentForm.js')  }}"></script>
+
+{% endblock extraScripts %}
