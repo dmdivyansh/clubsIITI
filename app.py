@@ -174,16 +174,6 @@ def student():
 
     return "DONE"
 
-@app.route("/clubs/<clubName>/edit")
-def edit(clubName):
-    cur = mysql.connection.cursor()
-
-    cur.execute("SELECT info FROM clubs")
-    info=cur.fetchall()
-    print(info[0])
-    cur.close()
-    return render_template("editor.html",info=info[0])
-
 
 @app.errorhandler(404)
 def page_not_found(e):
