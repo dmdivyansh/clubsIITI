@@ -82,8 +82,13 @@ def edit(clubName):
         print(club[0])
 
         if(club[0] == clubName ):
-            return "You are clubhead you can edit"
-            
+            cur.execute("select Info, Achievements FROM clubs")
+            information = cur.fetchone()
+            print(information[0])
+            print(information[1])
+            return render_template("", info=information[0], achievements=information[1])
+
+
     except:
         return "You are not allowed to do so"
 
