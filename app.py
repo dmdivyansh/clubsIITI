@@ -56,15 +56,26 @@ def club(clubName):
         achievements = club[3]
     except:
         return "404 Club Not FOUND"  # ADD NOT FOUND PAGE
-
+    verified = False
     imageUrl = clubName + ".jpg"
+
+    try:
+        cur.execute("SELECT Club_Title FROM clubheads WHERE Club_Head_Mail_Id = '{}'".format(session["email"]))
+        club = cur.fetchone()
+
+        if(club[0] == clubName):
+            verified = True
+    except:
+        verified=False
+    
 
     return render_template("clubtemplate.html",
                            title=title,
                            info=info,
                            achievements=achievements,
                            clubName=clubName,
-                           imageUrl=imageUrl)
+                           imageUrl=imageUrl,
+                           verified=verified)
 
 
 @app.route("/clubs/<clubName>/edit")
