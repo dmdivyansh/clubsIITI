@@ -138,9 +138,9 @@ def edit(clubName):
 
     cur.execute("SELECT info FROM clubs")
     info=cur.fetchall()
-    print(info[0])
+    print(info)
     cur.close()
-    return render_template("editor.html",info=info[0])
+    return render_template("editor.html",info=info)
 
 
 @app.errorhandler(404)
