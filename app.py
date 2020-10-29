@@ -36,18 +36,31 @@ google = oauth.register(
 
 @app.route("/")
 def cultural():
-    msg = dict(session).get("msg", None)
 
-    if msg is not None:
+    signedIn = dict(session).get("signedIn", None)
+    msg = ""
+    msg_alert = "danger"
+    print(signedIn)
+    if signedIn:
+        email = dict(session).get("email", None)
+        msg = "Successfully signed in as : " + email
+        msg_alert = "success"
+
+    elif signedIn == None:
+        msg = "Please signin into CLUBSIITI"
+        msg_alert = "warning"
+
+    else:
         print("clearing sessiong info")
         for key in list(session.keys()):
             session.pop(key)
+        msg = "Please use IITI email id"
     
     print(msg)
     
     name = dict(session).get("name", None)
     print("current user:", name)
-    return render_template('home.html', name=name)
+    return render_template('home.html', name=name, msg=msg, msg_alert=msg_alert)
 
 
 
@@ -191,6 +204,7 @@ def authorize():
     session["email"] = user_info["email"]
     email = session["email"] 
     session["name"] = user_info["given_name"]
+    session["signedIn"] = True
     if email[:3]==("cse"):
         return redirect("/")
     elif email[:2]==("ee" or "me" or "ce"):
@@ -199,7 +213,7 @@ def authorize():
         return redirect("/")
     else:
         logout()
-        session["msg"] = "Please use IITI email id" 
+        session["signedIn"] = False 
         return redirect("/")
 
 
