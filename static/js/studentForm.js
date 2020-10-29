@@ -28,50 +28,51 @@ $(document).ready(function () {
     })
 
 
-    $("#roll_no").focusout(function () {
+    var branch = $("#mail_id").val()[8];
+    var year = 21 - $("#mail_id").val().slice(3, 5)
+    console.log(year)
 
-        var branch = this.value.toString()[5];
+    switch (year) {
+        case 1:
+            $("#year1").prop("checked", true);
+            break;
+        case 2:
+            $("#year2").prop("checked", true);
+            break;
+        case 3:
+            $("#year3").prop("checked", true);
+            break;
+        case 4:
+            $("#year4").prop("checked", true);
+            break;
+        default:
+        // code block
+    }
 
-        if (this.value.length != 9) {
-            alert("Invalid Roll No.")
-            $("#roll_no").val("");
-            $("#roll_no").focus();
-        }
+    $("#year").val(year);
 
-        if (branch == 1) {
-            $("#branch").val("CSE");
-            $("#mail_id").val("cse" + $("#roll_no").val() + "@iiti.ac.in")
-        }
+    if (branch == 1) {
+        $("#branch").val("CSE");
+    }
 
-        else if (branch == 2) {
-            $("#branch").val("EE");
-            $("#mail_id").val("ee" + $("#roll_no").val() + "@iiti.ac.in")
+    else if (branch == 2) {
+        $("#branch").val("EE");
 
-        }
+    }
 
-        else if (branch == 3) {
-            $("#branch").val("ME");
-            $("#mail_id").val("me" + $("#roll_no").val() + "@iiti.ac.in")
+    else if (branch == 3) {
+        $("#branch").val("ME");
 
-        }
+    }
 
-        else if (branch == 4) {
-            $("#branch").val("CE");
-            $("#mail_id").val("ce" + $("#roll_no").val() + "@iiti.ac.in")
+    else if (branch == 4) {
+        $("#branch").val("CE");
 
-        }
+    }
 
-        else if (branch == 5) {
-            $("#branch").val("MEMS");
-            $("#mail_id").val("mems" + $("#roll_no").val() + "@iiti.ac.in")
+    else if (branch == 5) {
+        $("#branch").val("MEMS");
 
-        }
+    }
 
-        else {
-            alert("Invalid Roll No.")
-            $("#roll_no").val("");
-            $("#roll_no").focus();
-        }
-
-    });
 });
