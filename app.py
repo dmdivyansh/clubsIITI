@@ -125,11 +125,11 @@ def authorize():
     session["email"] = user_info["email"]
     email = session["email"] 
     session["name"] = user_info["given_name"]
-    if email[:3]==("cse"):
+    if email[:3]==("cse") and email[-11:]=="@iiti.ac.in":
         return redirect("/")
-    elif email[:2]==("ee" or "me" or "ce"):
+    elif email[:2]==("ee" or "me" or "ce") and email[-11:]=="@iiti.ac.in":
         return redirect("/")
-    elif email[:4]==("mems"):
+    elif email[:4]==("mems") and email[-11:]=="@iiti.ac.in":
         return redirect("/")
     else:
         return redirect("/logout")
