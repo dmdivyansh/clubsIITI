@@ -36,6 +36,15 @@ google = oauth.register(
 
 @app.route("/")
 def cultural():
+    msg = dict(session).get("msg", None)
+
+    if msg is not None:
+        print("clearing sessiong info")
+        for key in list(session.keys()):
+            session.pop(key)
+    
+    print(msg)
+    
     name = dict(session).get("name", None)
     print("current user:", name)
     return render_template('home.html', name=name)
@@ -49,7 +58,7 @@ def club(clubName):
     cur.execute("select * from clubs WHERE Title=\'{}\'".format(clubName))
     club = cur.fetchone()
 
-    print(club)
+    # print(club)
     try:
         title = club[1]
         info = club[2]
@@ -59,16 +68,21 @@ def club(clubName):
     verified = False
     imageUrl = clubName + ".jpg"
 
+    
     try:
         cur.execute("SELECT Club_Title FROM clubheads WHERE Club_Head_Mail_Id = '{}'".format(session["email"]))
-        club = cur.fetchone()
+        club = cur.fetchall()
+        # print(club)
 
-        if(club[0] == clubName):
-            verified = True
+        for i in club:
+            # print(i[0])
+            if ( i[0] == clubName):
+                verified = True
+        
     except:
         verified=False
     
-
+    print("verified:", verified)
     return render_template("clubtemplate.html",
                            title=title,
                            info=info,
@@ -78,72 +92,48 @@ def club(clubName):
                            verified=verified)
 
 
-@app.route("/clubs/<clubName>/edit")
+@app.route("/clubs/<clubName>/edit", methods=['GET', 'POST'])
 def edit(clubName):
-    cur = mysql.connection.cursor()
+    if request.method == 'GET':
+        cur = mysql.connection.cursor()
+        email = dict(session).get("email", None)
+        if(email == None):
+            return "Please sign in"
+        
+        verified = False
+        print("Running query: ", "SELECT Club_Title FROM clubheads WHERE Club_Head_Mail_Id = '{}'".format(session["email"]))
+        cur.execute("SELECT Club_Title FROM clubheads WHERE Club_Head_Mail_Id = '{}'".format(session["email"]))
+        club = cur.fetchall()
 
-    email = dict(session).get("email", None)
+        for i in club:
+            if ( i[0] == clubName):
+                verified = True
 
-    if(email == None):
-        return "Please sign in"
-    
-    try:
-        cur.execute("SELECT Club_Title FROM clubheads WHERE Club_Head_Mail_Id = '{}'".format(email))
-        club = cur.fetchone()
-        print(club[0])
-
-        if(club[0] == clubName ):
-            cur.execute("select Info, Achievements FROM clubs")
+        if(verified):
+            print("Running query:" , "select Info, Achievements FROM clubs WHERE Title='{}'".format(clubName))
+            cur.execute("select Info, Achievements FROM clubs WHERE Title='{}'".format(clubName))
             information = cur.fetchone()
-            print(information[0])
-            print(information[1])
-            return render_template("editor.html", info=information[0], achievements=information[1])
+            return render_template("editor.html", info=information[0], achievements=information[1], clubName=clubName)
 
+        else:
+            return render_template("error.html")
 
-    except:
-        return "You are not allowed to do so"
-
-
-
-
-# _______________________ AUTH ROUTES ___________________________________________
-
-@app.route("/login")
-def login():
-    google = oauth.create_client("google")
-    redirect_uri = url_for("authorize", _external=True)
-    return google.authorize_redirect(redirect_uri)
-
-
-@app.route("/authorize")
-def authorize():
-    google = oauth.create_client("google")
-    token = google.authorize_access_token()
-    resp = google.get("userinfo", token=token)
-    user_info = resp.json()
-    # do something with the token and profile
-    session["email"] = user_info["email"]
-    email = session["email"] 
-    session["name"] = user_info["given_name"]
-    if email[:3]==("cse"):
-        return redirect("/")
-    elif email[:2]==("ee" or "me" or "ce"):
-        return redirect("/")
-    elif email[:4]==("mems"):
-        return redirect("/")
     else:
-        return redirect("/logout")
+        data = request.form
+        print("Fetched form data")
+        info = data['info']
+        # replace ' with " so that these string does not interfere with our sql queries
+        info = info.replace("'",'"')
+        achievements = data['achievements']
+        achievements = achievements.replace("'",'"')
+        cur = mysql.connection.cursor()
+        print("Running query:","UPDATE clubs SET Info = '{}', Achievements = '{}' WHERE Title = '{}'".format(info, achievements, clubName) )
+        cur.execute("UPDATE clubs SET Info = '{}', Achievements = '{}' WHERE Title = '{}'".format(info, achievements, clubName))
 
+        mysql.connection.commit()
+        cur.close()
 
-
-@app.route("/logout")
-def logout():
-    for key in list(session.keys()):
-        session.pop(key)
-    return redirect("/")
-
-#___________________________________________________________________________________
-
+        return redirect("/clubs/{}".format(clubName))
 
 
 @app.route("/new/student", methods=['GET', 'POST'])
@@ -160,11 +150,6 @@ def student():
             Roll_No = int(student['roll_no'])
             Phone_No = int(student['phone_no'])
             Semester = int(student['semester'])
-            print(Github_Profile, Branch, LinkedIn, Full_Name, Mail_Id,
-                  Roll_No, Phone_No, Semester)
-            print(type(Github_Profile), type(Branch), type(LinkedIn),
-                  type(Full_Name), type(Mail_Id), type(Roll_No),
-                  type(Phone_No), type(Semester))
 
             cur = mysql.connection.cursor()
             cur.execute(
@@ -186,10 +171,54 @@ def student():
     return "DONE"
 
 
+
+# _______________________ AUTH ROUTES ___________________________________________
+
+@app.route("/login")
+def login():
+    google = oauth.create_client("google")
+    redirect_uri = url_for("authorize", _external=True)
+    return google.authorize_redirect(redirect_uri)
+
+
+@app.route("/authorize")
+def authorize():
+    google = oauth.create_client("google")
+    token = google.authorize_access_token()
+    resp = google.get("userinfo", token=token)
+    user_info = resp.json()
+    
+    session["email"] = user_info["email"]
+    email = session["email"] 
+    session["name"] = user_info["given_name"]
+    if email[:3]==("cse"):
+        return redirect("/")
+    elif email[:2]==("ee" or "me" or "ce"):
+        return redirect("/")
+    elif email[:4]==("mems"):
+        return redirect("/")
+    else:
+        logout()
+        session["msg"] = "Please use IITI email id" 
+        return redirect("/")
+
+
+
+@app.route("/logout")
+def logout():
+    for key in list(session.keys()):
+        session.pop(key)
+    return redirect("/")
+
+#___________________________________________________________________________________
+
+
+
+
 @app.errorhandler(404)
 def page_not_found(e):
-    print("Redirecting to /")
-    return redirect('/')
+    print("Page Not Found")
+    return render_template('error.html')
 
 
 if __name__ == "__main__":
