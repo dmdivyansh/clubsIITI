@@ -36,9 +36,45 @@ google = oauth.register(
 
 @app.route("/")
 def cultural():
+
+    signedIn = dict(session).get("signedIn", None)
+    msg = ""
+    msg_alert = "danger"
+    print(signedIn)
+
+    if signedIn:
+        email = dict(session).get("email", None)
+        msg = "Successfully signed in as : " + email
+        msg_alert = "success"
+        # Check if student info is available
+        cur = mysql.connection.cursor()
+        cur.execute("select Full_Name from students where Mail_id='{}'".format(email))
+
+        present = cur.fetchone()
+        
+        mysql.connection.commit()
+        cur.close()
+        
+        if(present):
+            print("Already Submitted")
+        else:
+            return render_template("newStudent.html", msg="Please verify your details", msg_alert="warning")
+
+    elif signedIn == None:
+        msg = "Please signin into CLUBSIITI"
+        msg_alert = "warning"
+
+    else:
+        print("clearing sessiong info")
+        for key in list(session.keys()):
+            session.pop(key)
+        msg = "Please use IITI email id"
+    
+    print(msg)
+    
     name = dict(session).get("name", None)
     print("current user:", name)
-    return render_template('home.html', name=name)
+    return render_template('home.html', name=name, msg=msg, msg_alert=msg_alert)
 
 
 
@@ -49,49 +85,119 @@ def club(clubName):
     cur.execute("select * from clubs WHERE Title=\'{}\'".format(clubName))
     club = cur.fetchone()
 
-    print(club)
+    # print(club)
     try:
         title = club[1]
         info = club[2]
         achievements = club[3]
     except:
-        return "404 Club Not FOUND"  # ADD NOT FOUND PAGE
-
+        return render_template("error.html")
+    verified = False
     imageUrl = clubName + ".jpg"
 
+    
+    try:
+        cur.execute("SELECT Club_Title FROM clubheads WHERE Club_Head_Mail_Id = '{}'".format(session["email"]))
+        club = cur.fetchall()
+        # print(club)
+
+        for i in club:
+            # print(i[0])
+            if ( i[0] == clubName):
+                verified = True
+        
+    except:
+        verified=False
+    
+    print("verified:", verified)
     return render_template("clubtemplate.html",
                            title=title,
                            info=info,
                            achievements=achievements,
                            clubName=clubName,
-                           imageUrl=imageUrl)
+                           imageUrl=imageUrl,
+                           verified=verified)
 
 
-@app.route("/clubs/<clubName>/edit")
+@app.route("/clubs/<clubName>/edit", methods=['GET', 'POST'])
 def edit(clubName):
-    cur = mysql.connection.cursor()
+    if request.method == 'GET':
+        cur = mysql.connection.cursor()
+        email = dict(session).get("email", None)
+        if(email == None):
+            return "Please sign in"
+        
+        verified = False
+        print("Running query: ", "SELECT Club_Title FROM clubheads WHERE Club_Head_Mail_Id = '{}'".format(session["email"]))
+        cur.execute("SELECT Club_Title FROM clubheads WHERE Club_Head_Mail_Id = '{}'".format(session["email"]))
+        club = cur.fetchall()
 
-    email = dict(session).get("email", None)
+        for i in club:
+            if ( i[0] == clubName):
+                verified = True
 
-    if(email == None):
-        return "Please sign in"
-    
-    try:
-        cur.execute("SELECT Club_Title FROM clubheads WHERE Club_Head_Mail_Id = '{}'".format(email))
-        club = cur.fetchone()
-        print(club[0])
-
-        if(club[0] == clubName ):
-            cur.execute("select Info, Achievements FROM clubs")
+        if(verified):
+            print("Running query:" , "select Info, Achievements FROM clubs WHERE Title='{}'".format(clubName))
+            cur.execute("select Info, Achievements FROM clubs WHERE Title='{}'".format(clubName))
             information = cur.fetchone()
-            print(information[0])
-            print(information[1])
-            return render_template("editor.html", info=information[0], achievements=information[1])
+            return render_template("editor.html", info=information[0], achievements=information[1], clubName=clubName)
+
+        else:
+            return render_template("error.html")
+
+    else:
+        data = request.form
+        print("Fetched form data")
+        info = data['info']
+        # replace ' with " so that these string does not interfere with our sql queries
+        info = info.replace("'",'"')
+        achievements = data['achievements']
+        achievements = achievements.replace("'",'"')
+        cur = mysql.connection.cursor()
+        print("Running query:","UPDATE clubs SET Info = '{}', Achievements = '{}' WHERE Title = '{}'".format(info, achievements, clubName) )
+        cur.execute("UPDATE clubs SET Info = '{}', Achievements = '{}' WHERE Title = '{}'".format(info, achievements, clubName))
+
+        mysql.connection.commit()
+        cur.close()
+
+        return redirect("/clubs/{}".format(clubName))
 
 
-    except:
-        return "You are not allowed to do so"
+@app.route("/new/student", methods=['GET', 'POST'])
+def student():
+    if request.method == 'POST':
+        # Get DATA from the form
+        student = request.form
+        try:
+            Mail_Id = student['mail_id']
+            Full_Name = student['full_name']
+            LinkedIn = student['linkedin']
+            Branch = student['branch']
+            Roll_No = int(student['roll_no'])
+            Phone_No = int(student['phone_no'])
+            Current_Year = int(student['year'])
 
+
+            cur = mysql.connection.cursor()
+            cur.execute(
+                "INSERT INTO students VALUES (%s, %s, %s, %s, %s, %s, %s)",
+                (Mail_Id, Full_Name, LinkedIn, Branch, Roll_No, Phone_No,
+                 Current_Year))
+            
+            mysql.connection.commit()
+            cur.close()
+
+            return render_template("success.html")
+
+
+        except (MySQLdb.Error, MySQLdb.Warning) as e:
+            return str(e)
+
+
+    else:
+        return render_template('newStudent.html')
+
+    return "DONE"
 
 
 
@@ -110,13 +216,32 @@ def authorize():
     token = google.authorize_access_token()
     resp = google.get("userinfo", token=token)
     user_info = resp.json()
-    # do something with the token and profile
+    # print(user_info)
     session["email"] = user_info["email"]
-    session["name"] = user_info["given_name"]
+    email = session["email"] 
+
+    session["name"] = user_info["name"]
+    session["signedIn"] = True
 
     
-    print(user_info)
-    return redirect("/")
+    if email[:3]==("cse") and email[-11:]=="@iiti.ac.in":
+        session["roll_no"] = email[3:12]
+        session["branch"] = email[:3].upper()
+        return redirect("/")
+    elif email[:2]==("ee" or "me" or "ce") and email[-11:]=="@iiti.ac.in":
+        session["roll_no"] = email[2:11]
+        session["branch"] = email[:2].upper()
+        return redirect("/")
+    elif email[:4]==("mems") and email[-11:]=="@iiti.ac.in":
+        session["roll_no"] = email[4:13]
+        session["branch"] = email[:4].upper()
+
+        return redirect("/")
+    else:
+        logout()
+        session["signedIn"] = False 
+        return redirect("/")
+
 
 
 @app.route("/logout")
@@ -129,51 +254,11 @@ def logout():
 
 
 
-@app.route("/new/student", methods=['GET', 'POST'])
-def student():
-    if request.method == 'POST':
-        # Get DATA from the form
-        student = request.form
-        try:
-            Github_Profile = student['github_profile']
-            Branch = student['branch']
-            LinkedIn = student['linkedin']
-            Full_Name = student['full_name']
-            Mail_Id = student['mail_id']
-            Roll_No = int(student['roll_no'])
-            Phone_No = int(student['phone_no'])
-            Semester = int(student['semester'])
-            print(Github_Profile, Branch, LinkedIn, Full_Name, Mail_Id,
-                  Roll_No, Phone_No, Semester)
-            print(type(Github_Profile), type(Branch), type(LinkedIn),
-                  type(Full_Name), type(Mail_Id), type(Roll_No),
-                  type(Phone_No), type(Semester))
-
-            cur = mysql.connection.cursor()
-            cur.execute(
-                "INSERT INTO students VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
-                (Github_Profile, Branch, LinkedIn, Full_Name, Mail_Id, Roll_No,
-                 Phone_No, Semester))
-
-            mysql.connection.commit()
-            cur.close()
-
-        except (MySQLdb.Error, MySQLdb.Warning) as e:
-            return str(e)
-
-        return render_template("success.html")
-
-    else:
-        return render_template('newStudent.html')
-
-    return "DONE"
-
-
 
 @app.errorhandler(404)
 def page_not_found(e):
-    print("Redirecting to /")
-    return redirect('/')
+    print("Page Not Found")
+    return render_template('error.html')
 
 
 if __name__ == "__main__":

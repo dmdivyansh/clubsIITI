@@ -2,6 +2,9 @@
 <title>HOME PAGE</title>
 {% endblock title %}
 
+
+
+
 <body id="page-top">
 
 
@@ -26,7 +29,7 @@
             {% else %}
             <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="/logout" style="color:white;">Logout</a>
             </li>
-            <li class="nav-item mx-0 mx-lg-1"><a class="py-3 px-0 px-lg-3 ">Signed in as {{name}}</a>
+            <li class="nav-item mx-0 mx-lg-1"><p class="py-3 px-0 px-lg-3 " style="color: lightblue;">Signed in as {{name}}</p>
             </li>
             {% endif %}
 
@@ -35,10 +38,29 @@
 
     </div>
 
+
+
+
     {% endblock navElements %} {% block body %}
+
+
 
     <!-- Masthead-->
     <header class="masthead bg-primary text-white text-center" id="page-top">
+
+        {% if msg %}
+        <div class="container fixed-top">
+            <div class="alert alert-{{msg_alert}} alert-dismissible fade show" role="alert">
+                {{msg}}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        </div>
+        {% endif %}
+
+
+
         <div class="container d-flex align-items-center flex-column">
             <!-- Masthead Avatar Image--><img class="masthead-avatar mb-5" src="{{ url_for('static', filename='logo.png')  }}" alt="">
             <!-- Masthead Heading-->
@@ -53,6 +75,10 @@
             <p class="pre-wrap masthead-subheading font-weight-light mb-0"></p>
         </div>
     </header>
+
+
+
+
     <!-- Portfolio Section-->
     <section class="page-section portfolio" id="cultural">
         <div class="container">
@@ -172,6 +198,8 @@
         </div>
     </section>
 
+
+
     <!-- Portfolio Section-->
     <section class="page-section portfolio" id="technical">
 
@@ -251,7 +279,7 @@
                 </div>
 
                 <div class="col-md-6 col-lg-4 mb-5">
-                    <a href="/clubs/DSC">
+                    <a href="/clubs/dsc">
                         <div class="portfolio-item mx-auto">
                             <img class="img-fluid" src="{{ url_for('static', filename='dsc.jpg')  }}" alt="">
                             <h2 class="text-center">DSC</h2>
@@ -264,5 +292,6 @@
     </section>
     {% endblock body %}
 </body>
+
 
 </html>
