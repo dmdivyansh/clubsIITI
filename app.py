@@ -41,10 +41,24 @@ def cultural():
     msg = ""
     msg_alert = "danger"
     print(signedIn)
+
     if signedIn:
         email = dict(session).get("email", None)
         msg = "Successfully signed in as : " + email
         msg_alert = "success"
+        # Check if student info is available
+        cur = mysql.connection.cursor()
+        cur.execute("select Full_Name from students where Mail_id='{}'".format(email))
+
+        present = cur.fetchone()
+        
+        mysql.connection.commit()
+        cur.close()
+        
+        if(present):
+            print("Already Submitted")
+        else:
+            return render_template("newStudent.html", msg="Please verify your details", msg_alert="warning")
 
     elif signedIn == None:
         msg = "Please signin into CLUBSIITI"
@@ -77,7 +91,7 @@ def club(clubName):
         info = club[2]
         achievements = club[3]
     except:
-        return "404 Club Not FOUND"  # ADD NOT FOUND PAGE
+        return render_template("error.html")
     verified = False
     imageUrl = clubName + ".jpg"
 
@@ -155,28 +169,30 @@ def student():
         # Get DATA from the form
         student = request.form
         try:
-            Github_Profile = student['github_profile']
-            Branch = student['branch']
-            LinkedIn = student['linkedin']
-            Full_Name = student['full_name']
             Mail_Id = student['mail_id']
+            Full_Name = student['full_name']
+            LinkedIn = student['linkedin']
+            Branch = student['branch']
             Roll_No = int(student['roll_no'])
             Phone_No = int(student['phone_no'])
-            Semester = int(student['semester'])
+            Current_Year = int(student['year'])
+
 
             cur = mysql.connection.cursor()
             cur.execute(
-                "INSERT INTO students VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
-                (Github_Profile, Branch, LinkedIn, Full_Name, Mail_Id, Roll_No,
-                 Phone_No, Semester))
-
+                "INSERT INTO students VALUES (%s, %s, %s, %s, %s, %s, %s)",
+                (Mail_Id, Full_Name, LinkedIn, Branch, Roll_No, Phone_No,
+                 Current_Year))
+            
             mysql.connection.commit()
             cur.close()
+
+            return render_template("success.html")
+
 
         except (MySQLdb.Error, MySQLdb.Warning) as e:
             return str(e)
 
-        return render_template("success.html")
 
     else:
         return render_template('newStudent.html')
@@ -200,16 +216,24 @@ def authorize():
     token = google.authorize_access_token()
     resp = google.get("userinfo", token=token)
     user_info = resp.json()
-    
+    # print(user_info)
     session["email"] = user_info["email"]
     email = session["email"] 
-    session["name"] = user_info["given_name"]
+    session["name"] = user_info["name"]
     session["signedIn"] = True
+
+    
     if email[:3]==("cse"):
+        session["roll_no"] = email[3:12]
+        session["branch"] = email[:3].upper()
         return redirect("/")
     elif email[:2]==("ee" or "me" or "ce"):
+        session["roll_no"] = email[2:11]
+        session["branch"] = email[:2].upper()
         return redirect("/")
     elif email[:4]==("mems"):
+        session["roll_no"] = email[4:13]
+        session["branch"] = email[:4].upper()
         return redirect("/")
     else:
         logout()
