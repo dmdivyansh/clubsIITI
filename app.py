@@ -35,7 +35,7 @@ google = oauth.register(
 
 
 @app.route("/")
-def cultural():
+def index():
 
     signedIn = dict(session).get("signedIn", None)
     msg = ""
