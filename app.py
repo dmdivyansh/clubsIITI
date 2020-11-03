@@ -78,6 +78,29 @@ def index():
 
 
 
+@app.route("/details")
+def details():
+    email = dict(session).get("email", None)
+    if(email == None):
+        msg = "Please signin into CLUBSIITI"
+        msg_alert = "warning"
+        return render_template('home.html', msg=msg, msg_alert=msg_alert)
+    
+    else:
+        cur = mysql.connection.cursor()
+        cur.execute("SELECT * FROM students WHERE Mail_id='{}'".format(email))
+        student = cur.fetchone()
+        for i in range(len(student)):
+            print(i, student[i])
+
+        return render_template("editStudent.html", student=student)
+
+
+
+
+
+
+
 @app.route("/clubs/<clubName>")
 def club(clubName):
 
@@ -163,7 +186,7 @@ def edit(clubName):
         return redirect("/clubs/{}".format(clubName))
 
 
-@app.route("/new/student", methods=['GET', 'POST'])
+@app.route("/student", methods=['GET', 'POST'])
 def student():
     if request.method == 'POST':
         # Get DATA from the form
@@ -180,8 +203,9 @@ def student():
 
             cur = mysql.connection.cursor()
             cur.execute(
-                "INSERT INTO students VALUES (%s, %s, %s, %s, %s, %s, %s)",
+                "INSERT INTO students VALUES (%s, %s, %s, %s, %s, %s, %s) ON DUPLICATE KEY UPDATE Mail_Id=%s, Full_Name=%s, LinkedIn=%s, Branch=%s, Roll_No=%s, Phone_No=%s, Current_Year=%s",
                 (Mail_Id, Full_Name, LinkedIn, Branch, Roll_No, Phone_No,
+                 Current_Year, Mail_Id, Full_Name, LinkedIn, Branch, Roll_No, Phone_No,
                  Current_Year))
             
             mysql.connection.commit()

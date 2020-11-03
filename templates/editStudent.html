@@ -16,30 +16,30 @@
 
         <div class="form-group">
             <label for="full_name">Full Name</label>
-            <input type="text" class="form-control" id="full_name" name="full_name" value="{{session['name']}}" readonly>
+            <input type="text" class="form-control" id="full_name" name="full_name" value="{{student[1]}}" readonly>
         </div>
 
         <div class="form-group">
             <label for="roll_no">Roll No.</label>
-            <input type="number" class="form-control" id="roll_no" name="roll_no" value="{{session['roll_no']}}" readonly>
+            <input type="number" class="form-control" id="roll_no" name="roll_no" value="{{student[4]}}" readonly>
         </div>
 
         <div class="form-group">
             <label for="phone_no">Phone No.</label>
-            <input type="number" class="form-control" id="phone_no" name="phone_no" placeholder="" minlength="9" maxlength="9" required>
+            <input type="number" class="form-control" id="phone_no" name="phone_no" value="{{student[5]}}" minlength="9" maxlength="9" required>
             <small class="form-text text-muted">We will prank call you for sure.</small>
         </div>
 
         <div class="form-group">
             <label for="mail_id">Email ID</label>
-            <input type="email" class="form-control" id="mail_id" name="mail_id" value="{{session['email']}}" readonly>
+            <input type="email" class="form-control" id="mail_id" name="mail_id" value="{{student[0]}}" readonly>
             <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
         </div>
 
 
         <div class="form-group">
             <label for="linkedin">LinkedIn ID</label>
-            <input type="text" class="form-control" id="linkedin" name="linkedin" placeholder="LinkedIn" required>
+            <input type="text" class="form-control" id="linkedin" name="linkedin" value="{{student[2]}}">
             <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
         </div>
 
