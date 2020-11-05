@@ -144,16 +144,54 @@
         <div>
             <h1>Current Members</h1>
         </div>
-        <!-- members Grid Items-->
-        <!-- <div class="row">
-            Team Item 1
-            <div class="col-md-12 col-lg-12 mb-5">
-                <div class="portfolio-item mx-auto">
-
-                    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Expedita magnam necessitatibus optio minima quos, non dolorum eius nulla, temporibus saepe voluptas dolore soluta architecto ratione impedit, quo veritatis maxime iste.
-                </div>
+        <div class="container">
+            <div class="jumbotron">
+                <h1 class="display-4">Members of {{clubName}}</h1>
             </div>
-        </div> -->
+                <table border="1" width="100%">
+                    <col style="width:20%">
+                    <col style="width:20%">
+                    <col style="width:20%">
+                    <col style="width:20%">
+                    <col style="width:20%">
+                    <tr>
+                        <th>
+                            Serial
+                        </th>
+                        <th >
+                            Name
+                        </th>
+                        <th>
+                            Email
+                        </th>
+                        <th>
+                            Phone Number
+                        </th>
+                        <th>
+                            Action
+                        </th>
+                    </tr>
+                    {%for row in names%}
+                    <tr>
+                        <td >
+                            {count++}
+                            {{count}}
+                        </td>
+                        <td >
+                            {{row.0}}
+                        </td>
+                        <td >
+                            {{row.1}}
+                        </td>
+                        <td>
+                            
+                        </td>
+        
+                    </tr>
+                    {%endfor%}
+                </table>
+            </table>
+        
     </div>
 </section>
 

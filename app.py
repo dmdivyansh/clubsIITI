@@ -135,9 +135,13 @@ def club(clubName):
     # ----------------------------------------------
 
     # Get new recruits from database
-
-
-    
+    cur.execute("select Club_Name FROM clubs WHERE Title='{}'".format(clubName))
+    clubsName=cur.fetchone()
+    # print(clubsName)
+    cur.execute("select Mail_id FROM clubmembers WHERE Club_Name='{}'".format(clubsName[0]))
+    mails=cur.fetchall()
+    cur.execute("select Full_Name,Mail_id FROM students where Mail_id in('{}')".format(mails))
+    names=cur.fetchall()
     print("verified:", verified)
     return render_template("clubtemplate.html",
                            title=title,
@@ -145,7 +149,7 @@ def club(clubName):
                            achievements=achievements,
                            clubName=clubName,
                            imageUrl=imageUrl,
-                           verified=verified)
+                           verified=verified,names=names,count=0)
 
 
 @app.route("/clubs/<clubName>/apply")
