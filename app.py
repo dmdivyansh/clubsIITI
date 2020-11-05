@@ -150,6 +150,12 @@ def club(clubName):
 
 @app.route("/clubs/<clubName>/apply")
 def apply(clubName):
+    cur = mysql.connection.cursor()
+    email = dict(session).get("email", None)
+    cur.execute("UPDATE  approvals SET CurrentStatus ='U' WHERE Mail_Id='{}'".format(email))
+    mysql.connection.commit()
+    cur.close()
+    print("SELECT CurrentStatus FROM  approvals WHERE Mail_Id='{}'".format(email))
     return "apply route for " + clubName
 
 
