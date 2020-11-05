@@ -108,7 +108,7 @@ def club(clubName):
     cur.execute("select * from clubs WHERE Title=\'{}\'".format(clubName))
     club = cur.fetchone()
 
-    # print(club)
+    # Check if club exists ----------------
     try:
         title = club[1]
         info = club[2]
@@ -117,8 +117,9 @@ def club(clubName):
         return render_template("error.html")
     verified = False
     imageUrl = clubName + ".jpg"
+    # -----------------------------------------
 
-    
+    # verifying the current email id ---------------
     try:
         cur.execute("SELECT Club_Title FROM clubheads WHERE Club_Head_Mail_Id = '{}'".format(session["email"]))
         club = cur.fetchall()
@@ -131,6 +132,11 @@ def club(clubName):
         
     except:
         verified=False
+    # ----------------------------------------------
+
+    # Get new recruits from database
+    
+
     
     print("verified:", verified)
     return render_template("clubtemplate.html",
