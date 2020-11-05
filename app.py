@@ -147,9 +147,10 @@ def club(clubName):
                            imageUrl=imageUrl,
                            verified=verified)
 
+
 @app.route("/clubs/<clubName>/apply")
-def apply():
-    
+def apply(clubName):
+    return "apply route for " + clubName
 
 
 @app.route("/clubs/<clubName>/edit", methods=['GET', 'POST'])
