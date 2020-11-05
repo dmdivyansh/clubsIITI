@@ -36,7 +36,7 @@ google = oauth.register(
 
 @app.route("/")
 def index():
-
+    
     signedIn = dict(session).get("signedIn", None)
     msg = ""
     msg_alert = "danger"
