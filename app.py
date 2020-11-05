@@ -135,7 +135,7 @@ def club(clubName):
     # ----------------------------------------------
 
     # Get new recruits from database
-    
+
 
     
     print("verified:", verified)
@@ -146,6 +146,10 @@ def club(clubName):
                            clubName=clubName,
                            imageUrl=imageUrl,
                            verified=verified)
+
+@app.route("/clubs/<clubName>/apply")
+def apply():
+    
 
 
 @app.route("/clubs/<clubName>/edit", methods=['GET', 'POST'])
