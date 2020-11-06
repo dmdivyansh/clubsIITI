@@ -1,35 +1,72 @@
-{% extends 'base.html' %}
+<!DOCTYPE html>
+<html lang="en">
 
-<div class="container-fluid mt-5">
-    <table class="table .table-bordered">
-  
-        <thead class="thead-dark">
-          <tr>
-            <th scope="col">#</th>
-        <th scope="col">Email</th>
-        <th scope="col">Name</th>
-        <th scope="col">LinkedIn Profile</th>
-        <th scope="col">Discipline</th>
-        <th scope="col">Roll No</th>
-        <th scope="col">Contact detail</th>
-        <th scope="col">Current Sem</th>
-          </tr>
-        
-      </thead>
-     
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+   <title>Details</title>
+   <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Google font -->
     
-    <tbody>
-      <tr>
-        <th scope="row">1</th>
-        <td>{{email}}</td>
-        <td>{{name}}</td>
-        <td>{{link}}</td>
-        <td>{{branch}}</td>
-        <td>{{roll}}</td>
-        <td>{{yr}}</td>
-        <td></td>
-                   
-      </tr>
-    </tbody>
-  </table>
-  </div>
+
+    <!-- Custom stlylesheet -->
+  
+
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+		  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+		  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+		<![endif]-->
+
+</head>
+
+<body>
+    <div class="container-fluid py-5 mt-5">
+        <table class="table .table-bordered">
+      
+            <thead class="thead-dark">
+              <tr>
+                <th scope="col">#</th>
+            <th scope="col">Email</th>
+            <th scope="col">Name</th>
+            <th scope="col">LinkedIn Profile</th>
+            <th scope="col">Discipline</th>
+            <th scope="col">Roll No</th>
+            <th scope="col">Contact detail</th>
+            <th scope="col">Current Sem</th>
+              </tr>
+            
+          </thead>
+         
+        
+        <tbody>
+          <tr>
+            <th scope="row">1</th>
+            <td>{{email}}</td>
+            <td>{{name}}</td>
+            <td>{{link}}</td>
+            <td>{{branch}}</td>
+            <td>{{roll}}</td>
+            <td>{{phone}}</td>
+            <td>{{yr}}</td>
+            
+                       
+          </tr>
+        </tbody>
+      </table>
+      </div>
+    
+</body>
+<!-- This templates was made by Colorlib (https://colorlib.com) -->
+
+</html>
+
+
+
+
+

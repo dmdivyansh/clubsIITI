@@ -108,7 +108,7 @@ def detailsOfStudent(clubName, email):
     cur.execute(f"SELECT Club_Title FROM clubheads WHERE Club_Head_Mail_Id ='{user}'")
     club = cur.fetchall()
     cur.execute(f"SELECT * FROM students WHERE Mail_id ='{email}'")
-    member=cur.fetchall()
+    member=cur.fetchone()
     print(member)
     for i in club:
         if ( i[0] == clubName):
