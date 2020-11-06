@@ -36,7 +36,7 @@ google = oauth.register(
 
 @app.route("/")
 def index():
-
+    
     signedIn = dict(session).get("signedIn", None)
     msg = ""
     msg_alert = "danger"
@@ -150,6 +150,12 @@ def club(clubName):
 
 @app.route("/clubs/<clubName>/apply")
 def apply(clubName):
+    cur = mysql.connection.cursor()
+    email = dict(session).get("email", None)
+    cur.execute("UPDATE  approvals SET CurrentStatus ='U' WHERE Mail_Id='{}'".format(email))
+    mysql.connection.commit()
+    cur.close()
+    print("SELECT CurrentStatus FROM  approvals WHERE Mail_Id='{}'".format(email))
     return "apply route for " + clubName
 
 
@@ -163,7 +169,7 @@ def edit(clubName):
         
         verified = False
         print("Running query: ", "SELECT Club_Title FROM clubheads WHERE Club_Head_Mail_Id = '{}'".format(session["email"]))
-        cur.execute("SELECT Club_Title FROM clubheads WHERE Club_Head_Mail_Id = '{}'".format(session["email"]))
+        cur.execute(f"SELECT Club_Title FROM clubheads WHERE Club_Head_Mail_Id ='{email}'")
         club = cur.fetchall()
 
         for i in club:
