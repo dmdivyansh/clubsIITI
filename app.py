@@ -142,6 +142,7 @@ def club(clubName):
     cur.execute("SELECT FUll_Name, Mail_Id FROM students WHERE Mail_id IN (SELECT Mail_id FROM clubmembers WHERE Club_Name='{}');".format(club[0]))
     students=cur.fetchall()
     print(students)
+    print(clubName)
     print("verified:", verified)
     return render_template("clubtemplate.html",
                            title=title,
@@ -161,6 +162,39 @@ def apply(clubName):
     cur.close()
     print("SELECT CurrentStatus FROM  approvals WHERE Mail_Id='{}'".format(email))
     return "apply route for " + clubName
+
+
+
+
+@app.route("/clubs/<clubName>/remove/<email>")
+def remove(clubName, email):
+    cur = mysql.connection.cursor()
+    user = dict(session).get("email", None)
+    if(user == None):
+        return "Please sign in"
+    
+    verified = False
+    print("Running query: ", "SELECT Club_Title FROM clubheads WHERE Club_Head_Mail_Id = '{}'".format(session["email"]))
+    cur.execute(f"SELECT Club_Title FROM clubheads WHERE Club_Head_Mail_Id ='{user}'")
+    club = cur.fetchall()
+
+    for i in club:
+        if ( i[0] == clubName):
+            verified = True
+
+    if(verified):
+        print("Remove {} from {}".format(email, clubName))
+        cur = mysql.connection.cursor()
+        cur.execute("select Club_Name FROM clubs WHERE Title='{}'".format(clubName))
+        club=cur.fetchone()
+        print("Executing Query: " + "DELETE FROM clubMembers WHERE Mail_Id='{}' AND Club_Name='{}';".format(email, club[0]))
+        cur.execute("DELETE FROM clubMembers WHERE Mail_Id='{}' AND Club_Name='{}';".format(email, club[0]))
+        mysql.connection.commit()
+        cur.close()
+        return redirect("/clubs/{}".format(clubName))
+
+    else:
+        return render_template("error.html")
 
 
 
