@@ -136,6 +136,7 @@ def club(clubName):
     except:
         return render_template("error.html")
     verified = False
+    notexist = True
     imageUrl = clubName + ".jpg"
     # -----------------------------------------
 
@@ -152,6 +153,21 @@ def club(clubName):
         
     except:
         verified=False
+    # ----------------------------------------------
+
+    # verifying the current email id with current members ---------------
+    try:
+        cur.execute("SELECT Club_Name FROM clubmembers WHERE Mail_Id = '{}'".format(session["email"]))
+        club = cur.fetchall()
+        # print(club)
+
+        for i in club:
+            # print(i[0])
+            if ( i[0] == title):
+                notexist = False
+        
+    except:
+        notexist=True
     # ----------------------------------------------
 
     # Get new recruits from database
@@ -172,7 +188,7 @@ def club(clubName):
                            achievements=achievements,
                            clubName=clubName,
                            imageUrl=imageUrl,
-                           verified=verified,currentMembers=currentMembers,newRecruits=newRecruits)
+                           verified=verified,notexist=notexist,currentMembers=currentMembers,newRecruits=newRecruits)
 
 
 @app.route("/clubs/<clubName>/apply")
