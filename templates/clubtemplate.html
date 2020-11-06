@@ -136,8 +136,52 @@
         </div>
 
         {% if verified %}
-        <div>
-            <h1>New Recruits</h1>
+        <div class="container text-center">
+            <div>
+                <h1>New Recruits</h1>
+            </div>
+            <table width="100%">
+                <col style="width:20%">
+                <col style="width:20%">
+                <col style="width:20%">
+                <col style="width:20%">
+                <col style="width:20%">
+                <tr>
+                    <th>
+                        Name
+                    </th>
+                    <th>
+                        Email
+                    </th>
+                    {% if verified %}
+                    <th>
+                        Action
+                    </th>
+                    {% endif %}
+
+                </tr>
+                {%for row in newRecruits%}
+                <tr>
+                    <td>
+                        {{row.0}}
+                    </td>
+                    <td>
+                        {{row.1}}
+                    </td>
+                    {% if verified %}
+                    <td>
+                        <a href="/clubs/{{clubName}}/approve/{{row.1}}" class="btn btn-danger btn-sm ">Approve</a>
+                        <a href="/clubs/{{clubName}}/reject/{{row.1}}" class="btn btn-success btn-sm ">Reject</a>
+
+                    </td>
+                    {% endif %}
+
+
+                </tr>
+                {%endfor%}
+            </table>
+            </table>
+
         </div>
         {% endif %}
 
@@ -166,7 +210,7 @@
                     {% endif %}
 
                 </tr>
-                {%for row in students%}
+                {%for row in currentMembers%}
                 <tr>
                     <td>
                         {{row.0}}
