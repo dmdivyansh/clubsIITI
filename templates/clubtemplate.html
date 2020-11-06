@@ -159,10 +159,14 @@
                 {%for row in newRecruits%}
                 <tr>
                     <td>
-                        {{row.0}}
+                        <a href="/details/{{clubName}}/{{row.1}}">
+                            {{row.0}}
+                        </a>
                     </td>
                     <td>
-                        {{row.1}}
+                        <a href="mailto:{{row.1}}">
+                            {{row.1}}
+                        </a>
                     </td>
                     {% if verified %}
                     <td>
@@ -209,10 +213,15 @@
                 {%for row in currentMembers%}
                 <tr>
                     <td>
-                        {{row.0}}
+                        <a href="/details/{{clubName}}/{{row.1}}">
+                            {{row.0}}
+                        </a>
+
                     </td>
                     <td>
-                        {{row.1}}
+                        <a href="mailto:{{row.1}}">
+                            {{row.1}}
+                        </a>
                     </td>
                     {% if verified %}
                     <td>

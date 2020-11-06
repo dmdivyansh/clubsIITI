@@ -79,7 +79,7 @@ def index():
 
 
 @app.route("/details")
-def details():
+def myDetails():
     email = dict(session).get("email", None)
     if(email == None):
         msg = "Please signin into CLUBSIITI"
@@ -95,11 +95,31 @@ def details():
 
         return render_template("editStudent.html", student=student)
 
+@app.route("/details/<clubName>/<email>")
+def detailsOfStudent(clubName, email):
+    #check if session['email'] is head of clubName 
+    user = dict(session).get("email", None)
+    if(user == None):
+        return "Please sign in"
+    
+    verified = False
+    cur = mysql.connection.cursor()
+    print("Running query: ", "SELECT Club_Title FROM clubheads WHERE Club_Head_Mail_Id = '{}'".format(session["email"]))
+    cur.execute(f"SELECT Club_Title FROM clubheads WHERE Club_Head_Mail_Id ='{user}'")
+    club = cur.fetchall()
+
+    for i in club:
+        if ( i[0] == clubName):
+            verified = True
+    if(verified):
+        return render_template("details.html")
+    else:
+        return "Not Authorized"
 
 
 
 
-
+# Club Routes ----------------------------------------------------------
 
 @app.route("/clubs/<clubName>")
 def club(clubName):
@@ -275,6 +295,8 @@ def edit(clubName):
 
         return redirect("/clubs/{}".format(clubName))
 
+# --------------------------------------------------------------------
+
 
 @app.route("/student", methods=['GET', 'POST'])
 def student():
@@ -311,7 +333,6 @@ def student():
     else:
         return render_template('newStudent.html')
 
-    return "DONE"
 
 
 
