@@ -14,11 +14,11 @@
         </li>
         <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#events" style="color:white;">events</a>
         </li>
+        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#members" style="color:white;">MEMBERS</a>
+        </li>
         <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#about" style="color:white;">ABOUT</a>
         </li>
         <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#contact" style="color:white;">CONTACT</a>
-        </li>
-        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#members" style="color:white;">MEMBERS</a>
         </li>
         {% if verified %}
         <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="/clubs/{{clubName}}/edit" style="color:white;">Edit</a>
@@ -141,58 +141,52 @@
         </div>
         {% endif %}
 
-        <div>
-            <h1>Current Members</h1>
-        </div>
-        <div class="container">
-            <div class="jumbotron">
-                <h1 class="display-4">Members of {{clubName}}</h1>
+
+        <div class="container text-center">
+            <div>
+                <h1>Current Members</h1>
             </div>
-                <table border="1" width="100%">
-                    <col style="width:20%">
-                    <col style="width:20%">
-                    <col style="width:20%">
-                    <col style="width:20%">
-                    <col style="width:20%">
-                    <tr>
-                        <th>
-                            Serial
-                        </th>
-                        <th >
-                            Name
-                        </th>
-                        <th>
-                            Email
-                        </th>
-                        <th>
-                            Phone Number
-                        </th>
-                        <th>
-                            Action
-                        </th>
-                    </tr>
-                    {%for row in names%}
-                    <tr>
-                        <td >
-                            {count++}
-                            {{count}}
-                        </td>
-                        <td >
-                            {{row.0}}
-                        </td>
-                        <td >
-                            {{row.1}}
-                        </td>
-                        <td>
-                            
-                        </td>
-        
-                    </tr>
-                    {%endfor%}
-                </table>
+            <table width="100%">
+                <col style="width:20%">
+                <col style="width:20%">
+                <col style="width:20%">
+                <col style="width:20%">
+                <col style="width:20%">
+                <tr>
+                    <th>
+                        Name
+                    </th>
+                    <th>
+                        Email
+                    </th>
+                    {% if verified %}
+                    <th>
+                        Action
+                    </th>
+                    {% endif %}
+
+                </tr>
+                {%for row in students%}
+                <tr>
+                    <td>
+                        {{row.0}}
+                    </td>
+                    <td>
+                        {{row.1}}
+                    </td>
+                    {% if verified %}
+                    <td>
+                        <a href="" class="btn btn-danger btn-sm ">REMOVE</a>
+                    </td>
+                    {% endif %}
+
+
+                </tr>
+                {%endfor%}
             </table>
-        
-    </div>
+            </table>
+
+        </div>
 </section>
 
 
