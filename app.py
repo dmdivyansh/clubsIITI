@@ -163,8 +163,16 @@ def club(clubName):
 
         for i in club:
             # print(i[0])
-            if ( i[0] == title):
+            if i[0] == title:
                 notexist = False
+
+        if notexist:
+            cur.execute("SELECT Club_Name FROM approvals WHERE Mail_Id = '{}'".format(session["email"]))
+            clb = cur.fetchall()
+            for i in clb:
+            # print(i[0])
+                if i[0] == title:
+                    notexist = False
         
     except:
         notexist=True
