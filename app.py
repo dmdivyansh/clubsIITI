@@ -100,7 +100,7 @@ def detailsOfStudent(clubName, email):
     #check if session['email'] is head of clubName 
     user = dict(session).get("email", None)
     if(user == None):
-        return "Please sign in"
+        return render_template("signIn.html")
     
     verified = False
     cur = mysql.connection.cursor()
@@ -114,8 +114,7 @@ def detailsOfStudent(clubName, email):
     if(verified):
         return render_template("details.html")
     else:
-        return "Not Authorized"
-
+        return render_template("signIn.html")
 
 
 
@@ -205,7 +204,7 @@ def apply(clubName):
     user = dict(session).get("email", None)
 
     if(user == None):
-        return "Please sign in"
+        return render_template("signIn.html")
     else:
         cur = mysql.connection.cursor()
         cur.execute("select Club_Name FROM clubs WHERE Title='{}'".format(clubName))
@@ -213,7 +212,7 @@ def apply(clubName):
         cur.execute("INSERT INTO approvals VALUES('{}', '{}', 'U');".format(user, club[0]))
         mysql.connection.commit()
         cur.close()
-        return "Applied for "+ clubName
+        return render_template("signIn.html")
 
 
 
@@ -225,7 +224,7 @@ def manage(clubName, manage, email):
     cur = mysql.connection.cursor()
     user = dict(session).get("email", None)
     if(user == None):
-        return "Please sign in"
+        return render_template("signIn.html")
     
     verified = False
     print("Running query: ", "SELECT Club_Title FROM clubheads WHERE Club_Head_Mail_Id = '{}'".format(session["email"]))
@@ -282,7 +281,7 @@ def edit(clubName):
         cur = mysql.connection.cursor()
         email = dict(session).get("email", None)
         if(email == None):
-            return "Please sign in"
+            return render_template("signIn.html")
         
         verified = False
         print("Running query: ", "SELECT Club_Title FROM clubheads WHERE Club_Head_Mail_Id = '{}'".format(session["email"]))
