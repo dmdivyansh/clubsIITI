@@ -79,7 +79,7 @@ def index():
 
 
 @app.route("/details")
-def details():
+def myDetails():
     email = dict(session).get("email", None)
     if(email == None):
         msg = "Please signin into CLUBSIITI"
@@ -95,11 +95,31 @@ def details():
 
         return render_template("editStudent.html", student=student)
 
+@app.route("/details/<clubName>/<email>")
+def detailsOfStudent(clubName, email):
+    #check if session['email'] is head of clubName 
+    user = dict(session).get("email", None)
+    if(user == None):
+        return "Please sign in"
+    
+    verified = False
+    cur = mysql.connection.cursor()
+    print("Running query: ", "SELECT Club_Title FROM clubheads WHERE Club_Head_Mail_Id = '{}'".format(session["email"]))
+    cur.execute(f"SELECT Club_Title FROM clubheads WHERE Club_Head_Mail_Id ='{user}'")
+    club = cur.fetchall()
+
+    for i in club:
+        if ( i[0] == clubName):
+            verified = True
+    if(verified):
+        return render_template("details.html")
+    else:
+        return "Not Authorized"
 
 
 
 
-
+# Club Routes ----------------------------------------------------------
 
 @app.route("/clubs/<clubName>")
 def club(clubName):
@@ -135,9 +155,16 @@ def club(clubName):
     # ----------------------------------------------
 
     # Get new recruits from database
+    cur.execute("select Club_Name FROM clubs WHERE Title='{}'".format(clubName))
+    club=cur.fetchone()
+    # print(club)
+    cur.execute("SELECT FUll_Name, Mail_Id FROM students WHERE Mail_id IN (SELECT Mail_id FROM approvals WHERE Club_Name='{}' AND CurrentStatus='U');".format(club[0]))
+    newRecruits=cur.fetchall()
 
-
-    
+    cur.execute("SELECT FUll_Name, Mail_Id FROM students WHERE Mail_id IN (SELECT Mail_id FROM clubmembers WHERE Club_Name='{}');".format(club[0]))
+    currentMembers=cur.fetchall()
+    print(currentMembers)
+    print(clubName)
     print("verified:", verified)
     return render_template("clubtemplate.html",
                            title=title,
@@ -145,18 +172,84 @@ def club(clubName):
                            achievements=achievements,
                            clubName=clubName,
                            imageUrl=imageUrl,
-                           verified=verified)
+                           verified=verified,currentMembers=currentMembers,newRecruits=newRecruits)
 
 
 @app.route("/clubs/<clubName>/apply")
 def apply(clubName):
     cur = mysql.connection.cursor()
-    email = dict(session).get("email", None)
-    cur.execute("UPDATE  approvals SET CurrentStatus ='U' WHERE Mail_Id='{}'".format(email))
-    mysql.connection.commit()
-    cur.close()
-    print("SELECT CurrentStatus FROM  approvals WHERE Mail_Id='{}'".format(email))
-    return "apply route for " + clubName
+    user = dict(session).get("email", None)
+
+    if(user == None):
+        return "Please sign in"
+    else:
+        cur = mysql.connection.cursor()
+        cur.execute("select Club_Name FROM clubs WHERE Title='{}'".format(clubName))
+        club=cur.fetchone()
+        cur.execute("INSERT INTO approvals VALUES('{}', '{}', 'U');".format(user, club[0]))
+        mysql.connection.commit()
+        cur.close()
+        return "Applied for "+ clubName
+
+
+
+
+@app.route("/clubs/<clubName>/<manage>/<email>")
+def manage(clubName, manage, email):
+
+    print(manage + " " + email + " in " + clubName)
+    cur = mysql.connection.cursor()
+    user = dict(session).get("email", None)
+    if(user == None):
+        return "Please sign in"
+    
+    verified = False
+    print("Running query: ", "SELECT Club_Title FROM clubheads WHERE Club_Head_Mail_Id = '{}'".format(session["email"]))
+    cur.execute(f"SELECT Club_Title FROM clubheads WHERE Club_Head_Mail_Id ='{user}'")
+    club = cur.fetchall()
+
+    for i in club:
+        if ( i[0] == clubName):
+            verified = True
+
+    if(verified):
+        
+        # Remove student from the club
+        if(manage == "remove"):
+            print("Remove {} from {}".format(email, clubName))
+            cur = mysql.connection.cursor()
+            cur.execute("select Club_Name FROM clubs WHERE Title='{}'".format(clubName))
+            club=cur.fetchone()
+            print("Executing Query: " + "DELETE FROM clubMembers WHERE Mail_Id='{}' AND Club_Name='{}';".format(email, club[0]))
+            cur.execute("DELETE FROM clubMembers WHERE Mail_Id='{}' AND Club_Name='{}';".format(email, club[0]))
+            mysql.connection.commit()
+            cur.close()
+            return redirect("/clubs/{}".format(clubName))
+        elif(manage == "approve"):
+            cur = mysql.connection.cursor()
+            cur.execute("select Club_Name FROM clubs WHERE Title='{}'".format(clubName))
+            club=cur.fetchone()
+            cur.execute("INSERT INTO clubmembers VALUES ('{}','{}');".format(email, club[0]))
+            cur.execute("DELETE FROM approvals WHERE Mail_Id='{}' AND Club_Name='{}';".format(email, club[0]))
+            mysql.connection.commit()
+            cur.close()
+            return redirect("/clubs/{}".format(clubName))
+            
+        elif(manage == "reject"):
+            cur = mysql.connection.cursor()
+            cur.execute("select Club_Name FROM clubs WHERE Title='{}'".format(clubName))
+            club=cur.fetchone()
+            cur.execute("DELETE FROM approvals WHERE Mail_Id='{}' AND Club_Name='{}';".format(email, club[0]))
+            mysql.connection.commit()
+            cur.close()
+            return redirect("/clubs/{}".format(clubName))      
+
+        else:
+            return render_template("error.html")
+        
+    else:
+        return render_template("error.html")
+
 
 
 @app.route("/clubs/<clubName>/edit", methods=['GET', 'POST'])
@@ -202,6 +295,8 @@ def edit(clubName):
 
         return redirect("/clubs/{}".format(clubName))
 
+# --------------------------------------------------------------------
+
 
 @app.route("/student", methods=['GET', 'POST'])
 def student():
@@ -238,7 +333,6 @@ def student():
     else:
         return render_template('newStudent.html')
 
-    return "DONE"
 
 
 
