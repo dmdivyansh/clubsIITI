@@ -107,12 +107,21 @@ def detailsOfStudent(clubName, email):
     print("Running query: ", "SELECT Club_Title FROM clubheads WHERE Club_Head_Mail_Id = '{}'".format(session["email"]))
     cur.execute(f"SELECT Club_Title FROM clubheads WHERE Club_Head_Mail_Id ='{user}'")
     club = cur.fetchall()
-
+    cur.execute(f"SELECT * FROM students WHERE Mail_id ='{email}'")
+    member=cur.fetchone()
+    print(member)
     for i in club:
         if ( i[0] == clubName):
             verified = True
     if(verified):
-        return render_template("details.html")
+        return render_template("details.html",
+                              email=member[0],
+                              name=member[1],
+                              link=member[2],
+                              branch=member[3],
+                              roll=member[4],
+                              phone=member[5],
+                              yr=member[6])
     else:
         return render_template("signIn.html")
 
