@@ -123,7 +123,7 @@ def detailsOfStudent(clubName, email):
                               phone=member[5],
                               yr=member[6])
     else:
-        return render_template("signIn.html")
+        return render_template("notAuthorized.html")
 
 
 
