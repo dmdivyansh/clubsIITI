@@ -134,6 +134,7 @@ def club(clubName):
         achievements = club[3]
     except:
         return render_template("error.html")
+    member = False
     verified = False
     notexist = True
     imageUrl = clubName + ".jpg"
@@ -177,6 +178,17 @@ def club(clubName):
         notexist=True
     # ----------------------------------------------
 
+    # verifying iiti student ---------------
+    try:
+        email = session["email"] 
+        if email[-11:]=="@iiti.ac.in":
+            member = True
+    except:
+        member = False
+
+
+    # ----------------------------------------------
+
     # Get new recruits from database
     cur.execute("select Club_Name FROM clubs WHERE Title='{}'".format(clubName))
     club=cur.fetchone()
@@ -195,7 +207,8 @@ def club(clubName):
                            achievements=achievements,
                            clubName=clubName,
                            imageUrl=imageUrl,
-                           verified=verified,notexist=notexist,currentMembers=currentMembers,newRecruits=newRecruits)
+                           verified=verified,notexist=notexist,member=member,
+                           currentMembers=currentMembers,newRecruits=newRecruits)
 
 
 @app.route("/clubs/<clubName>/apply")
@@ -211,8 +224,12 @@ def apply(clubName):
         club=cur.fetchone()
         cur.execute("INSERT INTO approvals VALUES('{}', '{}', 'U');".format(user, club[0]))
         mysql.connection.commit()
+        cur.execute("select * from clubs WHERE Title=\'{}\'".format(clubName))
+        club_title = cur.fetchone()
         cur.close()
-        return render_template("signIn.html")
+        title = club_title[1]
+        return render_template("applied.html", title=title)
+
 
 
 
