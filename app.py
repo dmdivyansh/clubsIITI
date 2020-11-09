@@ -100,7 +100,7 @@ def detailsOfStudent(clubName, email):
     #check if session['email'] is head of clubName 
     user = dict(session).get("email", None)
     if(user == None):
-        return "Please sign in"
+        return render_template("signIn.html")
     
     verified = False
     cur = mysql.connection.cursor()
@@ -123,8 +123,7 @@ def detailsOfStudent(clubName, email):
                               phone=member[5],
                               yr=member[6])
     else:
-        return "Not Authorized"
-
+        return render_template("notAuthorized.html")
 
 
 
@@ -144,7 +143,9 @@ def club(clubName):
         achievements = club[3]
     except:
         return render_template("error.html")
+    member = False
     verified = False
+    notexist = True
     imageUrl = clubName + ".jpg"
     # -----------------------------------------
 
@@ -161,6 +162,40 @@ def club(clubName):
         
     except:
         verified=False
+    # ----------------------------------------------
+
+    # verifying the current email id with current members ---------------
+    try:
+        cur.execute("SELECT Club_Name FROM clubmembers WHERE Mail_Id = '{}'".format(session["email"]))
+        club = cur.fetchall()
+        # print(club)
+
+        for i in club:
+            # print(i[0])
+            if i[0] == title:
+                notexist = False
+
+        if notexist:
+            cur.execute("SELECT Club_Name FROM approvals WHERE Mail_Id = '{}'".format(session["email"]))
+            clb = cur.fetchall()
+            for i in clb:
+            # print(i[0])
+                if i[0] == title:
+                    notexist = False
+        
+    except:
+        notexist=True
+    # ----------------------------------------------
+
+    # verifying iiti student ---------------
+    try:
+        email = session["email"] 
+        if email[-11:]=="@iiti.ac.in":
+            member = True
+    except:
+        member = False
+
+
     # ----------------------------------------------
 
     # Get new recruits from database
@@ -181,7 +216,8 @@ def club(clubName):
                            achievements=achievements,
                            clubName=clubName,
                            imageUrl=imageUrl,
-                           verified=verified,currentMembers=currentMembers,newRecruits=newRecruits)
+                           verified=verified,notexist=notexist,member=member,
+                           currentMembers=currentMembers,newRecruits=newRecruits)
 
 
 @app.route("/clubs/<clubName>/apply")
@@ -190,15 +226,19 @@ def apply(clubName):
     user = dict(session).get("email", None)
 
     if(user == None):
-        return "Please sign in"
+        return render_template("signIn.html")
     else:
         cur = mysql.connection.cursor()
         cur.execute("select Club_Name FROM clubs WHERE Title='{}'".format(clubName))
         club=cur.fetchone()
         cur.execute("INSERT INTO approvals VALUES('{}', '{}', 'U');".format(user, club[0]))
         mysql.connection.commit()
+        cur.execute("select * from clubs WHERE Title=\'{}\'".format(clubName))
+        club_title = cur.fetchone()
         cur.close()
-        return "Applied for "+ clubName
+        title = club_title[1]
+        return render_template("applied.html", title=title)
+
 
 
 
@@ -210,7 +250,7 @@ def manage(clubName, manage, email):
     cur = mysql.connection.cursor()
     user = dict(session).get("email", None)
     if(user == None):
-        return "Please sign in"
+        return render_template("signIn.html")
     
     verified = False
     print("Running query: ", "SELECT Club_Title FROM clubheads WHERE Club_Head_Mail_Id = '{}'".format(session["email"]))
@@ -267,7 +307,7 @@ def edit(clubName):
         cur = mysql.connection.cursor()
         email = dict(session).get("email", None)
         if(email == None):
-            return "Please sign in"
+            return render_template("signIn.html")
         
         verified = False
         print("Running query: ", "SELECT Club_Title FROM clubheads WHERE Club_Head_Mail_Id = '{}'".format(session["email"]))
