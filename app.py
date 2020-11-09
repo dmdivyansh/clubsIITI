@@ -141,6 +141,7 @@ def club(clubName):
         title = club[1]
         info = club[2]
         achievements = club[3]
+        events = club[-1]
     except:
         return render_template("error.html")
     member = False
@@ -217,7 +218,7 @@ def club(clubName):
                            clubName=clubName,
                            imageUrl=imageUrl,
                            verified=verified,notexist=notexist,member=member,
-                           currentMembers=currentMembers,newRecruits=newRecruits)
+                           currentMembers=currentMembers,newRecruits=newRecruits,events=events)
 
 
 @app.route("/clubs/<clubName>/apply")
