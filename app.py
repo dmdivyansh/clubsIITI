@@ -1,20 +1,31 @@
 from flask import Flask, render_template, redirect, request, session, url_for
 from flask_mysqldb import MySQL
+import smtplib, ssl, re
 import MySQLdb
 import yaml
 from authlib.integrations.flask_client import OAuth
 
 app = Flask(__name__)
 
-# Configure db
+# Configure db -------------
 db = yaml.load(open('db.yaml'), Loader=yaml.FullLoader)
 
 app.config['MYSQL_HOST'] = db['mysql_host']
 app.config['MYSQL_USER'] = db['mysql_user']
 app.config['MYSQL_PASSWORD'] = db['mysql_password']
 app.config['MYSQL_DB'] = db['mysql_db']
-
 mysql = MySQL(app)
+# --------------------------------------
+
+
+# --------- MAIL CONFIG
+port = 465  # For SSL
+smtp_server = "smtp.gmail.com"
+sender_email = db['mail_id']  # Enter your address
+password = db['mail_password']
+
+# --------------------------------
+
 
 # OAuth Config
 app.secret_key = db['secret_key']
@@ -33,6 +44,22 @@ google = oauth.register(
     client_kwargs={"scope": "openid email profile"},
 )
 
+def send_mail(receiver_email, message):
+    context = ssl.create_default_context()
+
+    with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
+        server.login(sender_email, password)
+        server.sendmail(sender_email, receiver_email, message)
+
+def check(email):
+    regex = '(cse|ce|me|ee|mems)(\d{9})(@iiti.ac.in)'
+    if(re.search(regex,email)):  
+        print("Valid Email")  
+        return True
+          
+    else:  
+        print("Invalid Email")  
+        return False
 
 @app.route("/")
 def index():
@@ -275,6 +302,7 @@ def manage(clubName, manage, email):
             mysql.connection.commit()
             cur.close()
             return redirect("/clubs/{}".format(clubName))
+
         elif(manage == "approve"):
             cur = mysql.connection.cursor()
             cur.execute("select Club_Name FROM clubs WHERE Title='{}'".format(clubName))
@@ -295,7 +323,15 @@ def manage(clubName, manage, email):
             return redirect("/clubs/{}".format(clubName))     
 
         elif(manage == "schedule"):
-            return render_template("interview.html", host=user, student = email) 
+            if(check(email)):
+                print("Sending mail to " +  email)
+                msg = "Scheduling Interview with clubhead of " + clubName
+                send_mail(email, msg)
+                return render_template("interview.html", host=user, student = email) 
+
+            else:
+                return render_template("error.html")
+
 
         else:
             return render_template("error.html")
