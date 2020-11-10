@@ -1,0 +1,28 @@
+{% extends 'base.html' %} {% block body %}
+
+<div class="container mt-5 pt-5">
+
+    <h1>INTERVIEW BETWEEN {{host}} and {{student}}</h1>
+
+
+
+</div>
+
+<div class="container mb-5">
+    <div class="from-group">
+        <div class="input-group" id="datetimepicker">
+            <input type="text" class="form-control">
+
+        </div>
+    </div>
+</div>
+
+
+
+
+{% endblock body %} {% block extraScripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/schedule.js')  }}"></script>
+
+{% endblock extraScripts %}

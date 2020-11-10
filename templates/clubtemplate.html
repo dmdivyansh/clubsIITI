@@ -54,7 +54,7 @@
         </div>
         <!-- Masthead Subheading-->
         {% if member %} {% if notexist %}
-        <a href="/clubs/{{clubName}}/apply" class="btn btn-warning">JOIN</a> {% endif %} {% endif %}
+        <a href="/clubs/{{clubName}}/apply" class="btn btn-success btn-lg">JOIN</a> {% endif %} {% endif %}
         <!-- <p class="masthead-subheading font-weight-light mb-0">Graphic Artist - Web Designer - Illustrator</p> -->
     </div>
 </header>
@@ -173,8 +173,10 @@
                     </td>
                     {% if verified %}
                     <td>
-                        <a href="/clubs/{{clubName}}/approve/{{row.1}}" class="btn btn-danger btn-sm ">Approve</a>
-                        <a href="/clubs/{{clubName}}/reject/{{row.1}}" class="btn btn-success btn-sm ">Reject</a>
+                        <a href="/clubs/{{clubName}}/approve/{{row.1}}" class="btn btn-success btn-sm ">Approve</a>
+                        <a href="/clubs/{{clubName}}/reject/{{row.1}}" class="btn btn-danger btn-sm ">Reject</a>
+                        <a href="/clubs/{{clubName}}/schedule/{{row.1}}" class="btn btn-warning btn-sm ">Schedule</a>
+
 
                     </td>
                     {% endif %}
