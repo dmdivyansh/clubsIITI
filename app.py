@@ -292,7 +292,10 @@ def manage(clubName, manage, email):
             cur.execute("DELETE FROM approvals WHERE Mail_Id='{}' AND Club_Name='{}';".format(email, club[0]))
             mysql.connection.commit()
             cur.close()
-            return redirect("/clubs/{}".format(clubName))      
+            return redirect("/clubs/{}".format(clubName))     
+
+        elif(manage == "schedule"):
+            return render_template("interview.html", host=user, student = email) 
 
         else:
             return render_template("error.html")
@@ -320,10 +323,10 @@ def edit(clubName):
                 verified = True
 
         if(verified):
-            print("Running query:" , "select Info, Achievements FROM clubs WHERE Title='{}'".format(clubName))
-            cur.execute("select Info, Achievements FROM clubs WHERE Title='{}'".format(clubName))
+            print("Running query:" , "select Info, Achievements, Events FROM clubs WHERE Title='{}'".format(clubName))
+            cur.execute("select Info, Achievements, Events FROM clubs WHERE Title='{}'".format(clubName))
             information = cur.fetchone()
-            return render_template("editor.html", info=information[0], achievements=information[1], clubName=clubName)
+            return render_template("editor.html", info=information[0], achievements=information[1], clubName=clubName, events=information[2])
 
         else:
             return render_template("error.html")
@@ -336,9 +339,11 @@ def edit(clubName):
         info = info.replace("'",'"')
         achievements = data['achievements']
         achievements = achievements.replace("'",'"')
+        events = data['events']
+        events = events.replace("'",'"')
         cur = mysql.connection.cursor()
-        print("Running query:","UPDATE clubs SET Info = '{}', Achievements = '{}' WHERE Title = '{}'".format(info, achievements, clubName) )
-        cur.execute("UPDATE clubs SET Info = '{}', Achievements = '{}' WHERE Title = '{}'".format(info, achievements, clubName))
+        print("Running query:","UPDATE clubs SET Info = '{}', Achievements = '{}', Events = '{}' WHERE Title = '{}'".format(info, achievements, events, clubName) )
+        cur.execute("UPDATE clubs SET Info = '{}', Achievements = '{}', Events = '{}' WHERE Title = '{}'".format(info, achievements, events, clubName) )
 
         mysql.connection.commit()
         cur.close()
@@ -373,7 +378,7 @@ def student():
             mysql.connection.commit()
             cur.close()
 
-            return render_template("success.html")
+            return redirect("/")
 
 
         except (MySQLdb.Error, MySQLdb.Warning) as e:
