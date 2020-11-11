@@ -326,8 +326,8 @@ def manage(clubName, manage, email):
             if(check(email)):
                 print("Sending mail to " +  email)
                 msg = "Scheduling Interview with clubhead of " + clubName
-                send_mail(email, msg)
-                return render_template("interview.html", host=user, student = email) 
+                # send_mail(email, msg)
+                return render_template("interview.html", host=user, student = email,clubName=clubName) 
 
             else:
                 return render_template("error.html")
@@ -385,6 +385,63 @@ def edit(clubName):
         cur.close()
 
         return redirect("/clubs/{}".format(clubName))
+
+
+
+@app.route("/clubs/<clubName>/meeting/<student>" , methods=["GET", "POST"])
+def schedule(clubName, student):
+    if request.method == "POST":
+        user = dict(session).get("email", None)
+        if(user == None):
+            return render_template("signIn.html")
+        
+        details = request.form
+        
+        verified = False
+        cur = mysql.connection.cursor()
+        cur.execute(f"SELECT Club_Title FROM clubheads WHERE Club_Head_Mail_Id ='{user}'")
+        club = cur.fetchall()
+        
+        for i in club:
+            if ( i[0] == clubName):
+                verified = True
+
+        if(verified):
+            details = request.form
+            time = details['time']
+            time = time[:-3]
+
+            date = details['date']
+            date = date.split("/")
+            date = date[2]+"-"+date[1]+"-"+date[0]
+
+            link = details['link']
+            host = details['host']
+            
+
+            print(host, student, time, date, link)
+
+            #Insert into db 
+
+            
+
+
+            cur = mysql.connection.cursor()
+            cur.execute(
+                "INSERT INTO meetings VALUES (%s, %s, %s, %s, %s) ON DUPLICATE KEY UPDATE host_mail_id=%s, student_mail_id=%s, meeting_time=%s, meeting_date=%s, link=%s",
+                (host, student, time, date, link, 
+                 host, student, time, date, link ))
+            
+            mysql.connection.commit()
+            cur.close()
+            # send mails
+            return render_template("scheduled.html", student=student, link=link)
+        else:
+            return render_template("notAuthorized.html")
+        
+
+    else:
+        return render_template("error.html")
 
 # --------------------------------------------------------------------
 
@@ -468,6 +525,7 @@ def authorize():
         session["signedIn"] = False 
         return redirect("/")
 
+    
 
 
 @app.route("/logout")
@@ -488,4 +546,4 @@ def page_not_found(e):
 
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)
