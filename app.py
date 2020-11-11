@@ -45,11 +45,13 @@ google = oauth.register(
 )
 
 def send_mail(receiver_email, message):
-    context = ssl.create_default_context()
+    print("Sending mail to " + receiver_email)
+    print(message)
+    # context = ssl.create_default_context()
 
-    with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
-        server.login(sender_email, password)
-        server.sendmail(sender_email, receiver_email, message)
+    # with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
+    #     server.login(sender_email, password)
+    #     server.sendmail(sender_email, receiver_email, message)
 
 def check(email):
     regex = '(cse|ce|me|ee|mems)(\d{9})(@iiti.ac.in)'
@@ -267,6 +269,7 @@ def apply(clubName):
         club_title = cur.fetchone()
         cur.close()
         title = club_title[1]
+        send_mail(user, "Thank you for applying to {}. \n You will soon recieve a mail regarding the interview from the club head".format(title))
         return render_template("applied.html", title=title)
 
 
@@ -312,6 +315,7 @@ def manage(clubName, manage, email):
             cur.execute("INSERT INTO clubmembers VALUES ('{}','{}');".format(email, club[0]))
             cur.execute("DELETE FROM approvals WHERE Mail_Id='{}' AND Club_Name='{}';".format(email, club[0]))
             cur.execute("DELETE FROM meetings WHERE student_mail_id = '{}' AND host_mail_id = '{}'".format(email, user))
+            send_mail(email, "Welcome to {}\n You have been accepted into the club!!".format(club[0]))
             mysql.connection.commit()
             cur.close()
             return redirect("/clubs/{}".format(clubName))
@@ -327,9 +331,9 @@ def manage(clubName, manage, email):
 
         elif(manage == "schedule"):
             if(check(email)):
-                print("Sending mail to " +  email)
-                msg = "Scheduling Interview with clubhead of " + clubName
-                # send_mail(email, msg)
+                # print("Sending mail to " +  email)
+                # msg = "Scheduling Interview with clubhead of " + clubName
+                # send_mail(user, "Interview scheduled with student")
                 return render_template("interview.html", host=user, student = email, clubName=clubName, meeting_details=["", "", ""]) 
 
             else:
@@ -430,8 +434,8 @@ def schedule(clubName, student):
 
             #Insert into db 
 
-            
-
+            send_mail(user, "Meeting scheduled with {}\n Details: Time: {}\n Date: {}\n Link: {}".format(student, time, date, link))
+            send_mail(student, "You have been shortlisted for interview for {}\n Here are the meeting details:\nTime: {}\n Date: {}\n Link: {}".format(clubName, time, date, link))
 
             cur = mysql.connection.cursor()
             # print("INSERT INTO meetings VALUES (%s, %s, %s, %s, %s) ON DUPLICATE KEY UPDATE host_mail_id=%s, student_mail_id=%s, meeting_time=%s, meeting_date=%s, link=%s",
@@ -452,6 +456,7 @@ def schedule(clubName, student):
                 cur = mysql.connection.cursor()
                 cur.execute("SELECT meeting_time, meeting_date, link FROM meetings WHERE host_mail_id = '{}' AND student_mail_id = '{}'".format(user, student))
                 meeting_details = cur.fetchone()
+                send_mail(user, "Meeting updated with {}\n Details: Time: {}\n Date: {}\n Link: {}".format(student, meeting_details[0], meeting_details[1], meeting_details[2]))
                 print(meeting_details)
                 return render_template("interview.html", host=user, student = student, clubName=clubName, meeting_details=meeting_details) 
             else:
@@ -478,6 +483,7 @@ def student():
             Phone_No = int(student['phone_no'])
             Current_Year = int(student['year'])
 
+            send_mail(Mail_Id, """Thanks for trusting clubsIITI here are your submitted details: \nYour Mail Id : {}\n Full Name: {}\n LinkedIn: {}\n Branch: {}\n Roll No.: {}\n Phone No.: {}\n Current Year: {}\n""".format(Mail_Id, Full_Name, LinkedIn, Branch, Roll_No, Phone_No, Current_Year))
 
             cur = mysql.connection.cursor()
             cur.execute(
