@@ -174,8 +174,9 @@
                     {% if verified %}
                     <td>
                         <a href="/clubs/{{clubName}}/approve/{{row.1}}" class="btn btn-success btn-sm ">Approve</a>
-                        <a href="/clubs/{{clubName}}/reject/{{row.1}}" class="btn btn-danger btn-sm ">Reject</a>
-                        <a href="/clubs/{{clubName}}/schedule/{{row.1}}" class="btn btn-warning btn-sm ">Schedule</a>
+                        <a href="/clubs/{{clubName}}/reject/{{row.1}}" class="btn btn-danger btn-sm ">Reject</a> {% if row.2 == 'U' %}
+                        <a href="/clubs/{{clubName}}/schedule/{{row.1}}" class="btn btn-warning btn-sm ">Schedule</a> {% else %}
+                        <a href="/clubs/{{clubName}}/meeting/{{row.1}}" class="btn btn-warning btn-sm ">Details</a> {% endif %}
 
 
                     </td>

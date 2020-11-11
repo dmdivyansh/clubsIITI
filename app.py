@@ -230,9 +230,11 @@ def club(clubName):
     cur.execute("select Club_Name FROM clubs WHERE Title='{}'".format(clubName))
     club=cur.fetchone()
     # print(club)
-    cur.execute("SELECT FUll_Name, Mail_Id FROM students WHERE Mail_id IN (SELECT Mail_id FROM approvals WHERE Club_Name='{}' AND CurrentStatus='U');".format(club[0]))
-    newRecruits=cur.fetchall()
+    
 
+    cur.execute("SELECT Full_Name, Mail_Id, CurrentStatus FROM approvals INNER JOIN students USING(Mail_Id) WHERE Club_Name = '{}'".format(club[0]))
+    newRecruits=cur.fetchall()
+    print("newRecruits : ", newRecruits)
     cur.execute("SELECT FUll_Name, Mail_Id FROM students WHERE Mail_id IN (SELECT Mail_id FROM clubmembers WHERE Club_Name='{}');".format(club[0]))
     currentMembers=cur.fetchall()
     print(currentMembers)
