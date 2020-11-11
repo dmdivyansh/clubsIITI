@@ -311,6 +311,7 @@ def manage(clubName, manage, email):
             club=cur.fetchone()
             cur.execute("INSERT INTO clubmembers VALUES ('{}','{}');".format(email, club[0]))
             cur.execute("DELETE FROM approvals WHERE Mail_Id='{}' AND Club_Name='{}';".format(email, club[0]))
+            cur.execute("DELETE FROM meetings WHERE student_mail_id = '{}' AND host_mail_id = '{}'".format(email, user))
             mysql.connection.commit()
             cur.close()
             return redirect("/clubs/{}".format(clubName))
@@ -329,7 +330,7 @@ def manage(clubName, manage, email):
                 print("Sending mail to " +  email)
                 msg = "Scheduling Interview with clubhead of " + clubName
                 # send_mail(email, msg)
-                return render_template("interview.html", host=user, student = email,clubName=clubName) 
+                return render_template("interview.html", host=user, student = email, clubName=clubName, meeting_details=["", "", ""]) 
 
             else:
                 return render_template("error.html")
@@ -392,30 +393,34 @@ def edit(clubName):
 
 @app.route("/clubs/<clubName>/meeting/<student>" , methods=["GET", "POST"])
 def schedule(clubName, student):
-    if request.method == "POST":
-        user = dict(session).get("email", None)
-        if(user == None):
-            return render_template("signIn.html")
-        
-        details = request.form
-        
-        verified = False
-        cur = mysql.connection.cursor()
-        cur.execute(f"SELECT Club_Title FROM clubheads WHERE Club_Head_Mail_Id ='{user}'")
-        club = cur.fetchall()
-        
-        for i in club:
-            if ( i[0] == clubName):
-                verified = True
 
-        if(verified):
+    user = dict(session).get("email", None)
+    if(user == None):
+        return render_template("signIn.html")
+    
+    details = request.form
+    
+    verified = False
+    cur = mysql.connection.cursor()
+    cur.execute(f"SELECT Club_Title FROM clubheads WHERE Club_Head_Mail_Id ='{user}'")
+    club = cur.fetchall()
+    
+    for i in club:
+        if ( i[0] == clubName):
+            verified = True
+
+    if(verified):
+        
+        if request.method == "POST":
+            
+
             details = request.form
             time = details['time']
             time = time[:-3]
 
             date = details['date']
             date = date.split("/")
-            date = date[2]+"-"+date[1]+"-"+date[0]
+            date = date[2]+"-"+date[0]+"-"+date[1]
 
             link = details['link']
             host = details['host']
@@ -429,18 +434,29 @@ def schedule(clubName, student):
 
 
             cur = mysql.connection.cursor()
-            cur.execute(
-                "INSERT INTO meetings VALUES (%s, %s, %s, %s, %s) ON DUPLICATE KEY UPDATE host_mail_id=%s, student_mail_id=%s, meeting_time=%s, meeting_date=%s, link=%s",
+            # print("INSERT INTO meetings VALUES (%s, %s, %s, %s, %s) ON DUPLICATE KEY UPDATE host_mail_id=%s, student_mail_id=%s, meeting_time=%s, meeting_date=%s, link=%s",
+            #     (host, student, time, date, link, 
+            #         host, student, time, date, link ))
+            cur.execute("INSERT INTO meetings VALUES (%s, %s, %s, %s, %s) ON DUPLICATE KEY UPDATE host_mail_id=%s, student_mail_id=%s, meeting_time=%s, meeting_date=%s, link=%s",
                 (host, student, time, date, link, 
-                 host, student, time, date, link ))
+                    host, student, time, date, link ))
             
+            cur.execute("UPDATE approvals SET CurrentStatus='A' WHERE Mail_Id='{}'".format(student))
             mysql.connection.commit()
             cur.close()
             # send mails
             return render_template("scheduled.html", student=student, link=link)
+
         else:
-            return render_template("notAuthorized.html")
-        
+            if(check(student)):
+                cur = mysql.connection.cursor()
+                cur.execute("SELECT meeting_time, meeting_date, link FROM meetings WHERE host_mail_id = '{}' AND student_mail_id = '{}'".format(user, student))
+                meeting_details = cur.fetchone()
+                print(meeting_details)
+                return render_template("interview.html", host=user, student = student, clubName=clubName, meeting_details=meeting_details) 
+            else:
+                return render_template("error.html")
+
 
     else:
         return render_template("error.html")

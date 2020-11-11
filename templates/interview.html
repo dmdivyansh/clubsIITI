@@ -25,16 +25,16 @@
         <form action="/clubs/{{clubName}}/meeting/{{student}}" method="POST">
             <div class="form-group">
                 <label for="time">TIME</label>
-                <input type="text" class="form-control" id="alarm" name="time" value="" placeholder="" required>
+                <input type="text" class="form-control" id="alarm" name="time" value="{{meeting_details.0}}" placeholder="" required>
             </div>
             <div class="form-group">
                 <label for="date">DATE</label>
-                <input type="text" class="form-control" id="date-input" name="date" value="" placeholder="Date of Interview" readonly>
+                <input type="text" class="form-control" id="date-input" name="date" value="{{meeting_details.1}}" placeholder="Date of Interview" readonly>
             </div>
 
             <div class="form-group">
                 <label for="link">Meeting Link</label>
-                <input type="text" class="form-control" id="link-input" name="link" placeholder="Ex: https://meet.google.com/dwj-whdv-yfc" required>
+                <input type="text" class="form-control" id="link-input" name="link" value="{{meeting_details.2}}" placeholder="Ex: https://meet.google.com/dwj-whdv-yfc" required>
             </div>
             <button type="submit" class="btn btn-outline-danger">Schedule</button>
             <input type="hidden" name="host" value="{{host}}" />
