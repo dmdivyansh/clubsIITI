@@ -140,7 +140,8 @@
         <div class="container text-center">
             <div>
                 <h1>New Recruits</h1>
-            </div>
+            </div>  
+                      {% if {{row.0}}|length %}
             <table width="100%">
                 <col style="width:20%">
                 <col style="width:20%">
@@ -161,6 +162,7 @@
                     {% endif %}
 
                 </tr>
+                             
                 {%for row in newRecruits%}
                 <tr>
                     <td>
@@ -188,8 +190,14 @@
 
                 </tr>
                 {%endfor%}
+                               
+                       
             </table>
             </table>
+
+                    {% else %}
+                    <h3 style="text-align: center;" >"No New Recruits Currently :/"</h3>
+                     {% endif %}
 
         </div>
         {% endif %}
