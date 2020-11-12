@@ -8,21 +8,24 @@
 <div class="collapse navbar-collapse" id="navbarResponsive">
 
     <ul class="navbar-nav ml-auto">
-        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#Description" style="color:white;">Description</a>
-        </li>
-        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#achievements" style="color:white;">achievements</a>
-        </li>
-        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#events" style="color:white;">events</a>
-        </li>
-        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#members" style="color:white;">MEMBERS</a>
-        </li>
-        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#about" style="color:white;">ABOUT</a>
-        </li>
-        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#contact" style="color:white;">CONTACT</a>
-        </li>
-        {% if verified %}
-        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="/clubs/{{clubName}}/edit" style="color:white;">Edit</a>
-        </li>
+        <div class="row">
+            <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#Description" style="color:white;">Description</a>
+            </li>
+            <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#achievements" style="color:white;">achievements</a>
+            </li>
+            <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#events" style="color:white;">events</a>
+            </li>
+            <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#members" style="color:white;">MEMBERS</a>
+            </li>
+            <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#about" style="color:white;">ABOUT</a>
+            </li>
+            <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#contact" style="color:white;">CONTACT</a>
+            </li>
+            {% if verified %}
+            <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="/clubs/{{clubName}}/edit" style="color:white;">Edit</a>
+            </li>
+        </div>
+
         {% endif %}
 
 
@@ -50,11 +53,16 @@
             <div class="divider-custom-line"></div>
         </div>
         <!-- Masthead Subheading-->
+<<<<<<< HEAD
         {% if member %}
             {% if notexist %}
             <a href="/clubs/{{clubName}}/apply" class="btn btn-warning ">JOIN</a>
             {% endif %}
         {% endif %}
+=======
+        {% if member %} {% if notexist %}
+        <a href="/clubs/{{clubName}}/apply" class="btn btn-success btn-lg">JOIN</a> {% endif %} {% endif %}
+>>>>>>> master
         <!-- <p class="masthead-subheading font-weight-light mb-0">Graphic Artist - Web Designer - Illustrator</p> -->
     </div>
 </header>
@@ -111,15 +119,14 @@
             <div class="divider-custom-line"></div>
         </div>
         <!-- Event Grid Items-->
-        <!-- <div class="row">
-            Event Item 1
+        <div class="row">
             <div class="col-md-12 col-lg-12 mb-5">
-                <div class="portfolio-item mx-auto">
+                <div class="portfolio-item mx-auto container">
 
-                    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Expedita magnam necessitatibus optio minima quos, non dolorum eius nulla, temporibus saepe voluptas dolore soluta architecto ratione impedit, quo veritatis maxime iste.
+                    {{events}}
                 </div>
             </div>
-        </div> -->
+        </div>
     </div>
 </section>
 <!-- members Section-->
@@ -162,7 +169,7 @@
                 {%for row in newRecruits%}
                 <tr>
                     <td>
-                       
+
                         <a href="/details/{{clubName}}/{{row.1}}">
                             {{row.0}}
                         </a>
@@ -174,8 +181,11 @@
                     </td>
                     {% if verified %}
                     <td>
-                        <a href="/clubs/{{clubName}}/approve/{{row.1}}" class="btn btn-danger btn-sm ">Approve</a>
-                        <a href="/clubs/{{clubName}}/reject/{{row.1}}" class="btn btn-success btn-sm ">Reject</a>
+                        <a href="/clubs/{{clubName}}/approve/{{row.1}}" class="btn btn-success btn-sm ">Approve</a>
+                        <a href="/clubs/{{clubName}}/reject/{{row.1}}" class="btn btn-danger btn-sm ">Reject</a> {% if row.2 == 'U' %}
+                        <a href="/clubs/{{clubName}}/schedule/{{row.1}}" class="btn btn-warning btn-sm ">Schedule</a> {% else %}
+                        <a href="/clubs/{{clubName}}/meeting/{{row.1}}" class="btn btn-warning btn-sm ">Details</a> {% endif %}
+
 
                     </td>
                     {% endif %}

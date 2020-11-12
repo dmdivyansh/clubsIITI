@@ -16,6 +16,8 @@
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
     <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
     <!-- Core theme CSS (includes Bootstrap)-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css">
+
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css')  }}">
 
 
@@ -28,7 +30,7 @@
     <!-- Navigation-->
     <nav class="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top" id="mainNav">
         <div class="container">
-            <a class="navbar-brand js-scroll-trigger" {% block link %} {% endblock link %}>ClubsIITI</a>
+            <a class="navbar-brand js-scroll-trigger" {% block link %} {% endblock link %}>Clubs<strong style="color: #9CC3D5;">IITI</strong></a>
             <button class="navbar-toggler navbar-toggler-right text-uppercase font-weight-bold bg-primary text-white rounded" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                   <i class="fas fa-bars"></i>
               </button> {% block navElements %} {% endblock navElements %}
@@ -128,6 +130,8 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
     <!-- Third party plugin JS-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+
+
     <!-- Core theme JS-->
     <script src="{{ url_for('static', filename='js/scripts.js')  }}"></script>
     <script src="{{ url_for('static', filename='js/main.js')  }}"></script>
