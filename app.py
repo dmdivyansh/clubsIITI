@@ -447,7 +447,6 @@ def schedule(clubName, student):
             cur.execute("INSERT INTO meetings VALUES (%s, %s, %s, %s, %s) ON DUPLICATE KEY UPDATE host_mail_id=%s, student_mail_id=%s, meeting_time=%s, meeting_date=%s, link=%s",
                 (host, student, time, date, link, 
                     host, student, time, date, link ))
-            
             cur.execute("UPDATE approvals SET CurrentStatus='A' WHERE Mail_Id='{}'".format(student))
             mysql.connection.commit()
             cur.close()
@@ -459,6 +458,10 @@ def schedule(clubName, student):
                 cur = mysql.connection.cursor()
                 cur.execute("SELECT meeting_time, meeting_date, link FROM meetings WHERE host_mail_id = '{}' AND student_mail_id = '{}'".format(user, student))
                 meeting_details = cur.fetchone()
+                date = meeting_details[1]
+                date = date.split("-")
+                date = date[1]+'/'+date[2]+'/'+date[0]
+                meeting_details[1] = date
                 send_mail(user, "Meeting updated with {}\n Details: Time: {}\n Date: {}\n Link: {}".format(student, meeting_details[0], meeting_details[1], meeting_details[2]))
                 print(meeting_details)
                 return render_template("interview.html", host=user, student = student, clubName=clubName, meeting_details=meeting_details) 
