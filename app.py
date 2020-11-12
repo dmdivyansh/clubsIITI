@@ -47,11 +47,11 @@ google = oauth.register(
 def send_mail(receiver_email, message):
     print("Sending mail to " + receiver_email)
     print(message)
-    # context = ssl.create_default_context()
+    context = ssl.create_default_context()
 
-    # with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
-    #     server.login(sender_email, password)
-    #     server.sendmail(sender_email, receiver_email, message)
+    with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
+        server.login(sender_email, password)
+        server.sendmail(sender_email, receiver_email, message)
 
 def check(email):
     regex = '(cse|ce|me|ee|mems)(\d{9})(@iiti.ac.in)'
@@ -437,8 +437,8 @@ def schedule(clubName, student):
 
             #Insert into db 
 
-            send_mail(user, "Meeting scheduled with {}\n Details: Time: {}\n Date: {}\n Link: {}".format(student, time, date, link))
-            send_mail(student, "You have been shortlisted for interview for {}\n Here are the meeting details:\nTime: {}\n Date: {}\n Link: {}".format(clubName, time, date, link))
+            send_mail(user, "Meeting rescheduled with {}\n Details: Time: {}\n Date: {}\n Link: {}".format(student, time, date, link))
+            send_mail(student, " Here are the Rescheduled meeting details:\nTime: {}\n Date: {}\n Link: {}".format(time, date, link))
 
             cur = mysql.connection.cursor()
             # print("INSERT INTO meetings VALUES (%s, %s, %s, %s, %s) ON DUPLICATE KEY UPDATE host_mail_id=%s, student_mail_id=%s, meeting_time=%s, meeting_date=%s, link=%s",
