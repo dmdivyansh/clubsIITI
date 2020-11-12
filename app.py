@@ -150,7 +150,7 @@ def detailsOfStudent(clubName, email):
                               branch=member[3],
                               roll=member[4],
                               phone=member[5],
-                              yr=member[6])
+                              yr=member[6],Bio=member[7])
     else:
         return render_template("notAuthorized.html")
 
@@ -485,15 +485,15 @@ def student():
             Roll_No = int(student['roll_no'])
             Phone_No = int(student['phone_no'])
             Current_Year = int(student['year'])
-
-            send_mail(Mail_Id, """Thanks for trusting clubsIITI here are your submitted details: \nYour Mail Id : {}\n Full Name: {}\n LinkedIn: {}\n Branch: {}\n Roll No.: {}\n Phone No.: {}\n Current Year: {}\n""".format(Mail_Id, Full_Name, LinkedIn, Branch, Roll_No, Phone_No, Current_Year))
+            Bio=student['Bio']
+            send_mail(Mail_Id, """Thanks for trusting clubsIITI here are your submitted details: \nYour Mail Id : {}\n Full Name: {}\n LinkedIn: {}\n Branch: {}\n Roll No.: {}\n Phone No.: {}\n Current Year: {}\n Bio: {}\n""".format(Mail_Id, Full_Name, LinkedIn, Branch, Roll_No, Phone_No, Current_Year,Bio))
 
             cur = mysql.connection.cursor()
             cur.execute(
-                "INSERT INTO students VALUES (%s, %s, %s, %s, %s, %s, %s) ON DUPLICATE KEY UPDATE Mail_Id=%s, Full_Name=%s, LinkedIn=%s, Branch=%s, Roll_No=%s, Phone_No=%s, Current_Year=%s",
+                "INSERT INTO students VALUES (%s, %s, %s, %s, %s, %s, %s,%s) ON DUPLICATE KEY UPDATE Mail_Id=%s, Full_Name=%s, LinkedIn=%s, Branch=%s, Roll_No=%s, Phone_No=%s, Current_Year=%s,Bio=%s",
                 (Mail_Id, Full_Name, LinkedIn, Branch, Roll_No, Phone_No,
-                 Current_Year, Mail_Id, Full_Name, LinkedIn, Branch, Roll_No, Phone_No,
-                 Current_Year))
+                 Current_Year,Bio, Mail_Id, Full_Name, LinkedIn, Branch, Roll_No, Phone_No,
+                 Current_Year,Bio))
             
             mysql.connection.commit()
             cur.close()
