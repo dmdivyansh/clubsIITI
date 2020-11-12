@@ -170,11 +170,9 @@ def club(clubName):
         title = club[1]
         info = club[2]
         achievements = club[3]
-<<<<<<< HEAD
         website = club[6]
-=======
         events = club[-1]
->>>>>>> master
+
     except:
         return render_template("error.html")
     member = False
