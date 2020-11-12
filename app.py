@@ -141,6 +141,7 @@ def club(clubName):
         title = club[1]
         info = club[2]
         achievements = club[3]
+        website = club[6]
     except:
         return render_template("error.html")
     member = False
@@ -214,6 +215,7 @@ def club(clubName):
                            title=title,
                            info=info,
                            achievements=achievements,
+                           website=website,
                            clubName=clubName,
                            imageUrl=imageUrl,
                            verified=verified,notexist=notexist,member=member,
