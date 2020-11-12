@@ -53,8 +53,11 @@
             <div class="divider-custom-line"></div>
         </div>
         <!-- Masthead Subheading-->
-        {% if member %} {% if notexist %}
-        <a href="/clubs/{{clubName}}/apply" class="btn btn-success btn-lg">JOIN</a> {% endif %} {% endif %}
+        {% if member %}
+            {% if notexist %}
+            <a href="/clubs/{{clubName}}/apply" class="btn btn-warning ">JOIN</a>
+            {% endif %}
+        {% endif %}
         <!-- <p class="masthead-subheading font-weight-light mb-0">Graphic Artist - Web Designer - Illustrator</p> -->
     </div>
 </header>
@@ -244,7 +247,23 @@
         </div>
 </section>
 
-
+<div class="row justify-content-center">
+    <div class="col-lg-4">
+        <div class="d-flex flex-column align-items-center">
+            <div class="icon-contact mb-3"><i class="fas fa-mobile-alt"></i></div>
+            <div class="text-muted">Contact Number</div>
+            <div class="lead font-weight-bold">(0755) 99119 28028</div>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="d-flex flex-column align-items-center">
+            <div class="icon-contact mb-3"><i class="far fa-envelope"></i></div>
+            <div class="text-muted">Email</div><a class="lead font-weight-bold" href="{{website}}">{{website}}</a>
+        </div>
+    </div>
+</div>
+</div>
+</section>
 
 
 
