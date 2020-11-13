@@ -17,8 +17,8 @@ app.config['MYSQL_DB'] = db['mysql_db']
 mysql = MySQL(app)
 
 img= yaml.load(open('images.yaml'), Loader=yaml.FullLoader)
-print('++++++++++++++++++++++++')
-print(img)
+# print('++++++++++++++++++++++++')
+# print(img)
 
 # --------------------------------------
 
@@ -108,7 +108,7 @@ def index():
     
     name = dict(session).get("name", None)
     print("current user:", name)
-
+    # print(img)
     return render_template('home.html', name=name, msg=msg, msg_alert=msg_alert,img=img)
 
 
@@ -177,11 +177,8 @@ def club(clubName):
         info = club[2]
         achievements = club[3]
         website = club[6]
-<<<<<<< HEAD
-=======
         events = club[-1]
 
->>>>>>> 81c3a8aec9847d3239353c677e771c8deb269131
     except:
         return render_template("error.html")
     member = False
@@ -469,13 +466,14 @@ def schedule(clubName, student):
                 cur = mysql.connection.cursor()
                 cur.execute("SELECT meeting_time, meeting_date, link FROM meetings WHERE host_mail_id = '{}' AND student_mail_id = '{}'".format(user, student))
                 meeting_details = cur.fetchone()
-                date = meeting_details[1]
+                date = str(meeting_details[1])
+                print(date, type(date))
                 date = date.split("-")
                 date = date[1]+'/'+date[2]+'/'+date[0]
-                meeting_details[1] = date
-                send_mail(user, "Meeting updated with {}\n Details: Time: {}\n Date: {}\n Link: {}".format(student, meeting_details[0], meeting_details[1], meeting_details[2]))
+                date = date
+                send_mail(user, "Meeting updated with {}\n Details: Time: {}\n Date: {}\n Link: {}".format(student, meeting_details[0], date, meeting_details[2]))
                 print(meeting_details)
-                return render_template("interview.html", host=user, student = student, clubName=clubName, meeting_details=meeting_details) 
+                return render_template("interview.html", host=user, student = student, clubName=clubName, meeting_details=meeting_details, date=date) 
             else:
                 return render_template("error.html")
 
@@ -483,7 +481,6 @@ def schedule(clubName, student):
     else:
         return render_template("error.html")
 
-# --------------------------------------------------------------------
 
 
 @app.route("/student", methods=['GET', 'POST'])
