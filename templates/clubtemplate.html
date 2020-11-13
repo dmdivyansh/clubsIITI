@@ -42,7 +42,7 @@
     <div class="container d-flex align-items-center flex-column">
         <!-- Masthead Avatar Image-->
 
-        <img class="masthead-avatar mb-5" src="{{ url_for('static', filename=imageUrl) }}" alt="" />
+        <img class="masthead-avatar mb-5" src={{imageUrl}} alt="" />
         <!-- Masthead Heading-->
 
         <h1 class="masthead-heading text-uppercase mb-0">{{title}}</h1>
@@ -137,7 +137,8 @@
         <div class="container text-center">
             <div>
                 <h1>New Recruits</h1>
-            </div>
+            </div>  
+                      {% if {{row.0}}|length %}
             <table width="100%">
                 <col style="width:20%">
                 <col style="width:20%">
@@ -158,6 +159,7 @@
                     {% endif %}
 
                 </tr>
+                             
                 {%for row in newRecruits%}
                 <tr>
                     <td>
@@ -185,8 +187,14 @@
 
                 </tr>
                 {%endfor%}
+                               
+                       
             </table>
             </table>
+
+                    {% else %}
+                    <h3 style="text-align: center;" >"No New Recruits Currently :/"</h3>
+                     {% endif %}
 
         </div>
         {% endif %}

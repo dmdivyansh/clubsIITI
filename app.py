@@ -15,6 +15,11 @@ app.config['MYSQL_USER'] = db['mysql_user']
 app.config['MYSQL_PASSWORD'] = db['mysql_password']
 app.config['MYSQL_DB'] = db['mysql_db']
 mysql = MySQL(app)
+
+img= yaml.load(open('images.yaml'), Loader=yaml.FullLoader)
+print('++++++++++++++++++++++++')
+print(img)
+
 # --------------------------------------
 
 
@@ -103,7 +108,8 @@ def index():
     
     name = dict(session).get("name", None)
     print("current user:", name)
-    return render_template('home.html', name=name, msg=msg, msg_alert=msg_alert)
+
+    return render_template('home.html', name=name, msg=msg, msg_alert=msg_alert,img=img)
 
 
 
@@ -113,7 +119,7 @@ def myDetails():
     if(email == None):
         msg = "Please signin into CLUBSIITI"
         msg_alert = "warning"
-        return render_template('home.html', msg=msg, msg_alert=msg_alert)
+        return render_template('home.html', msg=msg, msg_alert=msg_alert,img=img)
     
     else:
         cur = mysql.connection.cursor()
@@ -171,14 +177,19 @@ def club(clubName):
         info = club[2]
         achievements = club[3]
         website = club[6]
+<<<<<<< HEAD
+=======
         events = club[-1]
 
+>>>>>>> 81c3a8aec9847d3239353c677e771c8deb269131
     except:
         return render_template("error.html")
     member = False
     verified = False
     notexist = True
-    imageUrl = clubName + ".jpg"
+    imageUrl = img[clubName]
+    print('-----------------')
+    print(imageUrl)
     # -----------------------------------------
 
     # verifying the current email id ---------------
@@ -252,7 +263,7 @@ def club(clubName):
                            clubName=clubName,
                            imageUrl=imageUrl,
                            verified=verified,notexist=notexist,member=member,
-                           currentMembers=currentMembers,newRecruits=newRecruits,events=events)
+                           currentMembers=currentMembers,newRecruits=newRecruits, events=events)
 
 
 @app.route("/clubs/<clubName>/apply")
