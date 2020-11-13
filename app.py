@@ -47,11 +47,11 @@ google = oauth.register(
 def send_mail(receiver_email, message):
     print("Sending mail to " + receiver_email)
     print(message)
-    # context = ssl.create_default_context()
+    context = ssl.create_default_context()
 
-    # with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
-    #     server.login(sender_email, password)
-    #     server.sendmail(sender_email, receiver_email, message)
+    with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
+        server.login(sender_email, password)
+        server.sendmail(sender_email, receiver_email, message)
 
 def check(email):
     regex = '(cse|ce|me|ee|mems)(\d{9})(@iiti.ac.in)'
@@ -150,7 +150,7 @@ def detailsOfStudent(clubName, email):
                               branch=member[3],
                               roll=member[4],
                               phone=member[5],
-                              yr=member[6])
+                              yr=member[6],Bio=member[7])
     else:
         return render_template("notAuthorized.html")
 
@@ -437,8 +437,8 @@ def schedule(clubName, student):
 
             #Insert into db 
 
-            send_mail(user, "Meeting scheduled with {}\n Details: Time: {}\n Date: {}\n Link: {}".format(student, time, date, link))
-            send_mail(student, "You have been shortlisted for interview for {}\n Here are the meeting details:\nTime: {}\n Date: {}\n Link: {}".format(clubName, time, date, link))
+            send_mail(user, "Meeting rescheduled with {}\n Details: Time: {}\n Date: {}\n Link: {}".format(student, time, date, link))
+            send_mail(student, " Here are the Rescheduled meeting details:\nTime: {}\n Date: {}\n Link: {}".format(time, date, link))
 
             cur = mysql.connection.cursor()
             # print("INSERT INTO meetings VALUES (%s, %s, %s, %s, %s) ON DUPLICATE KEY UPDATE host_mail_id=%s, student_mail_id=%s, meeting_time=%s, meeting_date=%s, link=%s",
@@ -485,15 +485,15 @@ def student():
             Roll_No = int(student['roll_no'])
             Phone_No = int(student['phone_no'])
             Current_Year = int(student['year'])
-
-            send_mail(Mail_Id, """Thanks for trusting clubsIITI here are your submitted details: \nYour Mail Id : {}\n Full Name: {}\n LinkedIn: {}\n Branch: {}\n Roll No.: {}\n Phone No.: {}\n Current Year: {}\n""".format(Mail_Id, Full_Name, LinkedIn, Branch, Roll_No, Phone_No, Current_Year))
+            Bio=student['Bio']
+            send_mail(Mail_Id, """Thanks for trusting clubsIITI here are your submitted details: \nYour Mail Id : {}\n Full Name: {}\n LinkedIn: {}\n Branch: {}\n Roll No.: {}\n Phone No.: {}\n Current Year: {}\n Bio: {}\n""".format(Mail_Id, Full_Name, LinkedIn, Branch, Roll_No, Phone_No, Current_Year,Bio))
 
             cur = mysql.connection.cursor()
             cur.execute(
-                "INSERT INTO students VALUES (%s, %s, %s, %s, %s, %s, %s) ON DUPLICATE KEY UPDATE Mail_Id=%s, Full_Name=%s, LinkedIn=%s, Branch=%s, Roll_No=%s, Phone_No=%s, Current_Year=%s",
+                "INSERT INTO students VALUES (%s, %s, %s, %s, %s, %s, %s,%s) ON DUPLICATE KEY UPDATE Mail_Id=%s, Full_Name=%s, LinkedIn=%s, Branch=%s, Roll_No=%s, Phone_No=%s, Current_Year=%s,Bio=%s",
                 (Mail_Id, Full_Name, LinkedIn, Branch, Roll_No, Phone_No,
-                 Current_Year, Mail_Id, Full_Name, LinkedIn, Branch, Roll_No, Phone_No,
-                 Current_Year))
+                 Current_Year,Bio, Mail_Id, Full_Name, LinkedIn, Branch, Roll_No, Phone_No,
+                 Current_Year,Bio))
             
             mysql.connection.commit()
             cur.close()
