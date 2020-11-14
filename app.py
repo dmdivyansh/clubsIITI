@@ -491,8 +491,8 @@ def schedule(clubName, student):
 
             #Insert into db 
 
-            send_mail(user, "Meeting rescheduled with {}\n Details: Time: {}\n Date: {}\n Link: {}".format(student, time, date, link))
-            send_mail(student, " Here are the Rescheduled meeting details:\nTime: {}\n Date: {}\n Link: {}".format(time, date, link))
+            send_mail(user, "Meeting scheduled with {}\nDetails: \nTime: {}\n Date: {}\n Link: {}".format(student, time, date, link))
+            send_mail(student, " Here are the scheduled meeting details:\nTime: {}\n Date: {}\n Link: {}".format(time, date, link))
 
             cur = mysql.connection.cursor()
             # print("INSERT INTO meetings VALUES (%s, %s, %s, %s, %s) ON DUPLICATE KEY UPDATE host_mail_id=%s, student_mail_id=%s, meeting_time=%s, meeting_date=%s, link=%s",
@@ -517,7 +517,7 @@ def schedule(clubName, student):
                 date = date.split("-")
                 date = date[1]+'/'+date[2]+'/'+date[0]
                 date = date
-                send_mail(user, "Meeting updated with {}\n Details: Time: {}\n Date: {}\n Link: {}".format(student, meeting_details[0], date, meeting_details[2]))
+                send_mail(user, "Meeting updated with {}\nDetails:\nTime: {}\n Date: {}\n Link: {}".format(student, meeting_details[0], date, meeting_details[2]))
                 print(meeting_details)
                 return render_template("interview.html", host=user, student = student, clubName=clubName, meeting_details=meeting_details, date=date) 
             else:
@@ -549,7 +549,7 @@ def student():
             Phone_No = int(student['phone_no'])
             Current_Year = int(student['year'])
             Bio=student['Bio']
-            send_mail(Mail_Id, "Thanks for trusting clubsIITI here are your submitted details: \nYour Mail Id : {}\n Full Name: {}\n LinkedIn: {}\n Branch: {}\n Roll No.: {}\n Phone No.: {}\n Current Year: {}\n Bio: {}\n".format(Mail_Id, Full_Name, LinkedIn, Branch, Roll_No, Phone_No, Current_Year,Bio))
+            # send_mail(Mail_Id, "Thanks for trusting clubsIITI here are your submitted details: \nYour Mail Id : {}\n Full Name: {}\n LinkedIn: {}\n Branch: {}\n Roll No.: {}\n Phone No.: {}\n Current Year: {}\n Bio: {}\n".format(Mail_Id, Full_Name, LinkedIn, Branch, Roll_No, Phone_No, Current_Year,Bio))
 
             if(Mail_Id == user):
                 cur = mysql.connection.cursor()
