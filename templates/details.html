@@ -19,6 +19,13 @@
   background-image: url("https://images.pexels.com/photos/5534634/pexels-photo-5534634.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940");
   
  }
+ 
+   .black{
+    background-color: black;
+    color: white;
+    max-width: 100px;
+    max-width: 200px;
+   }
      </style>
 
     <!-- Custom stlylesheet -->
@@ -36,38 +43,42 @@
 
 <body>
     <div class="container-fluid py-5 mt-5">
-        <table class="table .table-bordered">
-      
-            <thead class="thead-dark">
-              <tr>
-                
-            <th scope="col">Email</th>
-            <th scope="col">Name</th>
-            <th scope="col">LinkedIn Profile</th>
-            <th scope="col">Discipline</th>
-            <th scope="col">Roll No</th>
-            <th scope="col">Contact detail</th>
-            <th scope="col">Year</th>
-            <th scope="col">Bio</th>
-              </tr>
-            
-          </thead>
-         
-        
-        <tbody>
-          <tr>
-            
-            <td>{{email}}</td>
-            <td>{{name}}</td>
-            <td>{{link}}</td>
-            <td>{{branch}}</td>
-            <td>{{roll}}</td>
-            <td>{{phone}}</td>
-            <td>{{yr}}</td>
-            <td>{{Bio}}</td>
-          </tr>
-        </tbody>
-      </table>
+     
+    
+  
+      <div class="black "><h3>Email address</h3></div>
+
+      <h5>{{email}}</h5>
+   
+   
+      <h3 class="black ">Name</h3>
+     <h5>{{name}}</h5>
+   
+   
+      <h3 class="black ">LinkedIn Profile</h3>
+     <h5><a href="https://www.linkedin.com/in/{{link}}">{{link}}></a></h5>
+   
+   
+      <h3 class="black ">Discipline</h3>
+     <h5>{{link}}</h5>
+   
+   
+      <h3 class="black ">Roll No</h3>
+     <h5>{{link}}</h5>
+   
+   
+      <h3 class="black ">Contact detail</h3>
+     <h5>{{link}}</h5>
+   
+   
+      <h3 class="black ">Year</h3>
+     <h5>{{link}}</h5>
+   
+      <h3 class="black ">Bio</h3>
+     <h5>{{link}}</h5> 
+ 
+   
+     
       </div>
     
 </body>
