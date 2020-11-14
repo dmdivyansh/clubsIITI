@@ -6,10 +6,20 @@ import yaml
 from authlib.integrations.flask_client import OAuth
 import os
 
+
 app = Flask(__name__)
 
+env = "dev"
+DATABASE_URL = ""
+if env == "dev":
+    dev = yaml.load(open('db.yaml'), Loader=yaml.FullLoader)
+    DATABASE_URL  = dev['CLEARDB_DATABASE_URL']
+
+else:
+    DATABASE_URL  = os.environ.get("CLEARDB_DATABASE_URL")
+
+
 # Configure db ---------------------------------------------------------------
-DATABASE_URL  = os.environ.get("CLEARDB_DATABASE_URL")
 # Extract deatails from database url
 col = []
 for i in range(len(DATABASE_URL)):
@@ -55,19 +65,26 @@ img= yaml.load(open('images.yaml'), Loader=yaml.FullLoader)
 # --------- MAIL CONFIG
 port = 465  # For SSL
 smtp_server = "smtp.gmail.com"
-sender_email = os.environ.get("mail_id")  # Enter your address
-password = os.environ.get("mail_password")
+sender_email = os.environ.get("mail_id") if (env != 'dev') else dev['mail_id']  
+password = os.environ.get("mail_password") if (env != 'dev') else dev['mail_password']  
 
 # --------------------------------
 
 
 # OAuth Config
-app.secret_key = os.environ.get("secret_key")
+if env == 'dev':
+    app.secret_key = dev['secret_key']
+else:
+    app.secret_key = os.environ.get("secret_key")
 oauth = OAuth(app)
+# value_when_true if condition else value_when_false
+clientSecret = os.environ.get("client_secret") if (env != 'dev') else dev['client_secret']
+clientId = os.environ.get("client_id") if (env != 'dev') else dev['client_id']
+
 google = oauth.register(
     name="google",
-    client_id=os.environ.get("client_id"),
-    client_secret=os.environ.get("client_secret"),
+    client_id=clientId,
+    client_secret= clientSecret,
     access_token_url="https://accounts.google.com/o/oauth2/token",
     access_token_params=None,
     authorize_url="https://accounts.google.com/o/oauth2/auth",
