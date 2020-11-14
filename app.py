@@ -9,7 +9,7 @@ import os
 
 app = Flask(__name__)
 
-env = ""
+env = "dev"
 DATABASE_URL = ""
 if env == "dev":
     dev = yaml.load(open('db.yaml'), Loader=yaml.FullLoader)
@@ -326,7 +326,7 @@ def apply(clubName):
         club_title = cur.fetchone()
         cur.close()
         title = club_title[1]
-        send_mail(user, "Thank you for applying to {}. \n You will soon recieve a mail regarding the interview from the club head".format(title))
+        send_mail(user, "Subject: Thanks for applying\n\nThank you for applying to {}. \n You will soon recieve a mail regarding the interview from the club head".format(title))
         return render_template("applied.html", title=title)
 
 
@@ -372,7 +372,7 @@ def manage(clubName, manage, email):
             cur.execute("INSERT INTO clubmembers VALUES ('{}','{}');".format(email, club[0]))
             cur.execute("DELETE FROM approvals WHERE Mail_Id='{}' AND Club_Name='{}';".format(email, club[0]))
             cur.execute("DELETE FROM meetings WHERE student_mail_id = '{}' AND host_mail_id = '{}'".format(email, user))
-            send_mail(email, "Welcome to {}\n You have been accepted into the club!!".format(club[0]))
+            send_mail(email, "Subject:Welcome Welcome!!\n\nCongrats from {}\n You have been accepted into the club!!".format(club[0]))
             mysql.connection.commit()
             cur.close()
             return redirect("/clubs/{}".format(clubName))
@@ -491,8 +491,8 @@ def schedule(clubName, student):
 
             #Insert into db 
 
-            send_mail(user, "Meeting scheduled with {}\nDetails: \nTime: {}\n Date: {}\n Link: {}".format(student, time, date, link))
-            send_mail(student, " Here are the scheduled meeting details:\nTime: {}\n Date: {}\n Link: {}".format(time, date, link))
+            send_mail(user, "Subject: Meeting Details\n\nMeeting scheduled with {}\nDetails: \nTime: {}\n Date: {}\n Link: {}".format(student, time, date, link))
+            send_mail(student, "Subject: Meeting Details\n\nHere are the scheduled meeting details:\nTime: {}\n Date: {}\n Link: {}".format(time, date, link))
 
             cur = mysql.connection.cursor()
             # print("INSERT INTO meetings VALUES (%s, %s, %s, %s, %s) ON DUPLICATE KEY UPDATE host_mail_id=%s, student_mail_id=%s, meeting_time=%s, meeting_date=%s, link=%s",
@@ -517,7 +517,7 @@ def schedule(clubName, student):
                 date = date.split("-")
                 date = date[1]+'/'+date[2]+'/'+date[0]
                 date = date
-                send_mail(user, "Meeting updated with {}\nDetails:\nTime: {}\n Date: {}\n Link: {}".format(student, meeting_details[0], date, meeting_details[2]))
+                send_mail(user, "Subject: Meeting Updated\n\nMeeting updated with {}\nDetails:\nTime: {}\n Date: {}\n Link: {}".format(student, meeting_details[0], date, meeting_details[2]))
                 print(meeting_details)
                 return render_template("interview.html", host=user, student = student, clubName=clubName, meeting_details=meeting_details, date=date) 
             else:
