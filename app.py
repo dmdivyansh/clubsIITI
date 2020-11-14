@@ -4,21 +4,60 @@ import smtplib, ssl, re
 import MySQLdb
 import yaml
 from authlib.integrations.flask_client import OAuth
+import os
+
 
 app = Flask(__name__)
 
-# Configure db -------------
-db = yaml.load(open('db.yaml'), Loader=yaml.FullLoader)
+env = "dev"
+DATABASE_URL = ""
+if env == "dev":
+    dev = yaml.load(open('db.yaml'), Loader=yaml.FullLoader)
+    DATABASE_URL  = dev['CLEARDB_DATABASE_URL']
 
-app.config['MYSQL_HOST'] = db['mysql_host']
-app.config['MYSQL_USER'] = db['mysql_user']
-app.config['MYSQL_PASSWORD'] = db['mysql_password']
-app.config['MYSQL_DB'] = db['mysql_db']
+else:
+    DATABASE_URL  = os.environ.get("CLEARDB_DATABASE_URL")
+
+
+# Configure db ---------------------------------------------------------------
+# Extract deatails from database url
+col = []
+for i in range(len(DATABASE_URL)):
+    if(DATABASE_URL[i] == ':'):
+        col.append(i)
+
+user = DATABASE_URL[col[0]+3 : col[1]]
+at = 0
+ques = 0
+for i in range(len(DATABASE_URL)):
+    if(DATABASE_URL[i] == '@'):
+        at = i
+        break
+password = DATABASE_URL[col[1]+1 : at]
+
+slash = []
+
+for i in range(len(DATABASE_URL)):
+    if(DATABASE_URL[i] == '/'):
+        slash.append(i)
+
+host = DATABASE_URL[at+1 : slash[2]]
+
+
+for i in range(len(DATABASE_URL)):
+    if(DATABASE_URL[i] == '?'):
+        ques = i
+
+db = DATABASE_URL[slash[2]+1 : ques]
+print(host, user, password, db)
+app.config['MYSQL_HOST'] = host
+app.config['MYSQL_USER'] = user
+app.config['MYSQL_PASSWORD'] = password
+app.config['MYSQL_DB'] = db
+# -----------------------------------------------DB CONFIG DONE ----------------------------------------
 mysql = MySQL(app)
 
 img= yaml.load(open('images.yaml'), Loader=yaml.FullLoader)
-# print('++++++++++++++++++++++++')
-# print(img)
 
 # --------------------------------------
 
@@ -26,19 +65,26 @@ img= yaml.load(open('images.yaml'), Loader=yaml.FullLoader)
 # --------- MAIL CONFIG
 port = 465  # For SSL
 smtp_server = "smtp.gmail.com"
-sender_email = db['mail_id']  # Enter your address
-password = db['mail_password']
+sender_email = os.environ.get("mail_id") if (env != 'dev') else dev['mail_id']  
+password = os.environ.get("mail_password") if (env != 'dev') else dev['mail_password']  
 
 # --------------------------------
 
 
 # OAuth Config
-app.secret_key = db['secret_key']
+if env == 'dev':
+    app.secret_key = dev['secret_key']
+else:
+    app.secret_key = os.environ.get("secret_key")
 oauth = OAuth(app)
+# value_when_true if condition else value_when_false
+clientSecret = os.environ.get("client_secret") if (env != 'dev') else dev['client_secret']
+clientId = os.environ.get("client_id") if (env != 'dev') else dev['client_id']
+
 google = oauth.register(
     name="google",
-    client_id=db['client_id'],
-    client_secret=db['client_secret'],
+    client_id=clientId,
+    client_secret= clientSecret,
     access_token_url="https://accounts.google.com/o/oauth2/token",
     access_token_params=None,
     authorize_url="https://accounts.google.com/o/oauth2/auth",
@@ -611,4 +657,4 @@ def page_not_found(e):
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run()
