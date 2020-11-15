@@ -9,7 +9,7 @@ import os
 
 app = Flask(__name__)
 
-env = ""
+env = "dev"
 DATABASE_URL = ""
 if env == "dev":
     dev = yaml.load(open('db.yaml'), Loader=yaml.FullLoader)
@@ -151,11 +151,17 @@ def index():
         msg = "Please use IITI email id"
     
     print(msg)
+
+    cur = mysql.connection.cursor()
+    print("Running query: ", "select * from events ORDER BY dated DESC;")
+    cur.execute(f"select * from events ORDER BY dated DESC;")
+    events = cur.fetchall()
     
+    print(events)
     name = dict(session).get("name", None)
     print("current user:", name)
     # print(img)
-    return render_template('home.html', name=name, msg=msg, msg_alert=msg_alert,img=img)
+    return render_template('home.html', name=name, msg=msg, msg_alert=msg_alert,img=img, events=events)
 
 
 
@@ -444,6 +450,7 @@ def edit(clubName):
         cur = mysql.connection.cursor()
         print("Running query:","UPDATE clubs SET Info = '{}', Achievements = '{}', Events = '{}' WHERE Title = '{}'".format(info, achievements, events, clubName) )
         cur.execute("UPDATE clubs SET Info = '{}', Achievements = '{}', Events = '{}' WHERE Title = '{}'".format(info, achievements, events, clubName) )
+        cur.execute("INSERT INTO events VALUES ('{}','{}', NOW());".format(clubName, events))
 
         mysql.connection.commit()
         cur.close()
