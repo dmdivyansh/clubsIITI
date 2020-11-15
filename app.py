@@ -107,11 +107,9 @@ def send_mail(receiver_email, message):
 def check(email):
     regex = '(cse|ce|me|ee|mems)(\d{9})(@iiti.ac.in)'
     if(re.search(regex,email)):  
-        print("Valid Email")  
         return True
           
     else:  
-        print("Invalid Email")  
         return False
 
 @app.route("/")
@@ -145,19 +143,19 @@ def index():
         msg_alert = "warning"
 
     else:
-        print("clearing sessiong info")
+        print("clearing session info")
         for key in list(session.keys()):
             session.pop(key)
         msg = "Please use IITI email id"
     
-    print(msg)
+    
 
     cur = mysql.connection.cursor()
     print("Running query: ", "select * from events ORDER BY dated DESC;")
     cur.execute(f"select * from events ORDER BY dated DESC;")
     events = cur.fetchall()
     
-    print(events)
+    # print(events)
     name = dict(session).get("name", None)
     print("current user:", name)
     # print(img)
@@ -177,8 +175,8 @@ def myDetails():
         cur = mysql.connection.cursor()
         cur.execute("SELECT * FROM students WHERE Mail_id='{}'".format(email))
         student = cur.fetchone()
-        for i in range(len(student)):
-            print(i, student[i])
+        # for i in range(len(student)):
+        #     print(i, student[i])
 
         return render_template("editStudent.html", student=student)
 
@@ -196,7 +194,7 @@ def detailsOfStudent(clubName, email):
     club = cur.fetchall()
     cur.execute(f"SELECT * FROM students WHERE Mail_id ='{email}'")
     member=cur.fetchone()
-    print(member)
+    print("member: ", member)
     for i in club:
         if ( i[0] == clubName):
             verified = True
@@ -237,8 +235,8 @@ def club(clubName):
     verified = False
     notexist = True
     imageUrl = img[clubName]
-    print('-----------------')
-    print(imageUrl)
+    # print('-----------------')
+    # print(imageUrl)
     # -----------------------------------------
 
     # verifying the current email id ---------------
@@ -298,11 +296,11 @@ def club(clubName):
 
     cur.execute("SELECT Full_Name, Mail_Id, CurrentStatus FROM approvals INNER JOIN students USING(Mail_Id) WHERE Club_Name = '{}'".format(club[0]))
     newRecruits=cur.fetchall()
-    print("newRecruits : ", newRecruits)
+    print("newRecruits: ", newRecruits)
     cur.execute("SELECT FUll_Name, Mail_Id FROM students WHERE Mail_id IN (SELECT Mail_id FROM clubmembers WHERE Club_Name='{}');".format(club[0]))
     currentMembers=cur.fetchall()
-    print(currentMembers)
-    print(clubName)
+    print("currentMembers: ", currentMembers)
+    # print(clubName)
     print("verified:", verified)
     return render_template("clubtemplate.html",
                            title=title,
@@ -342,7 +340,7 @@ def apply(clubName):
 @app.route("/clubs/<clubName>/<manage>/<email>")
 def manage(clubName, manage, email):
 
-    print(manage + " " + email + " in " + clubName)
+    # print(manage + " " + email + " in " + clubName)
     cur = mysql.connection.cursor()
     user = dict(session).get("email", None)
     if(user == None):
@@ -361,7 +359,7 @@ def manage(clubName, manage, email):
         
         # Remove student from the club
         if(manage == "remove"):
-            print("Remove {} from {}".format(email, clubName))
+            # print("Remove {} from {}".format(email, clubName))
             cur = mysql.connection.cursor()
             cur.execute("select Club_Name FROM clubs WHERE Title='{}'".format(clubName))
             club=cur.fetchone()
@@ -439,7 +437,7 @@ def edit(clubName):
 
     else:
         data = request.form
-        print("Fetched form data")
+        # print("Fetched form data")
         info = data['info']
         # replace ' with " so that these string does not interfere with our sql queries
         info = info.replace("'",'"')
@@ -494,7 +492,7 @@ def schedule(clubName, student):
             host = details['host']
             
 
-            print(host, student, time, date, link)
+            # print(host, student, time, date, link)
 
             #Insert into db 
 
@@ -520,12 +518,12 @@ def schedule(clubName, student):
                 cur.execute("SELECT meeting_time, meeting_date, link FROM meetings WHERE host_mail_id = '{}' AND student_mail_id = '{}'".format(user, student))
                 meeting_details = cur.fetchone()
                 date = str(meeting_details[1])
-                print(date, type(date))
+                # print(date, type(date))
                 date = date.split("-")
                 date = date[1]+'/'+date[2]+'/'+date[0]
                 date = date
                 send_mail(user, "Subject: Meeting Updated\n\nMeeting updated with {}\nDetails:\nTime: {}\n Date: {}\n Link: {}".format(student, meeting_details[0], date, meeting_details[2]))
-                print(meeting_details)
+                # print(meeting_details)
                 return render_template("interview.html", host=user, student = student, clubName=clubName, meeting_details=meeting_details, date=date) 
             else:
                 return render_template("error.html")
@@ -579,7 +577,7 @@ def student():
             return str(e)
 
     else:
-        print("Redirect")
+        # print("Redirect")
         return redirect("/login")
 
 
