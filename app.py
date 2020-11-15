@@ -49,7 +49,7 @@ for i in range(len(DATABASE_URL)):
         ques = i
 
 db = DATABASE_URL[slash[2]+1 : ques]
-print(host, user, password, db)
+# print(host, user, password, db)
 app.config['MYSQL_HOST'] = host
 app.config['MYSQL_USER'] = user
 app.config['MYSQL_PASSWORD'] = password
@@ -657,4 +657,7 @@ def page_not_found(e):
 
 
 if __name__ == "__main__":
-    app.run()
+    if(env == 'dev'):
+        app.run(debug=True)
+    else:
+        app.run()
