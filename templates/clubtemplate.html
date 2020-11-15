@@ -133,6 +133,12 @@
             <div>
                 <h1 style="font-family: 'Fondamento', cursive;">New Recruits</h1>
             </div>
+            {% if not newRecruits == 0 %}
+            <div class="divider-custom">
+                <div>NO NEW APPLICANTS</div>
+            </div>
+
+            {% else %}
             <table width="100%" style="font-family: 'Frank Ruhl Libre', serif;">
                 <col style="width:20%">
                 <col style="width:20%">
@@ -146,11 +152,9 @@
                     <th>
                         Email
                     </th>
-                    {% if verified %}
                     <th>
                         Action
                     </th>
-                    {% endif %}
 
                 </tr>
 
@@ -184,7 +188,11 @@
 
 
             </table>
-            </table>
+            {% endif %}
+
+
+
+
 
 
 
