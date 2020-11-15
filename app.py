@@ -625,15 +625,15 @@ def authorize():
     session["signedIn"] = True
 
     
-    if email[:3]==("cse") and email[-11:]=="@iiti.ac.in":
+    if email[:3] in ("cse") and email[-11:] == "@iiti.ac.in":
         session["roll_no"] = email[3:12]
         session["branch"] = email[:3].upper()
         return redirect("/")
-    elif email[:2]==("ee" or "me" or "ce") and email[-11:]=="@iiti.ac.in":
+    elif email[:2] in ("ee", "me", "ce") and email[-11:] == "@iiti.ac.in
         session["roll_no"] = email[2:11]
         session["branch"] = email[:2].upper()
         return redirect("/")
-    elif email[:4]==("mems") and email[-11:]=="@iiti.ac.in":
+    elif email[:4] in ("mems") and email[-11:] == "@iiti.ac.in":
         session["roll_no"] = email[4:13]
         session["branch"] = email[:4].upper()
 
