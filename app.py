@@ -9,7 +9,7 @@ import os
 
 app = Flask(__name__)
 
-env = ""
+env = "dev"
 DATABASE_URL = ""
 if env == "dev":
     dev = yaml.load(open('db.yaml'), Loader=yaml.FullLoader)
