@@ -1,7 +1,8 @@
 # ClubsIITI
 A project under the course <b>CS-207</b>, we created this application under the guidance of Dr.Nagendra Kumar and Ankit Jain sir.<br>
 
-We have hosted the website on heroku: <a href="https://clubs-iiti.herokuapp.com/">Visit Us!!</a>
+We have hosted the website on heroku: <a href="https://clubs-iiti.herokuapp.com/">Visit Us!!</a>  
+Demo Video : <a href="https://drive.google.com/file/d/1SFoFgWY0zGZmcvaYm_TApySEPZwFAgGi/view?usp=sharing">LINK</a>
 
 # AIM:-
 <ol>
