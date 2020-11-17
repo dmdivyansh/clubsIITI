@@ -1,8 +1,8 @@
 # ClubsIITI
 A project under the course CS-207
-we created this application under the guidance of Dr.NAgendra Kumar and Ankit jain sir.
-We used HTML,CSS,JAVASCRIPT,FLASK(PYTHON)
-We also hosted the website using heroku:
+we created this application under the guidance of Dr.Nagendra Kumar and Ankit jain sir.
+We used HTML,CSS,JAVASCRIPT,FLASK(PYTHON),MySQL
+We also hosted the website using heroku:<a href="https://clubs-iiti.herokuapp.com/">Link for our site</a>
 # AIM:-
 <ol>
 	<li>Aim for our application is to eradicate the problem of students as because of the current pendemic situation   students are unable to apply for college clubs.
@@ -16,4 +16,5 @@ We also hosted the website using heroku:
 	<li>Garvit Galgat</li>
 	<li>Somya Mehta </li>
 	<li>Tanishq Jain</li>
-	</ol></b>
+	</ol>
+</b>
