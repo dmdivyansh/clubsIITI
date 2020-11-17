@@ -33,12 +33,14 @@ We have hosted the website on heroku: <a href="https://clubs-iiti.herokuapp.com/
 </ul>
 
 
-<b>Team Members:<ol>
-	<li><a href="https://github.com/dmdivyansh">Divyansh Maheshwari</a></li>
-	<li><a href="https://github.com/eeshmalvi">Eish Malvi</a></li>
-	<li><a href="https://github.com/gg-dev-05">Garvit Galgat</a></li>
-	<li><a href="https://github.com/somyamehta24">Somya Mehta</a> </li>
-	<li><a href="https://github.com/Tanishq-30">Tanishq Jain</a></li>
+<b>
+		Team Members:
+	<ol>
+		<li><a href="https://github.com/dmdivyansh">Divyansh Maheshwari</a></li>
+		<li><a href="https://github.com/eeshmalvi">Eish Malvi</a></li>
+		<li><a href="https://github.com/gg-dev-05">Garvit Galgat</a></li>
+		<li><a href="https://github.com/somyamehta24">Somya Mehta</a> </li>
+		<li><a href="https://github.com/Tanishq-30">Tanishq Jain</a></li>
 	</ol>
 </b>
 
