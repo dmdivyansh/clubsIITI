@@ -1,7 +1,7 @@
 # ClubsIITI
 A project under the course CS-207
-we created this application under the guidance of Dr.Nagendra Kumar and Ankit jain sir.
-We used HTML,CSS,JAVASCRIPT,FLASK(PYTHON),MySQL
+we created this application under the guidance of Dr.Nagendra Kumar and Ankit jain sir.<br>
+Technologies used HTML,CSS,JAVASCRIPT,FLASK(PYTHON),MySQL<br>
 We also hosted the website using heroku:<a href="https://clubs-iiti.herokuapp.com/">Link for our site</a>
 # AIM:-
 <ol>
