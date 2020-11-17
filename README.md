@@ -1,4 +1,4 @@
-# clubsIITI
+# ClubsIITI
 A project under the course CS-207
 we created this application under the guidance of Dr.NAgendra Kumar and Ankit jain sir.
 We used HTML,CSS,JAVASCRIPT,FLASK(PYTHON)
