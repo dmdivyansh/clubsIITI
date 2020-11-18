@@ -9,7 +9,7 @@ import os
 
 app = Flask(__name__)
 
-env = ""
+env = "dev"
 DATABASE_URL = ""
 if env == "dev":
     dev = yaml.load(open('db.yaml'), Loader=yaml.FullLoader)
@@ -20,7 +20,7 @@ else:
 
 
 # Configure db ---------------------------------------------------------------
-# Extract deatails from database url
+# Extract details from database url
 col = []
 for i in range(len(DATABASE_URL)):
     if(DATABASE_URL[i] == ':'):
@@ -136,7 +136,7 @@ def index():
         if(present):
             print("Already Submitted")
         else:
-            return render_template("newStudent.html", msg="Please verify your details", msg_alert="warning")
+            return render_template("newStudent.html", msg="Please verify your details", msg_alert="warning", name=session['name'])
 
     elif signedIn == None:
         msg = "Please signin into CLUBSIITI"

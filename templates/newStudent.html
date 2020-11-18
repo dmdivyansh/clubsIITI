@@ -1,7 +1,28 @@
 {% extends 'base.html' %} {% block title %}
-<title>Register</title>
+<title>Register</title>{% endblock title %} {% block link %} href="/logout" {% endblock link %} {% block navElements %}
 
-{% block link %} href="/" {% endblock link %} {% endblock title %} {% block body %} {% if msg %}
+<div class="collapse navbar-collapse" id="navbarResponsive">
+
+    <ul class="navbar-nav ml-auto">
+
+
+
+        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="/logout" style="color:white;">Logout</a>
+        </li>
+        <li class="nav-item mx-0 mx-lg-1">
+            <p class="py-3 px-0 px-lg-3 " style="color: lightblue;">User: {{name}}</p>
+        </li>
+
+
+
+    </ul>
+
+</div>
+
+
+
+
+{% endblock navElements %}{% block body %} {% if msg %}
 <div class="container fixed-top">
     <div class="alert alert-{{msg_alert}} alert-dismissible fade show" role="alert">
         {{msg}}
