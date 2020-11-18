@@ -9,7 +9,7 @@ import os
 
 app = Flask(__name__)
 
-env = ""
+env = "dev"
 DATABASE_URL = ""
 if env == "dev":
     dev = yaml.load(open('db.yaml'), Loader=yaml.FullLoader)
@@ -119,24 +119,33 @@ def index():
     msg = ""
     msg_alert = "danger"
     print(signedIn)
+    admin = False
 
     if signedIn:
         email = dict(session).get("email", None)
         msg = "Successfully signed in as : " + email
         msg_alert = "success"
-        # Check if student info is available
-        cur = mysql.connection.cursor()
-        cur.execute("select Full_Name from students where Mail_id='{}'".format(email))
 
-        present = cur.fetchone()
-        
-        mysql.connection.commit()
-        cur.close()
-        
-        if(present):
-            print("Already Submitted")
-        else:
-            return render_template("newStudent.html", msg="Please verify your details", msg_alert="warning", name=session['name'])
+        # Check if is admin 
+        if(email == "garvitgalgat@gmail.com"):
+            print("Admin is here!!")
+            admin = True
+
+        else:        
+            # Check if student info is available
+            cur = mysql.connection.cursor()
+            cur.execute("select Full_Name from students where Mail_id='{}'".format(email))
+
+            present = cur.fetchone()
+            
+            mysql.connection.commit()
+            cur.close()
+            
+            
+            if(present):
+                print("Already Submitted")
+            else:
+                return render_template("newStudent.html", msg="Please verify your details", msg_alert="warning", name=session['name'])
 
     elif signedIn == None:
         msg = "Please signin into CLUBSIITI"
@@ -159,7 +168,7 @@ def index():
     name = dict(session).get("name", None)
     print("current user:", name)
     # print(img)
-    return render_template('home.html', name=name, msg=msg, msg_alert=msg_alert,img=img, events=events)
+    return render_template('home.html', name=name, msg=msg, msg_alert=msg_alert,img=img, events=events, admin=admin)
 
 
 
@@ -170,6 +179,10 @@ def myDetails():
         msg = "Please signin into CLUBSIITI"
         msg_alert = "warning"
         return render_template('home.html', msg=msg, msg_alert=msg_alert,img=img)
+
+    # Check if is admin 
+    if(email == "garvitgalgat@gmail.com"):
+        return render_template("error.html")
     
     else:
         cur = mysql.connection.cursor()
@@ -198,6 +211,12 @@ def detailsOfStudent(clubName, email):
     for i in club:
         if ( i[0] == clubName):
             verified = True
+        
+    if(not verified):
+        # Check if is admin 
+        if(email == "garvitgalgat@gmail.com"):
+            verified = True
+
     if(verified):
         return render_template("details.html",
                               email=member[0],
@@ -301,7 +320,13 @@ def club(clubName):
     currentMembers=cur.fetchall()
     print("currentMembers: ", currentMembers)
     # print(clubName)
+
+    if(not verified):
+        # Check if is admin 
+        if(email == "garvitgalgat@gmail.com"):
+            verified = True
     print("verified:", verified)
+    
     return render_template("clubtemplate.html",
                            title=title,
                            info=info,
@@ -347,13 +372,17 @@ def manage(clubName, manage, email):
         return render_template("signIn.html")
     
     verified = False
-    print("Running query: ", "SELECT Club_Title FROM clubheads WHERE Club_Head_Mail_Id = '{}'".format(session["email"]))
-    cur.execute(f"SELECT Club_Title FROM clubheads WHERE Club_Head_Mail_Id ='{user}'")
-    club = cur.fetchall()
+    # Check if is admin 
+    if(email == "garvitgalgat@gmail.com"):
+        verified = True
+    else:
+        print("Running query: ", "SELECT Club_Title FROM clubheads WHERE Club_Head_Mail_Id = '{}'".format(session["email"]))
+        cur.execute(f"SELECT Club_Title FROM clubheads WHERE Club_Head_Mail_Id ='{user}'")
+        club = cur.fetchall()
 
-    for i in club:
-        if ( i[0] == clubName):
-            verified = True
+        for i in club:
+            if ( i[0] == clubName):
+                verified = True
 
     if(verified):
         
@@ -418,12 +447,18 @@ def edit(clubName):
             return render_template("signIn.html")
         
         verified = False
+
         print("Running query: ", "SELECT Club_Title FROM clubheads WHERE Club_Head_Mail_Id = '{}'".format(session["email"]))
         cur.execute(f"SELECT Club_Title FROM clubheads WHERE Club_Head_Mail_Id ='{email}'")
         club = cur.fetchall()
 
         for i in club:
             if ( i[0] == clubName):
+                verified = True
+
+        if(not verified):
+            # Check if is admin 
+            if(email == "garvitgalgat@gmail.com"):
                 verified = True
 
         if(verified):
@@ -473,6 +508,11 @@ def schedule(clubName, student):
     
     for i in club:
         if ( i[0] == clubName):
+            verified = True
+
+    if(not verified):
+        # Check if is admin 
+        if(email == "garvitgalgat@gmail.com"):
             verified = True
 
     if(verified):
@@ -617,10 +657,15 @@ def authorize():
     user_info = resp.json()
     # print(user_info)
     session["email"] = user_info["email"]
-    email = session["email"] 
-
+    email = session["email"]   
     session["name"] = user_info["name"]
     session["signedIn"] = True
+
+    
+    # Find admin mail in database (assuming garvitgalgat@gmail.com is admin)
+    if(email == "garvitgalgat@gmail.com"):
+        session["name"] = "ADMIN"
+        return redirect("/admin")
 
     
     if email[:3] in ("cse") and email[-11:] == "@iiti.ac.in":
@@ -652,6 +697,12 @@ def logout():
 
 #___________________________________________________________________________________
 
+@app.route("/admin")
+def admin():
+    if(session['email'] == "garvitgalgat@gmail.com"):
+        return "Hello USER"
+    else:
+        return render_template("error.html")
 
 
 

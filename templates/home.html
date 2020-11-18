@@ -29,12 +29,17 @@
             {% else %}
             <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="/logout" style="color:white;">Logout</a>
             </li>
+            {% if not admin %}
             <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="/details" style="color:white;">Edit</a>
             </li>
             <li class="nav-item mx-0 mx-lg-1">
                 <p class="py-3 px-0 px-lg-3 " style="color: lightblue;">User: {{name}}</p>
             </li>
-            {% endif %}
+            {% else %}
+            <li class="nav-item mx-0 mx-lg-1">
+                <p class="py-3 px-0 px-lg-3 " style="color: red;">User: {{name}}</p>
+            </li>
+            {% endif %} {% endif %}
 
 
         </ul>
