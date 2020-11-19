@@ -293,10 +293,12 @@ def club(clubName):
     print("currentMembers: ", currentMembers)
     # print(clubName)
 
-    # if(not verified):
-    #     # Check if is admin 
-    #     if(email == "garvitgalgat@gmail.com"):
-    #         verified = True
+    
+    if(not verified):
+        # Check if is admin 
+        email = session["email"]
+        if(email == "garvitgalgat@gmail.com"):
+            verified = True
     print("verified:", verified)
     
     return render_template("clubtemplate.html",
