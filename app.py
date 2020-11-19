@@ -5,11 +5,12 @@ import MySQLdb
 import yaml
 from authlib.integrations.flask_client import OAuth
 import os
+from functions.dbConfig import database_config
 
 
 app = Flask(__name__)
 
-env = ""
+env = "dev"
 DATABASE_URL = ""
 if env == "dev":
     dev = yaml.load(open('db.yaml'), Loader=yaml.FullLoader)
@@ -18,45 +19,16 @@ if env == "dev":
 else:
     DATABASE_URL  = os.environ.get("CLEARDB_DATABASE_URL")
 
+user, password, host, db = database_config(DATABASE_URL)
 
-# Configure db ---------------------------------------------------------------
-# Extract details from database url
-col = []
-for i in range(len(DATABASE_URL)):
-    if(DATABASE_URL[i] == ':'):
-        col.append(i)
-
-user = DATABASE_URL[col[0]+3 : col[1]]
-at = 0
-ques = 0
-for i in range(len(DATABASE_URL)):
-    if(DATABASE_URL[i] == '@'):
-        at = i
-        break
-password = DATABASE_URL[col[1]+1 : at]
-
-slash = []
-
-for i in range(len(DATABASE_URL)):
-    if(DATABASE_URL[i] == '/'):
-        slash.append(i)
-
-host = DATABASE_URL[at+1 : slash[2]]
-
-
-for i in range(len(DATABASE_URL)):
-    if(DATABASE_URL[i] == '?'):
-        ques = i
-
-db = DATABASE_URL[slash[2]+1 : ques]
-# print(host, user, password, db)
 app.config['MYSQL_HOST'] = host
 app.config['MYSQL_USER'] = user
 app.config['MYSQL_PASSWORD'] = password
 app.config['MYSQL_DB'] = db
-# -----------------------------------------------DB CONFIG DONE ----------------------------------------
+
 mysql = MySQL(app)
 
+# LOADING IMAGES
 img= yaml.load(open('images.yaml'), Loader=yaml.FullLoader)
 
 # --------------------------------------
