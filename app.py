@@ -14,7 +14,8 @@ from environment import env
 
 app = Flask(__name__)
 
-# env = "dev"
+
+env = ""
 DATABASE_URL = ""
 if env == "dev":
     dev = yaml.load(open('db.yaml'), Loader=yaml.FullLoader)
@@ -298,6 +299,7 @@ def club(clubName):
     # print(clubName)
 
     
+
     print("verified:", verified)
     
     return render_template("clubtemplate.html",
