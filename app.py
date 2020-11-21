@@ -8,10 +8,6 @@ import os
 from functions.dbConfig import database_config
 
 
-from environment import env
-
-
-
 app = Flask(__name__)
 
 
