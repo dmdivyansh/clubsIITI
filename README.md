@@ -1,4 +1,5 @@
-<a href="https://clubs-iiti.herokuapp.com/"><img src="https://user-images.githubusercontent.com/59741135/109805900-04823b80-7c4a-11eb-8335-d59325487ab4.png" alt="CLUBSIITI" width="200"></a>
+
+<p align="center"><a href="https://clubs-iiti.herokuapp.com/"><img src="https://user-images.githubusercontent.com/59741135/109805900-04823b80-7c4a-11eb-8335-d59325487ab4.png" alt="CLUBSIITI" width="200"></a></p>
 <h4 align="center">A club management system build for  <a href="https://www.iiti.ac.in/" target="_blank">IITI</a> community.</h4>
 <p align="center">
   <a href="#aim">AIM</a> •
@@ -8,7 +9,7 @@
 </p>
 
 
-<p align="right">
+<p align="center">
 A project under the course <b>CS-207</b>, we created this application under the guidance of <a href="https://sites.google.com/view/nagendrak/">Dr.Nagendra Kumar</a> and Ankit Jain sir.
 </p>
 
@@ -46,14 +47,34 @@ Demo Video : <a href="https://drive.google.com/file/d/1SFoFgWY0zGZmcvaYm_TApySEP
 </ul>
 
 ## Team Members
+<p align="center">
+<a href="https://github.com/dmdivyansh">
+  	<img src="https://github.com/dmdivyansh.png" width="50px">
+</a>
 
-<b>
-	<ol>
-		<li><a href="https://github.com/dmdivyansh">Divyansh Maheshwari</a></li>
-		<li><a href="https://github.com/eeshmalvi">Eish Malvi</a></li>
-		<li><a href="https://github.com/gg-dev-05">Garvit Galgat</a></li>
-		<li><a href="https://github.com/somyamehta24">Somya Mehta</a> </li>
-		<li><a href="https://github.com/Tanishq-30">Tanishq Jain</a></li>
-	</ol>
-</b>
+<a href="https://github.com/eeshmalvi">
+	<img src="https://github.com/eeshmalvi.png" width="50px">
+</a>
+
+<a href="https://github.com/gg-dev-05">
+	<img src="https://github.com/gg-dev-05.png" width="50px">
+</a>
+
+<a href="https://github.com/somyamehta24">
+	<img src="https://github.com/somyamehta24.png" width="50px">
+</a>
+
+<a href="https://github.com/Tanishq-30">
+	<img src="https://github.com/Tanishq-30.png" width="50px">
+</a>
+</p>
+
+<p align="center">
+		<a href="https://github.com/dmdivyansh">Divyansh Maheshwari</a> •
+		<a href="https://github.com/eeshmalvi">Eish Malvi</a> •
+		<a href="https://github.com/gg-dev-05">Garvit Galgat</a> •
+		<a href="https://github.com/somyamehta24">Somya Mehta</a> •
+		<a href="https://github.com/Tanishq-30">Tanishq Jain</a>
+</p>
+
 
